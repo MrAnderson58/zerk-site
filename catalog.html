@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<<<<<<< HEAD
 <html lang="ru" class="catalog-page">
 <head>
   <meta charset="UTF-8">
@@ -251,5 +252,147 @@
     renderCards();
     requestAnimationFrame(() => moveIndicator(filterGroup.querySelector('.filter-btn.is-active')));
   </script>
+=======
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Каталог — ZERK</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    html, body {
+      width: 100vw; overflow-x: hidden; max-width: 100vw;
+      font-family: 'Montserrat', sans-serif;
+      background: #090a10;
+      color: #e1e3e6;
+      margin: 0; padding: 0;
+    }
+    body { min-height: 100vh; }
+    .bg {
+      position:fixed; inset:0; z-index:-5;
+      background:linear-gradient(120deg, #171a22 0%, #191c22 60%, #16171a 100%);
+      overflow:hidden;
+    }
+    .container {
+      max-width: 1460px; margin: 0 auto; padding: 130px 20px 60px 20px;
+    }
+    h1 {
+      font-size: 52px;
+      font-weight: 900;
+      margin-bottom: 34px;
+      color: #fff;
+      letter-spacing: -2px;
+      background: linear-gradient(100deg,#fff 0%,#b9bac6 50%,#4c515c 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 38px;
+      width: 100%;
+    }
+    .product-card {
+      position: relative;
+      background:linear-gradient(135deg, rgba(35,37,43,0.92) 70%, rgba(51,54,63,0.96) 100%);
+      border-radius: 32px;
+      box-shadow: 0 6px 34px 0 rgba(30,36,55,0.18),0 1.5px 6px rgba(155,165,205,0.08);
+      border: 1.3px solid rgba(186,201,255,0.06);
+      backdrop-filter: blur(17px) saturate(144%);
+      overflow: hidden;
+      transition: box-shadow .46s, border .24s, transform .45s cubic-bezier(.34,1.56,.64,1);
+      text-decoration: none;
+      color: inherit;
+      will-change:transform;
+    }
+    .product-card:hover {
+      box-shadow: 0 18px 67px 0 rgba(185,207,255,0.18);
+      border: 1.3px solid rgba(147,181,230,0.19);
+      transform: translateY(-13px) scale(1.022) perspective(700px) rotateY(7deg);
+      z-index: 3;
+    }
+    .product-image {
+      width: 100%; height: 210px;
+      object-fit: cover; display: block;
+      filter: drop-shadow(0 24px 49px #0a0a0f6a) brightness(1.11);
+      transition: filter .41s, transform .45s;
+    }
+    .product-card:hover .product-image {
+      filter: contrast(1.33) brightness(1.14);
+      transform: scale(1.10) rotateZ(0.7deg);
+    }
+    .product-info {
+      padding: 25px 24px 34px 24px;
+    }
+    .product-title {
+      font-size: 22px;
+      font-weight: 800;
+      margin-bottom: 10px;
+      background: linear-gradient(85deg, #f6f7fc 0%, #a6b3ea 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .product-desc {
+      font-size: 16px; color: #bbc2dd;
+    }
+    @media(max-width:800px) {
+      h1 {font-size: 32px;}
+      .container{padding:100px 4vw 40px 4vw;}
+      .product-grid{gap:18px;}
+      .product-info{padding:13px 10px 19px 10px;}
+      .product-title{font-size: 18px;}
+      .product-card{border-radius:21px;}
+    }
+    .backbar {
+      position:fixed; top:24px; left:24px;z-index:11;
+    }
+    .backbtn {
+      display:inline-block;font-size: 15px; font-weight:700;
+      background:#22242b99; color:#fff; border-radius:23px; padding:12px 27px;
+      text-decoration:none; border:1.2px solid #3e4258;backdrop-filter: blur(7px);
+      letter-spacing:.06em;transition:background .23s;
+    }
+    .backbtn:hover{background:#fff;color:#17171af2;border-color:#fff;}
+  </style>
+</head>
+<body>
+  <div class="bg"></div>
+  <div class="backbar"><a href="index.html" class="backbtn">⟵ На главную</a></div>
+  <div class="container">
+    <h1>Премиальный каталог ZERK</h1>
+    <div class="product-grid">
+      <script>
+      const catalog = [
+        'IB-01','IL-03','PUSHER','NR-04','NR-07','NR-11','NR-12','MR-02','MR-11',
+        'SC-01','SC-02','SC-03','SC-04','SC-05','SC-06','Push Set','Cut Pro','File Pro',
+        'Base Steel','Mini Pro','Maxi Pro','Expert 10','Expert 15','Expert 20','Expert 25',
+        'Stal Pro','Lux Line','Micro Touch','CLN-1','CLN-2'
+      ];
+      const desc = [
+        'кусачки для кутикулы',
+        'маникюрные ножницы',
+        'японская сталь',
+        'ручная заточка',
+        'пилки для ногтей',
+        'файлы на металлической основе',
+        'профессиональный маникюрный инструмент'
+      ];
+      for(let i=0;i<30;i++){
+        let name = catalog[i%catalog.length];
+        let info = desc[i%desc.length];
+        let img = 'images/nippers-main.jpg';
+        document.write(`
+          <a class=\"product-card\" href=\"#product${i+1}\" title=\"${info}\" data-title=\"${info}\" data-description=\"${info}\">
+            <img class=\"product-image\" src=\"${img}\" alt=\"${name}\">
+            <div class=\"product-info\">
+              <div class=\"product-title\">${name}</div>
+              <div class=\"product-desc\">${info.charAt(0).toUpperCase()+info.slice(1)}.</div>
+            </div>
+          </a>
+        `);
+      }
+      </script>
+    </div>
+  </div>
+>>>>>>> 1b5fc1c8a8a48fabf77c61ba4c25136a153ccd46
 </body>
 </html>
