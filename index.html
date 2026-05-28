@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>ZERK — Премиальный маникюрный инструмент</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -33,9 +34,16 @@ body::before{
     content:'';
     position:fixed;
     inset:0;
+
     background:
-    radial-gradient(circle at top left, rgba(0,102,255,0.15), transparent 40%),
-    radial-gradient(circle at bottom right, rgba(255,255,255,0.05), transparent 30%);
+    radial-gradient(circle at top left,
+    rgba(0,102,255,0.14),
+    transparent 40%),
+
+    radial-gradient(circle at bottom right,
+    rgba(255,255,255,0.05),
+    transparent 30%);
+
     z-index:-2;
 }
 
@@ -55,12 +63,16 @@ header{
     left:0;
     width:100%;
     padding:28px 60px;
+
     display:flex;
     justify-content:space-between;
     align-items:center;
+
     z-index:1000;
-    backdrop-filter:blur(14px);
-    background:rgba(0,0,0,0.25);
+
+    background:rgba(0,0,0,0.3);
+    backdrop-filter:blur(18px);
+
     border-bottom:1px solid rgba(255,255,255,0.05);
 }
 
@@ -71,7 +83,7 @@ header{
 }
 
 .phone{
-    color:#aaa;
+    color:#a7a7a7;
     font-size:15px;
 }
 
@@ -79,11 +91,17 @@ header{
 
 .hero{
     min-height:100vh;
-    padding:180px 80px 120px;
+
+    padding:
+    180px
+    80px
+    120px;
+
     display:grid;
     grid-template-columns:1fr 1fr;
     align-items:center;
-    gap:60px;
+    gap:70px;
+
     position:relative;
 }
 
@@ -91,15 +109,19 @@ header{
     font-size:96px;
     line-height:0.92;
     font-weight:800;
+
     margin-bottom:40px;
+
     letter-spacing:-4px;
 }
 
 .hero-text p{
     font-size:22px;
-    color:#9d9d9d;
+    color:#9c9c9c;
     line-height:1.7;
+
     max-width:700px;
+
     margin-bottom:50px;
 }
 
@@ -110,11 +132,16 @@ header{
 
 .btn{
     padding:22px 42px;
+
     border-radius:60px;
-    font-weight:600;
+
     font-size:16px;
+    font-weight:600;
+
     text-decoration:none;
+
     transition:0.4s;
+
     border:1px solid rgba(255,255,255,0.1);
 }
 
@@ -125,7 +152,9 @@ header{
 
 .btn-primary:hover{
     transform:translateY(-4px);
-    box-shadow:0 20px 50px rgba(255,255,255,0.2);
+
+    box-shadow:
+    0 20px 60px rgba(255,255,255,0.2);
 }
 
 .btn-secondary{
@@ -142,44 +171,48 @@ header{
 
 .hero-image{
     position:relative;
+
+    width:100%;
     height:760px;
+
     display:flex;
     align-items:center;
     justify-content:center;
 }
 
-.hero-video{
+.hero-full-image{
     position:absolute;
+
     width:100%;
     height:100%;
+
     object-fit:cover;
+
     border-radius:40px;
-    opacity:0.35;
-    filter:brightness(0.6) contrast(1.3);
+
+    filter:
+    brightness(0.72)
+    contrast(1.15);
+
+    animation:slowZoom 14s ease-in-out infinite;
 }
 
 .video-glow{
     position:absolute;
+
     width:800px;
     height:800px;
-    background:radial-gradient(circle,
-    rgba(0,140,255,0.18),
+
+    background:
+    radial-gradient(circle,
+    rgba(0,140,255,0.2),
     transparent 70%);
-    filter:blur(80px);
+
+    filter:blur(90px);
+
     animation:pulseGlow 6s ease-in-out infinite;
-}
 
-.floating-tool{
-    position:relative;
-    width:95%;
-    max-width:950px;
     z-index:2;
-
-    filter:
-    drop-shadow(0 0 40px rgba(255,255,255,0.12))
-    drop-shadow(0 0 100px rgba(0,140,255,0.22));
-
-    animation:floatTool 7s ease-in-out infinite;
 }
 
 /* CATALOG */
@@ -190,8 +223,10 @@ header{
 
 .section-title{
     font-size:72px;
-    margin-bottom:70px;
     font-weight:800;
+
+    margin-bottom:70px;
+
     letter-spacing:-2px;
 }
 
@@ -203,29 +238,54 @@ header{
 
 .card{
     background:rgba(255,255,255,0.04);
-    border:1px solid rgba(255,255,255,0.06);
+
+    border:
+    1px solid rgba(255,255,255,0.06);
+
     border-radius:36px;
+
     overflow:hidden;
+
+    backdrop-filter:blur(20px);
+
     transition:0.5s;
-    backdrop-filter:blur(18px);
 }
 
 .card:hover{
     transform:translateY(-10px);
-    box-shadow:0 30px 80px rgba(0,0,0,0.6);
+
+    box-shadow:
+    0 30px 80px rgba(0,0,0,0.6);
 }
 
 .card-image{
     height:320px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
     overflow:hidden;
-    position:relative;
+
+    background:
+    radial-gradient(circle at center,
+    rgba(255,255,255,0.04),
+    transparent 70%);
 }
 
 .card-image img{
     width:100%;
     height:100%;
-    object-fit:cover;
+
+    object-fit:contain;
+
+    padding:25px;
+
     transition:0.7s;
+
+    filter:
+    drop-shadow(0 0 20px rgba(255,255,255,0.08))
+    drop-shadow(0 0 50px rgba(0,140,255,0.18));
 }
 
 .card:hover img{
@@ -242,7 +302,7 @@ header{
 }
 
 .card p{
-    color:#9f9f9f;
+    color:#9c9c9c;
     line-height:1.8;
     margin-bottom:30px;
     font-size:16px;
@@ -250,12 +310,18 @@ header{
 
 .card-btn{
     display:inline-block;
+
     padding:16px 28px;
+
     border-radius:40px;
+
     background:white;
     color:black;
+
     text-decoration:none;
+
     font-weight:600;
+
     transition:0.4s;
 }
 
@@ -267,34 +333,22 @@ header{
 
 footer{
     padding:100px 80px;
-    border-top:1px solid rgba(255,255,255,0.05);
-    color:#7d7d7d;
+
+    border-top:
+    1px solid rgba(255,255,255,0.05);
+
     text-align:center;
+
+    color:#7d7d7d;
 }
 
 /* ANIMATIONS */
-
-@keyframes floatTool{
-
-    0%{
-        transform:translateY(0px) rotate(-2deg);
-    }
-
-    50%{
-        transform:translateY(-22px) rotate(2deg);
-    }
-
-    100%{
-        transform:translateY(0px) rotate(-2deg);
-    }
-
-}
 
 @keyframes pulseGlow{
 
     0%{
         transform:scale(1);
-        opacity:0.6;
+        opacity:0.7;
     }
 
     50%{
@@ -304,7 +358,23 @@ footer{
 
     100%{
         transform:scale(1);
-        opacity:0.6;
+        opacity:0.7;
+    }
+
+}
+
+@keyframes slowZoom{
+
+    0%{
+        transform:scale(1);
+    }
+
+    50%{
+        transform:scale(1.05);
+    }
+
+    100%{
+        transform:scale(1);
     }
 
 }
@@ -315,7 +385,11 @@ footer{
 
     .hero{
         grid-template-columns:1fr;
-        padding:160px 30px 80px;
+
+        padding:
+        160px
+        30px
+        80px;
     }
 
     .hero-text h1{
@@ -355,7 +429,9 @@ footer{
 
 <header>
 
-    <div class="logo">ZERK</div>
+    <div class="logo">
+        ZERK
+    </div>
 
     <div class="phone">
         +7 (925) 770-08-03
@@ -379,7 +455,8 @@ footer{
             Мягкий ход.
             Идеальный баланс.
             Инструмент для мастеров,
-            которые ценят качество и эстетику.
+            которые ценят качество,
+            эстетику и точность.
         </p>
 
         <div class="hero-buttons">
@@ -400,11 +477,8 @@ footer{
 
         <div class="video-glow"></div>
 
-        <video autoplay muted loop playsinline class="hero-video">
-            <source src="images/video.mp4" type="video/mp4">
-        </video>
-
-        <img src="images/video.png" alt="ZERK Tool" class="floating-tool">
+        <img src="images/video.png"
+        class="hero-full-image">
 
     </div>
 
@@ -418,19 +492,26 @@ footer{
 
     <div class="catalog-grid">
 
+        <!-- КУСАЧКИ -->
+
         <div class="card">
 
             <div class="card-image">
-                <img src="images/nippers-main.jpg">
+
+                <img src="images/nippers.png">
+
             </div>
 
             <div class="card-content">
 
-                <h3>Кусачки</h3>
+                <h3>
+                    Кусачки
+                </h3>
 
                 <p>
                     Профессиональные кусачки
-                    с идеальной геометрией лезвий.
+                    с идеальной геометрией
+                    режущих кромок.
                     Мягкий ход и высокая
                     точность среза.
                 </p>
@@ -443,20 +524,28 @@ footer{
 
         </div>
 
+        <!-- ПУШЕРЫ -->
+
         <div class="card">
 
             <div class="card-image">
-                <img src="images/nippers-main.jpg">
+
+                <img src="images/pushers.png">
+
             </div>
 
             <div class="card-content">
 
-                <h3>Пушеры</h3>
+                <h3>
+                    Пушеры
+                </h3>
 
                 <p>
-                    Инструменты для идеальной
-                    подготовки ногтевой пластины.
-                    Баланс, точность и комфорт.
+                    Инструменты для точной
+                    подготовки ногтевой
+                    пластины.
+                    Идеальный баланс
+                    и комфорт в работе.
                 </p>
 
                 <a href="#" class="card-btn">
@@ -467,19 +556,26 @@ footer{
 
         </div>
 
+        <!-- ПИЛКИ -->
+
         <div class="card">
 
             <div class="card-image">
-                <img src="images/nippers-main.jpg">
+
+                <img src="images/files.png">
+
             </div>
 
             <div class="card-content">
 
-                <h3>Файлы и пилки</h3>
+                <h3>
+                    Файлы и пилки
+                </h3>
 
                 <p>
-                    Премиальные пилки и файлы
-                    для профессионального
+                    Премиальные пилки
+                    и файлы для
+                    профессионального
                     ногтевого сервиса.
                 </p>
 
