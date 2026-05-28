@@ -4,126 +4,218 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>ZERK — Премиальный маникюрный инструмент</title>
+<title>ZERK — Профессиональный маникюрный инструмент</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
 <style>
-
+/* --- typography --- */
+body {
+  font-family: 'Montserrat', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+  background: #0a0c11;
+  color: #e1e3e6;
+  letter-spacing: 0.03em;
+  font-size: 18px;
+  line-height: 1.63;
+  font-weight: 400;
+}
+h1, h2, h3, .section-title, .product-title {
+  font-family: 'Montserrat', 'Arial Black', 'Segoe UI', sans-serif;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: -0.05em;
+  text-shadow: 0 6px 32px rgba(80,92,138,0.16), 0 1px 0 #08090E;
+}
+.section-title {
+  font-size: 48px;
+  background: linear-gradient(90deg, #b9bac6 10%, #e2e2e7 30%, #4c515c 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 10px 16px rgba(213,217,233,0.09));
+  margin-bottom: 48px;
+}
 *{
     margin:0;
     padding:0;
     box-sizing:border-box;
 }
-
 html{
     scroll-behavior:smooth;
 }
 
-body{
-    font-family:'Inter',sans-serif;
-    background:#020202;
-    color:white;
-    overflow-x:hidden;
+/* =========================
+PREMIUM GLASSMORPHISM & BACKGROUND
+========================= */
+.bg {
+  position: fixed; inset: 0; z-index: -5;
+  background:
+    linear-gradient(120deg, #171a22 0%, #12131a 60%, #000 100%);
+  overflow: hidden;
+}
+.bg::before {
+  content: '';
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse at 40% 30%,rgba(180,210,255,0.07) 0,transparent 70%),
+    linear-gradient(105deg,rgba(115,128,217,0.06) 0,transparent 58%);
+  z-index: -1;
+}
+.bg::after {
+  content: '';
+  position: absolute; inset: 0;
+  background-image: url('images/stars.svg'), linear-gradient(90deg,rgba(95,111,120,0.03) 0%,transparent 100%);
+  background-size: cover, auto;
+  opacity: 0.20;
+  animation: parallax-bg 40s linear infinite alternate;
+  z-index: -2;
+}
+@keyframes parallax-bg {
+  0%   {background-position: center 30px,0 0;}
+  100% {background-position: center 190px,0 0;}
+}
+/* --- glassmorphism card effect --- */
+.card,
+.product,
+.video-box {
+  background:
+    linear-gradient(140deg, rgba(35,37,43,0.88) 60%, rgba(51,54,63,0.94) 100%);
+  box-shadow:
+    0 8px 32px 0 rgba(24,25,28,0.18),
+    0 1.5px 6px 0 rgba(70,80,115,0.09);
+  border: 1.5px solid rgba(186,201,255,0.06);
+  backdrop-filter: blur(24px) saturate(160%);
+  transition: box-shadow 0.5s cubic-bezier(.22,.61,.36,1), transform 0.45s cubic-bezier(.34,1.56,.64,1), border 0.25s;
+}
+.card:hover,
+.product:hover,
+.video-box:hover {
+  box-shadow: 0 24px 54px 0 rgba(180,196,255,0.19), 0 1.5px 18px 0 rgba(208,235,255,0.20);
+  border: 1.5px solid rgba(157,181,222,0.20);
+  transform:translateY(-10px) scale(1.025) rotateX(6deg) perspective(600px);
 }
 
-/* BACKGROUND */
-
-body::before{
-    content:'';
-    position:fixed;
-    inset:0;
-
-    background:
-    radial-gradient(circle at top left,
-    rgba(0,102,255,0.14),
-    transparent 40%),
-
-    radial-gradient(circle at bottom right,
-    rgba(255,255,255,0.05),
-    transparent 30%);
-
-    z-index:-2;
-}
-
-body::after{
-    content:'';
-    position:fixed;
-    inset:0;
-    backdrop-filter:blur(2px);
-    z-index:-1;
-}
-
-/* HEADER */
+/* =========================
+HEADER
+========================= */
 
 header{
     position:fixed;
     top:0;
     left:0;
     width:100%;
+    z-index:100;
     padding:28px 60px;
 
+    background:rgba(0,0,0,0.3);
+
+    backdrop-filter:blur(14px);
+
+    border-bottom:
+    1px solid rgba(255,255,255,0.05);
+}
+
+.header-inner{
     display:flex;
     justify-content:space-between;
     align-items:center;
-
-    z-index:1000;
-
-    background:rgba(0,0,0,0.3);
-    backdrop-filter:blur(18px);
-
-    border-bottom:1px solid rgba(255,255,255,0.05);
 }
 
 .logo{
-    font-size:34px;
+    font-size:30px;
     font-weight:800;
-    letter-spacing:10px;
+    letter-spacing:8px;
+    background: linear-gradient(100deg, #fff 0%, #babfcb 30%, #636880 50%, #71737e 51%, #cbccd4 71%, #7c8192 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 12px 44px rgba(235,234,255,0.06));
+    position:relative;
+}
+.logo:after {
+    content:'';
+    display:block;
+    width:80px;
+    height:9px;
+    background:linear-gradient(90deg,rgba(255,255,255,0.21) 0%,rgba(255,255,255,0.02) 100%);
+    position:absolute;
+    left:7%;
+    top:18%;
+    filter:blur(3px);
+    transform:rotate(-12deg);
+    pointer-events:none;
 }
 
 .phone{
-    color:#a7a7a7;
-    font-size:15px;
+    color:#d4d4d4;
+    text-decoration:none;
+    transition:0.3s;
 }
 
-/* HERO */
+.phone:hover{
+    color:white;
+}
+
+/* =========================
+HERO
+========================= */
 
 .hero{
     min-height:100vh;
 
-    padding:
-    180px
-    80px
-    120px;
-
-    display:grid;
-    grid-template-columns:1fr 1fr;
+    display:flex;
     align-items:center;
-    gap:70px;
+    justify-content:space-between;
 
+    gap:120px;
+
+    padding:
+    150px 80px 100px;
+}
+
+.hero-content{
+    width:50%;
+    position:relative;
+    z-index:10;
+}
+
+.hero h1{
+    font-size:86px;
+    line-height:0.95;
+    margin-bottom:35px;
+    font-weight:800;
+    letter-spacing:-5px;
+    background: linear-gradient(100deg, #fff 0%, #babfcb 30%, #636880 50%, #71737e 51%, #cbccd4 71%, #7c8192 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
     position:relative;
 }
-
-.hero-text h1{
-    font-size:96px;
-    line-height:0.92;
-    font-weight:800;
-
-    margin-bottom:40px;
-
-    letter-spacing:-4px;
+.hero h1:after {
+    content:'';
+    display:block;
+    width:90px;
+    height:11px;
+    background:linear-gradient(90deg,rgba(255,255,255,0.25) 0%,rgba(255,255,255,0.01) 100%);
+    position:absolute;
+    left:8%;
+    top:11%;
+    filter:blur(4px);
+    transform:rotate(-11deg);
+    pointer-events:none;
 }
 
-.hero-text p{
+.hero p{
+    color:#a5adb8;
     font-size:22px;
-    color:#9c9c9c;
-    line-height:1.7;
+    line-height:1.8;
 
-    max-width:700px;
+    max-width:650px;
 
     margin-bottom:50px;
 }
+
+/* =========================
+BUTTONS
+========================= */
 
 .hero-buttons{
     display:flex;
@@ -131,18 +223,15 @@ header{
 }
 
 .btn{
-    padding:22px 42px;
-
+    padding:18px 40px;
     border-radius:60px;
-
-    font-size:16px;
-    font-weight:600;
 
     text-decoration:none;
 
-    transition:0.4s;
+    transition:0.35s;
 
-    border:1px solid rgba(255,255,255,0.1);
+    font-weight:700;
+    font-size:15px;
 }
 
 .btn-primary{
@@ -151,449 +240,589 @@ header{
 }
 
 .btn-primary:hover{
-    transform:translateY(-4px);
+    transform:translateY(-5px);
 
     box-shadow:
-    0 20px 60px rgba(255,255,255,0.2);
+    0 20px 40px rgba(255,255,255,0.15);
 }
 
 .btn-secondary{
-    background:rgba(255,255,255,0.05);
+    border:
+    1px solid rgba(255,255,255,0.12);
+
     color:white;
-    backdrop-filter:blur(20px);
+
+    background:
+    rgba(255,255,255,0.02);
 }
 
 .btn-secondary:hover{
-    background:rgba(255,255,255,0.12);
+    background:white;
+    color:black;
 }
 
-/* HERO IMAGE */
-
+/* =========================
+HERO IMAGE
+========================= */
 .hero-image{
+    width:50%;
     position:relative;
-
-    width:100%;
-    height:760px;
-
     display:flex;
-    align-items:center;
     justify-content:center;
+    align-items:center;
+    perspective:1100px;
 }
-
-.hero-full-image{
+.hero-image::before{
+    content:'';
     position:absolute;
-
-    width:100%;
-    height:100%;
-
-    object-fit:cover;
-
-    border-radius:40px;
-
-    filter:
-    brightness(0.72)
-    contrast(1.15);
-
-    animation:slowZoom 14s ease-in-out infinite;
-}
-
-.video-glow{
-    position:absolute;
-
-    width:800px;
-    height:800px;
-
+    width:550px; height:550px;
+    border-radius:50%;
     background:
-    radial-gradient(circle,
-    rgba(0,140,255,0.2),
-    transparent 70%);
+      radial-gradient(circle,rgba(255,255,255,0.10) 0,transparent 78%),
+      radial-gradient(circle,rgba(170,185,220,0.055) 7%,transparent 80%);
+    filter:blur(44px);
+    animation:pulse 5s infinite ease-in-out;
+}
+.hero-image::after{
+    content:'';
+    position:absolute;
+    width:700px;
+    height:700px;
+    border-radius:50%;
+    border:1.5px solid rgba(155,185,255,0.07);
+    animation:rotateCircle 25s linear infinite;
+}
+@keyframes rotateCircle{
+    from{transform:rotate(0deg);}
+    to{transform:rotate(360deg);}
+}
+@keyframes pulse{
+    0%{transform:scale(1);opacity:0.4;}
+    50%{transform:scale(1.13);opacity:1;}
+    100%{transform:scale(1);opacity:0.4;}
+}
+.hero-image img{
+    width:85%;
+    max-width:620px;
+    position:relative;
+    z-index:2;
+    animation:float 5s ease-in-out infinite;
+    filter:
+      drop-shadow(0 40px 90px rgba(0,0,0,0.95))
+      brightness(1.08)
+      contrast(1.11);
+    transition:transform .65s cubic-bezier(.18,.9,.32,1.2),filter .55s;
+    will-change:transform;
+}
+.hero-image img:hover{
+    transform: scale(1.12) rotateZ(1.2deg) rotateX(-4deg) rotateY(7deg);
+    filter: drop-shadow(0 54px 120px rgba(80,120,177,0.44)) brightness(1.15) contrast(1.18);
+}
+@keyframes float{
+    0%{transform:translateY(0px) rotate(-2deg);}
+    50%{transform:translateY(-18px) rotate(2deg);}
+    100%{transform:translateY(0px) rotate(-2deg);}
+}
 
-    filter:blur(90px);
+/* =========================
+SECTIONS
+========================= */
 
-    animation:pulseGlow 6s ease-in-out infinite;
-
+section{
+    position:relative;
     z-index:2;
 }
 
-/* CATALOG */
+/* =========================
+ADVANTAGES
+========================= */
 
-.catalog{
+.advantages{
     padding:120px 80px;
 }
 
 .section-title{
-    font-size:72px;
-    font-weight:800;
+    font-size:58px;
+    margin-bottom:60px;
 
-    margin-bottom:70px;
+    font-weight:800;
 
     letter-spacing:-2px;
 }
 
-.catalog-grid{
+.grid{
     display:grid;
-    grid-template-columns:repeat(3,1fr);
+    grid-template-columns:repeat(4,1fr);
     gap:30px;
 }
 
 .card{
-    background:rgba(255,255,255,0.04);
+
+    background:
+    rgba(255,255,255,0.03);
 
     border:
-    1px solid rgba(255,255,255,0.06);
+    1px solid rgba(255,255,255,0.05);
 
-    border-radius:36px;
+    border-radius:32px;
 
-    overflow:hidden;
+    padding:40px;
+
+    transition:0.4s;
 
     backdrop-filter:blur(20px);
-
-    transition:0.5s;
 }
 
 .card:hover{
-    transform:translateY(-10px);
 
-    box-shadow:
-    0 30px 80px rgba(0,0,0,0.6);
-}
+    transform:
+    translateY(-12px);
 
-.card-image{
-    height:320px;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    overflow:hidden;
+    border-color:
+    rgba(255,255,255,0.14);
 
     background:
-    radial-gradient(circle at center,
-    rgba(255,255,255,0.04),
-    transparent 70%);
-}
-
-.card-image img{
-    width:100%;
-    height:100%;
-
-    object-fit:contain;
-
-    padding:25px;
-
-    transition:0.7s;
-
-    filter:
-    drop-shadow(0 0 20px rgba(255,255,255,0.08))
-    drop-shadow(0 0 50px rgba(0,140,255,0.18));
-}
-
-.card:hover img{
-    transform:scale(1.06);
-}
-
-.card-content{
-    padding:34px;
+    rgba(255,255,255,0.05);
 }
 
 .card h3{
-    font-size:34px;
+    font-size:26px;
     margin-bottom:20px;
 }
 
 .card p{
-    color:#9c9c9c;
+    color:#99a1ab;
     line-height:1.8;
-    margin-bottom:30px;
-    font-size:16px;
 }
 
-.card-btn{
-    display:inline-block;
+/* =========================
+PRODUCTS
+========================= */
+.products{
+    padding:120px 80px;
+}
+.product-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:40px;
+}
+.product{
+    border-radius:34px;
+    overflow:hidden;
+    transition:0.45s;
+    border:none;
+    position:relative;
+}
+.product:hover{
+    transform:perspective(700px) rotateY(6deg) scale(1.033) translateY(-10px) !important;
+    z-index:2;
+}
+.product img {
+    width:100%;
+    height:340px;
+    object-fit:cover;
+    transition:transform .65s cubic-bezier(.18,.9,.32,1.2),filter .55s;
+    filter:drop-shadow(0 24px 56px #000a) brightness(1.09) grayscale(0.03);
+}
+.product:hover img {
+    transform: scale(1.18) rotateZ(1.4deg) rotateY(10deg);
+    filter: contrast(1.27) brightness(1.14);
+}
+.product-info{
+    padding:30px;
+}
+.product-title{
+    font-size:28px;
+    margin-bottom:14px;
+    font-weight:700;
+    background: linear-gradient(85deg, #f4f5fc 0%, #a3adf1 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.product-text{
+    color:#b8bdd4;
+    line-height:1.72;
+}
 
-    padding:16px 28px;
-
+/* =========================
+VIDEO SECTION
+========================= */
+.video-section{
+    padding:120px 80px;
+}
+.video-box{
+    position:relative;
+    overflow:hidden;
     border-radius:40px;
-
-    background:white;
-    color:black;
-
-    text-decoration:none;
-
-    font-weight:600;
-
-    transition:0.4s;
+    height:650px;
+    background: linear-gradient(126deg,rgba(30,33,52,0.92) 34%,rgba(22,27,31,0.79) 100%);
+    box-shadow: 0 20px 60px rgba(35,42,72,0.16);
+}
+.video-box video{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    filter:brightness(1.05) blur(0.3px) saturate(1.1);
+    will-change:transform;
+    transition: filter 0.3s;
+}
+.video-box:hover video{
+    filter:brightness(1.13) blur(0px) saturate(1.17);
+}
+.video-overlay{
+    position:absolute;inset:0;
+    background:linear-gradient(to top,rgba(9,11,14,0.98),rgba(33,36,52,0.07));
+    display:flex;align-items:flex-end;
+    padding:60px;
+}
+.video-overlay h2{
+    font-size:64px;
+    max-width:700px;
+    line-height:1;
+    letter-spacing:-2px;
+    color:#f5f7fa;
+    background:linear-gradient(80deg, #fdfaee 6%, #acbbde 41%, #676986 82%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
 }
 
-.card-btn:hover{
-    transform:translateY(-3px);
-}
-
-/* FOOTER */
+/* =========================
+FOOTER
+========================= */
 
 footer{
-    padding:100px 80px;
+    padding:80px;
 
     border-top:
     1px solid rgba(255,255,255,0.05);
-
-    text-align:center;
-
-    color:#7d7d7d;
 }
 
-/* ANIMATIONS */
+.footer-inner{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
 
-@keyframes pulseGlow{
-
-    0%{
-        transform:scale(1);
-        opacity:0.7;
-    }
-
-    50%{
-        transform:scale(1.15);
-        opacity:1;
-    }
-
-    100%{
-        transform:scale(1);
-        opacity:0.7;
-    }
-
+    color:#9aa0a8;
 }
 
-@keyframes slowZoom{
-
-    0%{
-        transform:scale(1);
-    }
-
-    50%{
-        transform:scale(1.05);
-    }
-
-    100%{
-        transform:scale(1);
-    }
-
-}
-
-/* MOBILE */
-
+/* =========================
+MOBILE
+========================= */
 @media(max-width:1100px){
-
-    .hero{
-        grid-template-columns:1fr;
-
-        padding:
-        160px
-        30px
-        80px;
-    }
-
-    .hero-text h1{
-        font-size:58px;
-    }
-
-    .hero-text p{
-        font-size:18px;
-    }
-
-    .hero-image{
-        height:520px;
-    }
-
-    .catalog{
-        padding:80px 30px;
-    }
-
-    .catalog-grid{
-        grid-template-columns:1fr;
-    }
-
-    .section-title{
-        font-size:52px;
-    }
-
-    header{
-        padding:24px 30px;
-    }
-
+    .section-title { font-size:32px; }
+    .product-grid, .grid { gap:18px; }
+    .card,.product, .video-box {padding:20px;}
+    header{padding:22px 24px;}
+    .hero{flex-direction:column; text-align:center; gap:40px; padding:140px 24px 80px;}
+    .hero-content{width:100%;}
+    .hero-image{width:100%;}
+    .hero-buttons{justify-content:center;flex-wrap:wrap;}
+    .hero h1{font-size:52px;line-height:1;}
+    .hero p{font-size:18px;}
+    .advantages, .products, .video-section{padding:80px 24px;}
+    .grid{grid-template-columns:1fr;}
+    .product-grid{grid-template-columns:1fr;}
+    .video-box{height:420px;}
+    .video-overlay{padding:30px;}
+    .video-overlay h2{font-size:38px;}
+    footer{padding:50px 24px;}
+    .footer-inner{flex-direction:column;gap:20px;}
 }
+/* --- smooth scrollbar --- */
+body::-webkit-scrollbar {width:8px; background:#141518;}
+body::-webkit-scrollbar-thumb {background:linear-gradient(100deg,#50585d 20%,#1f2235 100%);border-radius:8px;}
+/* --- buttons --- */
+.btn {
+  border:none; outline:none;
+  font-family:inherit;
+  font-size:17px;
+  text-transform:uppercase;
+  letter-spacing:.11em;
+  font-weight:700;
+  cursor:pointer;
+  border-radius:48px;
+  padding:22px 44px;
+  margin-top:8px;
+  background: linear-gradient(120deg,#23273b 70%,#555864 100%);
+  color:#fff;
+  box-shadow: 0 4px 24px 2px rgba(95,108,133,0.10);
+  transition: background 0.23s,box-shadow 0.32s,transform 0.19s;
+  position:relative;
+  overflow:hidden;
+}
+.btn-primary {
+  background:linear-gradient(98deg,#fff 0%, #cfd1dd 80%,#c5c7d3 100%);
+  color:#1c2127;
+  box-shadow:0 2px 30px rgba(195,205,255,0.47), 0 1.5px 8px 0 rgba(193,219,255,0.09);
+}
+.btn-secondary {
+  border: 2px solid rgba(214,217,242,0.12);
+  background:rgba(44,46,60,0.24);
+  color:#eef2fc;
+}
+.btn:hover {
+  transform: scale(1.05) translateY(-4px);
+  background: linear-gradient(90deg, #b3b9cf 0%, #393c48 100%);
+  box-shadow: 0 8px 36px rgba(120,130,170,0.22);
+}
+section {will-change:transform;transition:box-shadow .6s;box-shadow:0 1px 20px rgba(40,40,71,0.06);}
+section:hover {box-shadow:0 6px 60px rgba(117,127,158,0.05),0 1.5px 24px rgba(65,79,99,0.04);}
+/* --- footer metallic effect --- */
+footer {border:0;background: rgba(20,24,28,.93);backdrop-filter: blur(10px) saturate(133%);color:#d6d8df;box-shadow: 0 -2px 24px rgba(80,90,120,0.05);}
+.footer-inner{color: #f1f4fa;}
 
 </style>
 </head>
-
 <body>
+<div class="bg"></div>
+<script>
+document.addEventListener('mousemove',e=>{
+  const prx = (e.clientX/window.innerWidth-0.5)*18;
+  const pry = (e.clientY/window.innerHeight-0.5)*20;
+  document.querySelectorAll('.hero-image img,.product img').forEach(img=>{
+    img.style.transform = `scale(1.07) rotateY(${prx}deg) rotateX(${-pry}deg)`;
+  });
+});
+window.addEventListener('scroll', ()=>{
+  const sc = window.scrollY/1200;
+  document.querySelectorAll('section').forEach((el,i)=>{
+    el.style.transform = `translateY(${sc*(i%2==0?1:-1)*9}px)`;
+  });
+});
+</script>
 
 <header>
 
-    <div class="logo">
-        ZERK
-    </div>
+<div class="header-inner">
 
-    <div class="phone">
-        +7 (925) 770-08-03
-    </div>
+<div class="logo">
+ZERK
+</div>
+
+<a href="tel:+79257700803" class="phone">
++7 (925) 770-08-03
+</a>
+
+</div>
 
 </header>
 
 <section class="hero">
 
-    <div class="hero-text">
+<div class="hero-content">
 
-        <h1>
-            Премиальный<br>
-            маникюрный<br>
-            инструмент
-        </h1>
+<h1>
+Профессиональный
+маникюрный
+инструмент
+</h1>
 
-        <p>
-            Высокопрочная японская сталь.
-            Ручная заточка.
-            Мягкий ход.
-            Идеальный баланс.
-            Инструмент для мастеров,
-            которые ценят качество,
-            эстетику и точность.
-        </p>
+<p>
+Высокопрочная японская сталь.
+Ручная заточка.
+Мягкий ход.
+Подходит для химической и термической стерилизации.
 
-        <div class="hero-buttons">
+Премиальный инструмент
+для мастеров ногтевого сервиса.
+</p>
 
-            <a href="#catalog" class="btn btn-primary">
-                Смотреть каталог
-            </a>
+<div class="hero-buttons">
 
-            <a href="https://wa.me/79257700803" class="btn btn-secondary">
-                WhatsApp
-            </a>
+<a href="#products" class="btn btn-primary">
+Смотреть каталог
+</a>
 
-        </div>
+<a href="https://wa.me/79257700803" class="btn btn-secondary">
+WhatsApp
+</a>
 
-    </div>
+</div>
 
-    <div class="hero-image">
+</div>
 
-        <div class="video-glow"></div>
+<div class="hero-image">
 
-        <img src="images/video.png"
-        class="hero-full-image">
+<img src="images/nippers-main.jpg" alt="ZERK">
 
-    </div>
+</div>
 
 </section>
 
-<section class="catalog" id="catalog">
+<section class="advantages">
 
-    <h2 class="section-title">
-        Каталог
-    </h2>
+<h2 class="section-title">
+Почему выбирают ZERK
+</h2>
 
-    <div class="catalog-grid">
+<div class="grid">
 
-        <!-- КУСАЧКИ -->
+<div class="card">
 
-        <div class="card">
+<h3>
+Японская сталь
+</h3>
 
-            <div class="card-image">
+<p>
+Сверхпрочная сталь SUS 420 J2
+с высокой устойчивостью
+к коррозии.
+</p>
 
-                <img src="images/nippers.png">
+</div>
 
-            </div>
+<div class="card">
 
-            <div class="card-content">
+<h3>
+Ручная заточка
+</h3>
 
-                <h3>
-                    Кусачки
-                </h3>
+<p>
+Каждый инструмент проходит
+ручную доводку
+и контроль качества.
+</p>
 
-                <p>
-                    Профессиональные кусачки
-                    с идеальной геометрией
-                    режущих кромок.
-                    Мягкий ход и высокая
-                    точность среза.
-                </p>
+</div>
 
-                <a href="#" class="card-btn">
-                    Подробнее
-                </a>
+<div class="card">
 
-            </div>
+<h3>
+Стерилизация
+</h3>
 
-        </div>
+<p>
+Подходит для химической
+и термической обработки
+в салонах.
+</p>
 
-        <!-- ПУШЕРЫ -->
+</div>
 
-        <div class="card">
+<div class="card">
 
-            <div class="card-image">
+<h3>
+Доступная цена
+</h3>
 
-                <img src="images/pushers.png">
+<p>
+Профессиональное качество
+без переплаты
+за бренд.
+</p>
 
-            </div>
+</div>
 
-            <div class="card-content">
+</div>
 
-                <h3>
-                    Пушеры
-                </h3>
+</section>
 
-                <p>
-                    Инструменты для точной
-                    подготовки ногтевой
-                    пластины.
-                    Идеальный баланс
-                    и комфорт в работе.
-                </p>
+<section class="products" id="products">
 
-                <a href="#" class="card-btn">
-                    Подробнее
-                </a>
+<h2 class="section-title">
+Популярные модели
+</h2>
 
-            </div>
+<div class="product-grid">
 
-        </div>
+<div class="product">
 
-        <!-- ПИЛКИ -->
+<img src="images/nippers-main.jpg" alt="IB-01">
 
-        <div class="card">
+<div class="product-info">
 
-            <div class="card-image">
+<div class="product-title">
+IB-01
+</div>
 
-                <img src="images/files.png">
+<div class="product-text">
+Классические профессиональные
+кусачки
+с мягким ходом
+и ручной заточкой.
+</div>
 
-            </div>
+</div>
 
-            <div class="card-content">
+</div>
 
-                <h3>
-                    Файлы и пилки
-                </h3>
+<div class="product">
 
-                <p>
-                    Премиальные пилки
-                    и файлы для
-                    профессионального
-                    ногтевого сервиса.
-                </p>
+<img src="images/nippers-main.jpg" alt="IL-03">
 
-                <a href="#" class="card-btn">
-                    Подробнее
-                </a>
+<div class="product-info">
 
-            </div>
+<div class="product-title">
+IL-03
+</div>
 
-        </div>
+<div class="product-text">
+Профессиональная модель
+для салонного использования.
+</div>
 
-    </div>
+</div>
+
+</div>
+
+<div class="product">
+
+<img src="images/nippers-main.jpg" alt="PUSHER">
+
+<div class="product-info">
+
+<div class="product-title">
+PUSHER SERIES
+</div>
+
+<div class="product-text">
+Острые и удобные пушеры
+из высокопрочной стали.
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<section class="video-section">
+
+<div class="video-box">
+
+<video autoplay muted loop playsinline>
+
+<source src="images/video.mp4" type="video/mp4">
+
+</video>
+
+<div class="video-overlay">
+
+<h2>
+Профессиональный инструмент
+для современных мастеров
+индустрии красоты
+</h2>
+
+</div>
+
+</div>
 
 </section>
 
 <footer>
 
-    © ZERK — Premium Manicure Instruments
+<div class="footer-inner">
+
+<div>
+ZERK TOOL
+</div>
+
+<div>
++7 (925) 770-08-03
+</div>
+
+</div>
 
 </footer>
 
