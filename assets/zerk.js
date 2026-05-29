@@ -16,50 +16,7 @@
     });
   });
 
-  /* ——— Smooth scroll (desktop, fine pointer) ——— */
-  let smoothActive = false;
-  let scrollTarget = 0;
-  let scrollCurrent = 0;
-
-  const useSmooth =
-    !prefersReduced &&
-    finePointer &&
-    window.innerWidth >= 1069;
-
-  if (useSmooth) {
-    smoothActive = true;
-    document.documentElement.classList.add('is-smooth-scroll');
-    scrollCurrent = scrollTarget = window.scrollY;
-
-    window.addEventListener('wheel', (e) => {
-      const max = document.documentElement.scrollHeight - window.innerHeight;
-      scrollTarget = Math.max(0, Math.min(max, scrollTarget + e.deltaY));
-      e.preventDefault();
-    }, { passive: false });
-
-    document.querySelectorAll('a[href^="#"]').forEach((link) => {
-      link.addEventListener('click', function (e) {
-        const id = this.getAttribute('href');
-        if (!id || id === '#') return;
-        const el = document.querySelector(id);
-        if (!el) return;
-        e.preventDefault();
-        const headerH = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--header-h'), 10) || 52;
-        scrollTarget = Math.max(0, el.getBoundingClientRect().top + scrollCurrent - headerH - 16);
-      });
-    });
-
-    function smoothTick() {
-      scrollCurrent += (scrollTarget - scrollCurrent) * 0.1;
-      if (Math.abs(scrollTarget - scrollCurrent) < 0.5) scrollCurrent = scrollTarget;
-      window.scrollTo(0, scrollCurrent);
-      onScroll();
-      requestAnimationFrame(smoothTick);
-    }
-    requestAnimationFrame(smoothTick);
-  }
-
-  /* ——— Header + hero parallax ——— */
+  /* ——— Header + hero parallax (native scroll) ——— */
   const header = document.getElementById('siteHeader');
   const menuToggle = document.getElementById('menuToggle');
   const mobileMenu = document.getElementById('mobileMenu');
@@ -70,23 +27,21 @@
   let tiltY = 0;
 
   function onScroll() {
-    const y = smoothActive ? scrollCurrent : window.scrollY;
+    const y = window.scrollY;
 
     if (header) header.classList.toggle('is-scrolled', y > 20);
 
     if (!prefersReduced && heroVisual && y < window.innerHeight * 1.1) {
       const p = y / window.innerHeight;
-      heroVisual.style.transform = `translateY(${y * 0.15}px) scale(${1 - p * 0.035})`;
+      heroVisual.style.transform = `translateY(${y * 0.12}px) scale(${1 - p * 0.03})`;
       if (heroImg && finePointer) {
-        heroImg.style.transform = `translateY(${y * -0.06}px) rotateY(${tiltX}deg) rotateX(${-tiltY}deg)`;
+        heroImg.style.transform = `translateY(${y * -0.05}px) rotateY(${tiltX}deg) rotateX(${-tiltY}deg)`;
       }
     }
   }
 
-  if (!smoothActive) {
-    window.addEventListener('scroll', onScroll, { passive: true });
-    onScroll();
-  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
 
   /* ——— Mobile menu ——— */
   if (menuToggle && mobileMenu) {
@@ -113,12 +68,26 @@
   /* ——— Hero tilt ——— */
   if (!prefersReduced && finePointer && heroImg) {
     document.addEventListener('mousemove', (e) => {
-      tiltX = (e.clientX / window.innerWidth - 0.5) * 12;
-      tiltY = (e.clientY / window.innerHeight - 0.5) * 10;
-      const y = smoothActive ? scrollCurrent : window.scrollY;
-      heroImg.style.transform = `translateY(${y * -0.06}px) rotateY(${tiltX}deg) rotateX(${-tiltY}deg)`;
+      tiltX = (e.clientX / window.innerWidth - 0.5) * 10;
+      tiltY = (e.clientY / window.innerHeight - 0.5) * 8;
+      const y = window.scrollY;
+      heroImg.style.transform = `translateY(${y * -0.05}px) rotateY(${tiltX}deg) rotateX(${-tiltY}deg)`;
     });
   }
+
+  /* ——— Smooth anchor links ——— */
+  document.querySelectorAll('a[href^="#"]').forEach((link) => {
+    link.addEventListener('click', function (e) {
+      const id = this.getAttribute('href');
+      if (!id || id === '#') return;
+      const el = document.querySelector(id);
+      if (!el) return;
+      e.preventDefault();
+      const headerH = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--header-h'), 10) || 52;
+      const top = el.getBoundingClientRect().top + window.scrollY - headerH - 16;
+      window.scrollTo({ top: Math.max(0, top), behavior: prefersReduced ? 'auto' : 'smooth' });
+    });
+  });
 
   /* ——— Scroll reveal ——— */
   function observeReveals() {
