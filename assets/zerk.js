@@ -5,7 +5,7 @@
   'use strict';
 
   /** Ссылка на Telegram — замените на свою при необходимости */
-  const ZERK_TELEGRAM = 'https://t.me/+79257700803';
+  const ZERK_TELEGRAM = 'https://t.me/Mr_Anderson_pnz';
   window.ZERK_TELEGRAM = ZERK_TELEGRAM;
 
   const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;

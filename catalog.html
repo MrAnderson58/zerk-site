@@ -49,8 +49,8 @@
       </p>
       <div class="catalog-stats">
         <div class="stat-item">
-          <div class="stat-value"><span data-count="30">0</span><span class="stat-suffix">+</span></div>
-          <div class="stat-label">Моделей</div>
+          <div class="stat-value"><span data-count="12">0</span></div>
+          <div class="stat-label">Кусачек в линейке</div>
         </div>
         <div class="stat-item">
           <div class="stat-value"><span data-count="100">0</span><span class="stat-suffix">%</span></div>
@@ -67,8 +67,8 @@
       <div class="toolbar-inner glass">
         <div class="filter-group" id="filterGroup" role="tablist" aria-label="Фильтр категорий">
           <span class="filter-indicator" id="filterIndicator"></span>
-          <button type="button" class="filter-btn is-active" data-filter="all" role="tab" aria-selected="true">Все</button>
-          <button type="button" class="filter-btn" data-filter="nippers" role="tab">Кусачки</button>
+          <button type="button" class="filter-btn" data-filter="all" role="tab">Все</button>
+          <button type="button" class="filter-btn is-active" data-filter="nippers" role="tab" aria-selected="true">Кусачки для кутикулы</button>
           <button type="button" class="filter-btn" data-filter="scissors" role="tab">Ножницы</button>
           <button type="button" class="filter-btn" data-filter="pushers" role="tab">Пушеры</button>
           <button type="button" class="filter-btn" data-filter="files" role="tab">Пилки</button>
@@ -81,8 +81,12 @@
     </div>
 
     <section class="catalog-section" aria-label="Товары каталога">
-      <div class="catalog-grid" id="catalogGrid"></div>
+      <div class="catalog-layout" id="catalogLayout"></div>
       <p class="catalog-empty" id="catalogEmpty">По вашему запросу ничего не найдено. Попробуйте другой фильтр или поиск.</p>
+      <div class="catalog-coming-soon" id="catalogComingSoon">
+        <strong>Скоро в каталоге</strong>
+        Раздел в разработке. Пока доступны кусачки для кутикулы серии IL.
+      </div>
     </section>
 
     <div class="catalog-cta">
@@ -91,7 +95,7 @@
           <h2>Нужна консультация?</h2>
           <p>Подберём инструмент под ваш салон и объём заказа.</p>
         </div>
-        <a href="https://t.me/+79257700803" class="btn-order" data-telegram rel="noopener noreferrer" target="_blank">Написать в Telegram</a>
+        <a href="https://t.me/Mr_Anderson_pnz" class="btn-order" data-telegram rel="noopener noreferrer" target="_blank">Написать в Telegram</a>
       </div>
     </div>
   </main>
@@ -103,74 +107,69 @@
     </div>
   </footer>
 
+  <script src="assets/catalog-data.js" defer></script>
   <script src="assets/zerk.js" defer></script>
   <script>
-    const PRODUCTS = [
-      { id: 'IB-01', cat: 'nippers', desc: 'Классические профессиональные кусачки с мягким ходом и ручной заточкой.', badge: 'Хит' },
-      { id: 'IL-03', cat: 'scissors', desc: 'Маникюрные ножницы для салонного использования.', badge: '' },
-      { id: 'NR-04', cat: 'nippers', desc: 'Узкий профиль для точной работы с кутикулой.', badge: '' },
-      { id: 'NR-07', cat: 'nippers', desc: 'Усиленная конструкция для плотной кутикулы.', badge: 'Новинка' },
-      { id: 'NR-11', cat: 'nippers', desc: 'Эргономичные ручки, сбалансированный вес.', badge: '' },
-      { id: 'NR-12', cat: 'nippers', desc: 'Премиальная серия с удлинёнными ручками.', badge: '' },
-      { id: 'MR-02', cat: 'scissors', desc: 'Тонкие лезвия для аккуратной обработки.', badge: '' },
-      { id: 'MR-11', cat: 'scissors', desc: 'Профессиональная модель для мастеров.', badge: 'Хит' },
-      { id: 'PUSHER', cat: 'pushers', desc: 'Острые и удобные пушеры из высокопрочной стали.', badge: '' },
-      { id: 'Push Set', cat: 'pushers', desc: 'Набор пушеров для полного маникюрного цикла.', badge: 'Новинка' },
-      { id: 'SC-01', cat: 'files', desc: 'Пилка на металлической основе, средняя абразивность.', badge: '' },
-      { id: 'SC-02', cat: 'files', desc: 'Пилка для формирования свободного края.', badge: '' },
-      { id: 'SC-03', cat: 'files', desc: 'Тонкая полировка натурального ногтя.', badge: '' },
-      { id: 'SC-04', cat: 'files', desc: 'Универсальная пилка для салона.', badge: '' },
-      { id: 'SC-05', cat: 'files', desc: 'Профессиональная абразивность для гель-лака.', badge: '' },
-      { id: 'SC-06', cat: 'files', desc: 'Компактная модель для мобильного мастера.', badge: '' },
-      { id: 'Cut Pro', cat: 'nippers', desc: 'Флагманская линейка кусачек Cut Pro.', badge: 'Хит' },
-      { id: 'File Pro', cat: 'files', desc: 'Профессиональные пилки File Pro.', badge: '' },
-      { id: 'Base Steel', cat: 'pushers', desc: 'Базовая линейка пушеров из японской стали.', badge: '' },
-      { id: 'Mini Pro', cat: 'nippers', desc: 'Компактные кусачки для детальной работы.', badge: '' },
-      { id: 'Maxi Pro', cat: 'nippers', desc: 'Увеличенный захват для объёмной кутикулы.', badge: '' },
-      { id: 'Expert 10', cat: 'scissors', desc: 'Экспертная серия ножниц, размер 10.', badge: '' },
-      { id: 'Expert 15', cat: 'scissors', desc: 'Экспертная серия ножниц, размер 15.', badge: '' },
-      { id: 'Expert 20', cat: 'scissors', desc: 'Экспертная серия ножниц, размер 20.', badge: '' },
-      { id: 'Expert 25', cat: 'scissors', desc: 'Экспертная серия ножниц, размер 25.', badge: '' },
-      { id: 'Stal Pro', cat: 'nippers', desc: 'Серия Stal Pro — максимальная износостойкость.', badge: '' },
-      { id: 'Lux Line', cat: 'nippers', desc: 'Люксовая отделка и премиальная упаковка.', badge: 'Новинка' },
-      { id: 'Micro Touch', cat: 'pushers', desc: 'Микро-пушер для ювелирной точности.', badge: '' },
-      { id: 'CLN-1', cat: 'files', desc: 'Инструмент для очистки и подготовки ногтя.', badge: '' },
-      { id: 'CLN-2', cat: 'files', desc: 'Двусторонняя модель для салонного протокола.', badge: '' },
-    ];
-
-    const CAT_LABELS = { nippers: 'Кусачки', scissors: 'Ножницы', pushers: 'Пушеры', files: 'Пилки' };
-    const grid = document.getElementById('catalogGrid');
+    document.addEventListener('DOMContentLoaded', () => {
+    const { products: PRODUCTS, labels: CAT_LABELS, families } = window.ZERK_CATALOG;
+    const layout = document.getElementById('catalogLayout');
     const emptyEl = document.getElementById('catalogEmpty');
+    const comingSoonEl = document.getElementById('catalogComingSoon');
+    const OTHER_CATS = ['scissors', 'pushers', 'files'];
 
-    function renderCards() {
-      const tg = window.ZERK_TELEGRAM || 'https://t.me/+79257700803';
-      grid.innerHTML = PRODUCTS.map((p, i) => {
-        const hit = p.badge === 'Хит';
-        const badgeHtml = p.badge
-          ? `<span class="catalog-card__badge${hit ? ' catalog-card__badge--hit' : ''}">${p.badge}</span>`
-          : '';
+    function telegramLink(product) {
+      const tg = window.ZERK_TELEGRAM || 'https://t.me/Mr_Anderson_pnz';
+      const msg = `Здравствуйте! Интересует ${product.model}, лезвие ${product.blade} мм (${product.id})`;
+      return `${tg}?text=${encodeURIComponent(msg)}`;
+    }
+
+    function renderCard(p, delayIndex) {
+      const hit = p.badge === 'Хит';
+      const badgeHtml = p.badge
+        ? `<span class="catalog-card__badge${hit ? ' catalog-card__badge--hit' : ''}">${p.badge}</span>`
+        : '';
+      const searchKey = `${p.id} ${p.model} ${p.blade}`.toLowerCase();
+      return `
+        <a href="${telegramLink(p)}"
+           class="catalog-card glass"
+           data-category="${p.cat}"
+           data-family="${p.model}"
+           data-name="${searchKey}"
+           style="transition-delay:${(delayIndex % 6) * 0.05}s">
+          <span class="catalog-card__shine"></span>
+          <span class="catalog-card__sweep"></span>
+          <div class="catalog-card__media">
+            ${badgeHtml}
+            <span class="catalog-card__blade">${p.blade} мм</span>
+            <img src="images/nippers-main.jpg" alt="${p.model}, лезвие ${p.blade} мм" width="400" height="300" loading="lazy" decoding="async">
+          </div>
+          <div class="catalog-card__body">
+            <div class="catalog-card__code">ZERK · ${CAT_LABELS[p.cat]}</div>
+            <div class="catalog-card__model">${p.model}</div>
+            <div class="catalog-card__title">Лезвие ${p.blade} мм</div>
+            <p class="catalog-card__desc">${p.desc}</p>
+            <span class="catalog-card__spec">Артикул · ${p.id}</span>
+            <div class="catalog-card__footer">
+              <span class="catalog-card__tag">SUS 420 J2</span>
+              <span class="catalog-card__cta">Запросить →</span>
+            </div>
+          </div>
+        </a>`;
+    }
+
+    function renderCatalog() {
+      let cardIndex = 0;
+      layout.innerHTML = families.nippers.map((family) => {
+        const items = PRODUCTS.filter((p) => p.model === family.code);
+        const cards = items.map((p) => renderCard(p, cardIndex++)).join('');
         return `
-          <a href="${tg}?text=${encodeURIComponent('Здравствуйте! Интересует модель ' + p.id)}"
-             class="catalog-card glass"
-             data-category="${p.cat}"
-             data-name="${p.id.toLowerCase()}"
-             style="transition-delay:${(i % 6) * 0.05}s">
-            <span class="catalog-card__shine"></span>
-            <span class="catalog-card__sweep"></span>
-            <div class="catalog-card__media">
-              ${badgeHtml}
-              <img src="images/nippers-main.jpg" alt="${p.id}" width="400" height="300" loading="lazy" decoding="async">
-            </div>
-            <div class="catalog-card__body">
-              <div class="catalog-card__code">ZERK · ${CAT_LABELS[p.cat]}</div>
-              <div class="catalog-card__title">${p.id}</div>
-              <p class="catalog-card__desc">${p.desc}</p>
-              <div class="catalog-card__footer">
-                <span class="catalog-card__tag">SUS 420 J2</span>
-                <span class="catalog-card__cta">Запросить →</span>
-              </div>
-            </div>
-          </a>`;
+          <section class="catalog-family" data-category="nippers" data-family="${family.code}">
+            <header class="catalog-family__head">
+              <h2 class="catalog-family__title">${family.title}</h2>
+              <p class="catalog-family__subtitle">${family.subtitle}</p>
+            </header>
+            <div class="catalog-family__grid">${cards}</div>
+          </section>`;
       }).join('');
 
       window.Zerk.observeCards('.catalog-card');
@@ -180,7 +179,7 @@
     const filterGroup = document.getElementById('filterGroup');
     const filterIndicator = document.getElementById('filterIndicator');
     const filterBtns = filterGroup.querySelectorAll('.filter-btn');
-    let activeFilter = 'all';
+    let activeFilter = 'nippers';
 
     function moveIndicator(btn) {
       filterIndicator.style.width = `${btn.offsetWidth}px`;
@@ -209,15 +208,34 @@
 
     function applyFilters() {
       const q = document.getElementById('catalogSearch').value.trim().toLowerCase();
+      const isOtherCat = OTHER_CATS.includes(activeFilter);
       let visible = 0;
-      grid.querySelectorAll('.catalog-card').forEach((card) => {
-        const matchCat = activeFilter === 'all' || card.dataset.category === activeFilter;
-        const matchSearch = !q || card.dataset.name.includes(q) ||
-          card.querySelector('.catalog-card__title').textContent.toLowerCase().includes(q);
-        const show = matchCat && matchSearch;
-        card.classList.toggle('is-hidden', !show);
-        if (show) visible++;
+
+      comingSoonEl.classList.toggle('is-shown', isOtherCat);
+      layout.classList.toggle('is-hidden', isOtherCat);
+      if (isOtherCat) {
+        emptyEl.classList.remove('is-shown');
+        return;
+      }
+
+      layout.classList.remove('is-hidden');
+      comingSoonEl.classList.remove('is-shown');
+
+      layout.querySelectorAll('.catalog-family').forEach((family) => {
+        let familyVisible = 0;
+        family.querySelectorAll('.catalog-card').forEach((card) => {
+          const matchCat = activeFilter === 'all' || card.dataset.category === activeFilter;
+          const matchSearch = !q || card.dataset.name.includes(q);
+          const show = matchCat && matchSearch;
+          card.classList.toggle('is-hidden', !show);
+          if (show) {
+            visible++;
+            familyVisible++;
+          }
+        });
+        family.classList.toggle('is-hidden', familyVisible === 0);
       });
+
       emptyEl.classList.toggle('is-shown', visible === 0);
     }
 
@@ -249,8 +267,26 @@
     );
     statsObserver.observe(document.querySelector('.catalog-stats'));
 
-    renderCards();
-    requestAnimationFrame(() => moveIndicator(filterGroup.querySelector('.filter-btn.is-active')));
+    layout.classList.add('catalog-layout');
+    renderCatalog();
+    applyFilters();
+
+    const urlCat = new URLSearchParams(window.location.search).get('cat');
+    if (urlCat && filterGroup.querySelector(`[data-filter="${urlCat}"]`)) {
+      filterBtns.forEach((b) => {
+        b.classList.remove('is-active');
+        b.setAttribute('aria-selected', 'false');
+      });
+      const tab = filterGroup.querySelector(`[data-filter="${urlCat}"]`);
+      tab.classList.add('is-active');
+      tab.setAttribute('aria-selected', 'true');
+      activeFilter = urlCat;
+      applyFilters();
+      requestAnimationFrame(() => moveIndicator(tab));
+    } else {
+      requestAnimationFrame(() => moveIndicator(filterGroup.querySelector('.filter-btn.is-active')));
+    }
+    });
   </script>
 </body>
 </html>
