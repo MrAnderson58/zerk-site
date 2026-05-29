@@ -91,7 +91,7 @@
           <h2>Нужна консультация?</h2>
           <p>Подберём инструмент под ваш салон и объём заказа.</p>
         </div>
-        <a href="https://wa.me/79257700803" class="btn-order" rel="noopener">Написать в WhatsApp</a>
+        <a href="https://t.me/+79257700803" class="btn-order" data-telegram rel="noopener noreferrer" target="_blank">Написать в Telegram</a>
       </div>
     </div>
   </main>
@@ -143,13 +143,14 @@
     const emptyEl = document.getElementById('catalogEmpty');
 
     function renderCards() {
+      const tg = window.ZERK_TELEGRAM || 'https://t.me/+79257700803';
       grid.innerHTML = PRODUCTS.map((p, i) => {
         const hit = p.badge === 'Хит';
         const badgeHtml = p.badge
           ? `<span class="catalog-card__badge${hit ? ' catalog-card__badge--hit' : ''}">${p.badge}</span>`
           : '';
         return `
-          <a href="https://wa.me/79257700803?text=${encodeURIComponent('Здравствуйте! Интересует модель ' + p.id)}"
+          <a href="${tg}?text=${encodeURIComponent('Здравствуйте! Интересует модель ' + p.id)}"
              class="catalog-card glass"
              data-category="${p.cat}"
              data-name="${p.id.toLowerCase()}"

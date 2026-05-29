@@ -4,6 +4,10 @@
 (function () {
   'use strict';
 
+  /** Ссылка на Telegram — замените на свою при необходимости */
+  const ZERK_TELEGRAM = 'https://t.me/+79257700803';
+  window.ZERK_TELEGRAM = ZERK_TELEGRAM;
+
   const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const finePointer = window.matchMedia('(pointer: fine)').matches;
 
@@ -132,6 +136,10 @@
 
   observeReveals();
   observePreviewCards();
+
+  document.querySelectorAll('[data-telegram]').forEach((link) => {
+    link.href = ZERK_TELEGRAM;
+  });
 
   /* ——— Catalog page API ——— */
   window.Zerk = {
