@@ -50,8 +50,8 @@
       </p>
       <div class="catalog-stats">
         <div class="stat-item">
-          <div class="stat-value"><span data-count="12">0</span></div>
-          <div class="stat-label">Кусачек в линейке</div>
+          <div class="stat-value"><span data-count="14">0</span></div>
+          <div class="stat-label">Позиций в каталоге</div>
         </div>
         <div class="stat-item">
           <div class="stat-value"><span data-count="100">0</span><span class="stat-suffix">%</span></div>
@@ -86,7 +86,7 @@
       <p class="catalog-empty" id="catalogEmpty">По вашему запросу ничего не найдено. Попробуйте другой фильтр или поиск.</p>
       <div class="catalog-coming-soon" id="catalogComingSoon">
         <strong>Скоро в каталоге</strong>
-        Раздел в разработке. Пока доступны кусачки для кутикулы серии IL.
+        Раздел в разработке. Сейчас доступны кусачки IL и ножницы Solingen.
       </div>
     </section>
 
@@ -113,16 +113,23 @@
   <script src="assets/zerk-assistant.js?v=2" defer></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-    const { products: PRODUCTS, labels: CAT_LABELS, families } = window.ZERK_CATALOG;
+    const CATALOG = window.ZERK_CATALOG;
+    const { products: PRODUCTS, labels: CAT_LABELS, families, productUrl } = CATALOG;
     const layout = document.getElementById('catalogLayout');
     const emptyEl = document.getElementById('catalogEmpty');
     const comingSoonEl = document.getElementById('catalogComingSoon');
-    const OTHER_CATS = ['scissors', 'pushers', 'files'];
+    const OTHER_CATS = ['pushers', 'files'];
+    const FAMILY_ORDER = ['nippers', 'scissors'];
 
-    function telegramLink(product) {
-      const tg = window.ZERK_TELEGRAM || 'https://t.me/Mr_Anderson_pnz';
-      const msg = `Здравствуйте! Интересует ${product.model}, лезвие ${product.blade} мм (${product.id})`;
-      return `${tg}?text=${encodeURIComponent(msg)}`;
+    function cardSpecLine(p) {
+      if (p.cat === 'nippers') {
+        return `Артикул · ${p.id} · ${p.weight} г · ${p.size} мм`;
+      }
+      return `Артикул · ${p.id} · ${p.origin}`;
+    }
+
+    function cardTag(p) {
+      return p.cat === 'nippers' ? 'SUS 420 J2' : p.material;
     }
 
     function renderCard(p, delayIndex) {
@@ -130,9 +137,17 @@
       const badgeHtml = p.badge
         ? `<span class="catalog-card__badge${hit ? ' catalog-card__badge--hit' : ''}">${p.badge}</span>`
         : '';
-      const searchKey = `${p.id} ${p.model} ${p.blade}`.toLowerCase();
+      const bladeHtml = p.blade
+        ? `<span class="catalog-card__blade">${p.blade} мм</span>`
+        : '';
+      const searchKey = `${p.id} ${p.model} ${p.blade || ''} ${p.title || ''}`.toLowerCase();
+      const imgAlt =
+        p.cat === 'nippers'
+          ? `${p.model}, лезвие ${p.blade} мм`
+          : `Ножницы ZERK ${p.model}`;
+      const cardTitle = p.title || p.model;
       return `
-        <a href="${telegramLink(p)}"
+        <a href="${productUrl(p.id)}"
            class="catalog-card glass"
            data-category="${p.cat}"
            data-family="${p.model}"
@@ -142,36 +157,47 @@
           <span class="catalog-card__sweep"></span>
           <div class="catalog-card__media">
             ${badgeHtml}
-            <span class="catalog-card__blade">${p.blade} мм</span>
-            <img src="${p.image}" alt="${p.model}, лезвие ${p.blade} мм" width="400" height="300" loading="lazy" decoding="async" class="catalog-card__img--catalog">
+            ${bladeHtml}
+            <img src="${p.image}" alt="${imgAlt}" width="400" height="300" loading="lazy" decoding="async" class="catalog-card__img--catalog">
           </div>
           <div class="catalog-card__body">
             <div class="catalog-card__code">ZERK · ${CAT_LABELS[p.cat]}</div>
             <div class="catalog-card__model">${p.model}</div>
-            <div class="catalog-card__title">Лезвие ${p.blade} мм</div>
+            <div class="catalog-card__title">${cardTitle}</div>
             <p class="catalog-card__desc">${p.desc}</p>
-            <span class="catalog-card__spec">Артикул · ${p.id} · ${p.weight} г · ${p.size} мм</span>
+            <span class="catalog-card__spec">${cardSpecLine(p)}</span>
             <div class="catalog-card__footer">
-              <span class="catalog-card__tag">SUS 420 J2</span>
-              <span class="catalog-card__cta">Запросить →</span>
+              <span class="catalog-card__tag">${cardTag(p)}</span>
+              <span class="catalog-card__cta">Подробнее →</span>
             </div>
           </div>
         </a>`;
     }
 
+    function familyProducts(family, cat) {
+      if (family.productIds) {
+        return family.productIds.map((id) => PRODUCTS.find((p) => p.id === id)).filter(Boolean);
+      }
+      return PRODUCTS.filter((p) => p.model === family.code && p.cat === cat);
+    }
+
     function renderCatalog() {
       let cardIndex = 0;
-      layout.innerHTML = families.nippers.map((family) => {
-        const items = PRODUCTS.filter((p) => p.model === family.code);
-        const cards = items.map((p) => renderCard(p, cardIndex++)).join('');
-        return `
-          <section class="catalog-family" data-category="nippers" data-family="${family.code}">
+      layout.innerHTML = FAMILY_ORDER.flatMap((cat) => {
+        const group = families[cat];
+        if (!group) return [];
+        return group.map((family) => {
+          const items = familyProducts(family, cat);
+          const cards = items.map((p) => renderCard(p, cardIndex++)).join('');
+          return `
+          <section class="catalog-family" data-category="${cat}" data-family="${family.code}">
             <header class="catalog-family__head">
               <h2 class="catalog-family__title">${family.title}</h2>
               <p class="catalog-family__subtitle">${family.subtitle}</p>
             </header>
             <div class="catalog-family__grid">${cards}</div>
           </section>`;
+        });
       }).join('');
 
       window.Zerk.observeCards('.catalog-card');
