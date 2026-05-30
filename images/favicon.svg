@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="ZK">
+  <rect width="32" height="32" rx="6" fill="#0a0a0a"/>
+  <g transform="translate(2.5 3.2) scale(0.82)">
+    <text
+      x="14"
+      y="27"
+      text-anchor="middle"
+      font-family="Georgia, 'Times New Roman', Times, serif"
+      font-size="28"
+      font-weight="700"
+      fill="#ffffff"
+      stroke="#000000"
+      stroke-width="1.35"
+      paint-order="stroke fill"
+      letter-spacing="-2.5">ZK</text>
+  </g>
+</svg>
