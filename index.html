@@ -13,6 +13,7 @@
   <meta property="og:locale" content="ru_RU">
   <link rel="preload" href="images/nippers-main.jpg" as="image" fetchpriority="high">
   <link rel="stylesheet" href="assets/zerk.css">
+  <link rel="stylesheet" href="assets/zerk-assistant.css">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -209,5 +210,9 @@
   </footer>
 
   <script src="assets/zerk.js" defer></script>
+  <!-- OpenAI: задайте OPENAI_API_KEY на Vercel и раскомментируйте:
+  <script>window.ZERK_ASSISTANT_CONFIG = { apiEnabled: true, apiEndpoint: '/api/chat' };</script>
+  -->
+  <script src="assets/zerk-assistant.js" defer></script>
 </body>
 </html>
