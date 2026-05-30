@@ -4,8 +4,14 @@
 (function () {
   'use strict';
 
+  const DEFAULT_IMAGE = 'images/nippers-main.jpg';
+
   const NIPPER_MODELS = [
-    { code: 'IL-03', note: 'Классический профиль для ежедневной работы с кутикулой.' },
+    {
+      code: 'IL-03',
+      note: 'Классический профиль для ежедневной работы с кутикулой.',
+      image: 'images/il-03.jpg',
+    },
     { code: 'IL-07', note: 'Усиленный ход для плотной и сухой кутикулы.' },
     { code: 'IL-09', note: 'Сбалансированная модель для салонного протокола.' },
     { code: 'IL-12', note: 'Удлинённые ручки и точный контроль захвата.' },
@@ -21,6 +27,7 @@
       cat: 'nippers',
       desc: `${model.note} Лезвие ${blade} мм.`,
       badge: model.code === 'IL-03' && blade === 5 ? 'Хит' : '',
+      image: model.image || DEFAULT_IMAGE,
     }))
   );
 
@@ -42,5 +49,9 @@
       ...nippers,
       // Остальные категории — позже
     ],
+    defaultImage: DEFAULT_IMAGE,
+    modelImages: {
+      'IL-03': 'images/il-03.jpg',
+    },
   };
 })();

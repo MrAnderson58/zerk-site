@@ -1532,6 +1532,19 @@ body::-webkit-scrollbar-thumb {
   filter: brightness(1.04);
 }
 
+/* Каталожные фото с подписью (IL-03 и др.) */
+.catalog-card__img--catalog,
+.catalog-preview-card__img .catalog-card__img--catalog {
+  object-fit: contain;
+  object-position: center;
+  background: #0a0a0c;
+}
+
+.catalog-preview-card__img img.catalog-card__img--catalog {
+  object-fit: contain;
+  background: #0a0a0c;
+}
+
 .catalog-card:hover .catalog-card__media img {
   transform: scale(1.05);
   filter: brightness(1.1);
