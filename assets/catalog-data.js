@@ -5,6 +5,7 @@
   'use strict';
 
   const DEFAULT_IMAGE = 'images/nippers-main.jpg';
+  const STANDARD_BLADES = [4, 5, 6];
 
   const NIPPER_MODELS = [
     {
@@ -35,9 +36,16 @@
       weight: 25,
       size: 100,
     },
+    {
+      code: 'IAL-01',
+      blades: [8],
+      note: 'Увеличенное лезвие 8 мм — для плотной кутикулы, мозолей и педикюра.',
+      image: 'images/ial-01.jpg',
+      weight: 50,
+      size: 113,
+      badge: 'Педикюр',
+    },
   ];
-
-  const BLADE_SIZES = [4, 5, 6];
 
   const SCISSOR_MODELS = [
     {
@@ -66,16 +74,92 @@
     },
   ];
 
+  const PUSHER_MODELS = [
+    {
+      code: 'P-504',
+      image: 'images/pushers-p504-507.jpg',
+      note: 'Плоский прямоугольный пушер и острый конический шабер.',
+      tips: 'Пушер плоский · шабер конический',
+      details: [
+        'Двусторонний пушер-шабер P-504: с одной стороны плоская прямоугольная рабочая площадка для отодвигания кутикулы, с другой — острый конический шабер для точной очистки боковых валиков.',
+        'Рифлёная рукоять не скользит в перчатках и при длительной работе. Сталь S45C держит заточку и выдерживает салонную обработку.',
+      ],
+    },
+    {
+      code: 'P-505',
+      image: 'images/pushers-p504-507.jpg',
+      note: 'Широкий изогнутый пушер и плоский скошенный шабер.',
+      tips: 'Пушер широкий · шабер скошенный',
+      details: [
+        'P-505 — универсальная связка для комбинированного маникюра: широкий изогнутый пушер охватывает ногтевую пластину, скошенный шабер снимает птеригий и ороговевшую кожу.',
+        'Удобен мастерам, которым нужен один инструмент на весь этап подготовки ногтевой пластины.',
+      ],
+    },
+    {
+      code: 'P-506',
+      image: 'images/pushers-p504-507.jpg',
+      note: 'Изогнутый пушер и узкий острый шабер.',
+      tips: 'Пушер изогнутый · шабер узкий',
+      details: [
+        'P-506 — для точной работы в труднодоступных зонах: изогнутый пушер следует форме ногтя, узкий шабер позволяет аккуратно вычистить углубления и боковые синусы.',
+        'Рекомендуется при плотной кутикуле и сложной геометрии ногтевой пластины.',
+      ],
+    },
+    {
+      code: 'P-507',
+      image: 'images/pushers-p504-507.jpg',
+      note: 'Изогнутый пушер и ложкообразный пушер с обратной стороны.',
+      tips: 'Два профиля пушера',
+      details: [
+        'P-507 — две рабочие поверхности пушера без агрессивного шабера: изогнутая и ложкообразная. Подходит для деликатной подготовки и финишной обработки кутикулы без риска повреждения ногтя.',
+      ],
+    },
+    {
+      code: 'P-508',
+      image: 'images/pushers-p508-514.jpg',
+      note: 'Классический пушер-ложка и широкий изогнутый крюк-шабер.',
+      tips: 'Пушер-ложка · шабер-крюк широкий',
+      details: [
+        'P-508 — флагман линейки с гравировкой ZK на головке: ложкообразный пушер для отодвигания кутикулы и широкий изогнутый крюк для снятия птеригия.',
+        'Очень острая и качественная заточка, сталь S45C.',
+      ],
+    },
+    {
+      code: 'P-511',
+      image: 'images/pushers-p508-514.jpg',
+      note: 'Пушер-ложка и узкий изогнутый шабер.',
+      tips: 'Пушер-ложка · шабер узкий',
+      details: [
+        'P-511 — сбалансированная модель: та же эргономика пушера, что у P-508, но более узкий изогнутый шабер для контролируемой работы в боковых зонах.',
+      ],
+    },
+    {
+      code: 'P-514',
+      image: 'images/pushers-p508-514.jpg',
+      note: 'Пушер-ложка и острый копьевидный шабер.',
+      tips: 'Пушер-ложка · шабер острый',
+      details: [
+        'P-514 — максимальная точность на шаберной стороне: копьевидное лезвие для точечной очистки, вросших участков и детальной коррекции валика.',
+        'Для опытных мастеров, которым важен контроль каждого движения.',
+      ],
+    },
+  ];
+
   function nipperDetails(model, blade) {
+    const pedicure =
+      blade >= 8
+        ? ' Увеличенное лезвие подходит для педикюра, плотной кутикулы и зон с утолщённой кожей.'
+        : '';
     return [
-      `${model.note} Лезвие ${blade} мм — выберите размер под плотность кутикулы и привычный протокол.`,
+      `${model.note}${pedicure}`,
       `Корпус ${model.size} мм, вес ${model.weight} г. Сталь SUS 420 J2: высокая твёрдость режущей кромки, стабильность при стерилизации.`,
       'Ручная заточка и контроль качества перед отгрузкой. Подходит для химической и термической обработки в салоне.',
     ];
   }
 
-  const nippers = NIPPER_MODELS.flatMap((model) =>
-    BLADE_SIZES.map((blade) => ({
+  const nippers = NIPPER_MODELS.flatMap((model) => {
+    const blades = model.blades || STANDARD_BLADES;
+    return blades.map((blade) => ({
       id: `${model.code}-${blade}`,
       model: model.code,
       blade,
@@ -83,13 +167,18 @@
       title: `Лезвие ${blade} мм`,
       desc: `${model.note} Лезвие ${blade} мм.`,
       details: nipperDetails(model, blade),
-      badge: model.code === 'IL-03' && blade === 5 ? 'Хит' : '',
+      badge:
+        model.code === 'IL-03' && blade === 5
+          ? 'Хит'
+          : model.badge && blades.length === 1
+            ? model.badge
+            : '',
       image: model.image,
       weight: model.weight,
       size: model.size,
       material: 'SUS 420 J2',
-    }))
-  );
+    }));
+  });
 
   const scissors = SCISSOR_MODELS.map((model) => ({
     id: model.code,
@@ -104,7 +193,20 @@
     origin: model.origin,
   }));
 
-  const products = [...nippers, ...scissors];
+  const pushers = PUSHER_MODELS.map((model) => ({
+    id: model.code,
+    model: model.code,
+    cat: 'pushers',
+    title: 'Пушер-шабер',
+    desc: model.note,
+    details: model.details,
+    tips: model.tips,
+    badge: '',
+    image: model.image,
+    material: 'Нержавеющая сталь S45C',
+  }));
+
+  const products = [...nippers, ...scissors, ...pushers];
 
   function productUrl(id) {
     return `product.html?id=${encodeURIComponent(id)}`;
@@ -114,6 +216,9 @@
     if (!product) return 'Здравствуйте! Хочу оформить заказ ZERK.';
     if (product.cat === 'nippers') {
       return `Здравствуйте! Интересует ${product.model}, лезвие ${product.blade} мм (артикул ${product.id}).`;
+    }
+    if (product.cat === 'pushers') {
+      return `Здравствуйте! Интересует пушер-шабер ${product.model} (артикул ${product.id}).`;
     }
     return `Здравствуйте! Интересует ножницы ${product.model} (артикул ${product.id}).`;
   }
@@ -142,6 +247,15 @@
         { label: 'Категория', value: 'Кусачки для кутикулы' },
       ];
     }
+    if (product.cat === 'pushers') {
+      return [
+        { label: 'Артикул', value: product.id },
+        { label: 'Модель', value: product.model },
+        { label: 'Насадки', value: product.tips },
+        { label: 'Материал', value: product.material },
+        { label: 'Категория', value: 'Пушер-шабер' },
+      ];
+    }
     return [
       { label: 'Артикул', value: product.id },
       { label: 'Модель', value: product.model },
@@ -156,6 +270,9 @@
     if (product.cat === 'nippers') {
       return products.filter((p) => p.cat === 'nippers' && p.model === product.model);
     }
+    if (product.cat === 'pushers') {
+      return products.filter((p) => p.cat === 'pushers');
+    }
     return products.filter((p) => p.cat === 'scissors');
   }
 
@@ -163,14 +280,17 @@
     labels: {
       nippers: 'Кусачки для кутикулы',
       scissors: 'Ножницы',
-      pushers: 'Пушеры',
+      pushers: 'Пушер-шабер',
       files: 'Пилки',
     },
     families: {
       nippers: NIPPER_MODELS.map((m) => ({
         code: m.code,
         title: m.code,
-        subtitle: `Кусачки · ${m.weight} г · ${m.size} мм · SUS 420 J2`,
+        subtitle:
+          m.blades && m.blades[0] === 8
+            ? `Кусачки · лезвие 8 мм · ${m.weight} г · ${m.size} мм · SUS 420 J2`
+            : `Кусачки · ${m.weight} г · ${m.size} мм · SUS 420 J2`,
         image: m.image,
       })),
       scissors: [
@@ -182,12 +302,29 @@
           productIds: scissors.map((p) => p.id),
         },
       ],
+      pushers: [
+        {
+          code: 'pushers-504',
+          title: 'Пушер-шабер P-504 — P-507',
+          subtitle: 'Двусторонние · рифлёная рукоять · сталь S45C',
+          image: 'images/pushers-p504-507.jpg',
+          productIds: ['P-504', 'P-505', 'P-506', 'P-507'],
+        },
+        {
+          code: 'pushers-508',
+          title: 'Пушер-шабер P-508 — P-514',
+          subtitle: 'Острые профессиональные · гравировка ZK · S45C',
+          image: 'images/pushers-p508-514.jpg',
+          productIds: ['P-508', 'P-511', 'P-514'],
+        },
+      ],
     },
     products,
     defaultImage: DEFAULT_IMAGE,
     modelImages: {
       ...Object.fromEntries(NIPPER_MODELS.map((m) => [m.code, m.image])),
       ...Object.fromEntries(SCISSOR_MODELS.map((m) => [m.code, m.image])),
+      ...Object.fromEntries(PUSHER_MODELS.map((m) => [m.code, m.image])),
     },
     productUrl,
     getById,

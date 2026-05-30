@@ -50,7 +50,7 @@
       </p>
       <div class="catalog-stats">
         <div class="stat-item">
-          <div class="stat-value"><span data-count="14">0</span></div>
+          <div class="stat-value"><span data-count="22">0</span></div>
           <div class="stat-label">Позиций в каталоге</div>
         </div>
         <div class="stat-item">
@@ -71,7 +71,7 @@
           <button type="button" class="filter-btn" data-filter="all" role="tab">Все</button>
           <button type="button" class="filter-btn is-active" data-filter="nippers" role="tab" aria-selected="true">Кусачки для кутикулы</button>
           <button type="button" class="filter-btn" data-filter="scissors" role="tab">Ножницы</button>
-          <button type="button" class="filter-btn" data-filter="pushers" role="tab">Пушеры</button>
+          <button type="button" class="filter-btn" data-filter="pushers" role="tab">Пушер-шабер</button>
           <button type="button" class="filter-btn" data-filter="files" role="tab">Пилки</button>
         </div>
         <label class="catalog-search" aria-label="Поиск по каталогу">
@@ -86,7 +86,7 @@
       <p class="catalog-empty" id="catalogEmpty">По вашему запросу ничего не найдено. Попробуйте другой фильтр или поиск.</p>
       <div class="catalog-coming-soon" id="catalogComingSoon">
         <strong>Скоро в каталоге</strong>
-        Раздел в разработке. Сейчас доступны кусачки IL и ножницы Solingen.
+        Раздел в разработке. Сейчас доступны кусачки, ножницы Solingen и пушеры-шаберы.
       </div>
     </section>
 
@@ -118,18 +118,28 @@
     const layout = document.getElementById('catalogLayout');
     const emptyEl = document.getElementById('catalogEmpty');
     const comingSoonEl = document.getElementById('catalogComingSoon');
-    const OTHER_CATS = ['pushers', 'files'];
-    const FAMILY_ORDER = ['nippers', 'scissors'];
+    const OTHER_CATS = ['files'];
+    const FAMILY_ORDER = ['nippers', 'scissors', 'pushers'];
 
     function cardSpecLine(p) {
       if (p.cat === 'nippers') {
         return `Артикул · ${p.id} · ${p.weight} г · ${p.size} мм`;
       }
+      if (p.cat === 'pushers') {
+        return `Артикул · ${p.id} · ${p.tips}`;
+      }
       return `Артикул · ${p.id} · ${p.origin}`;
     }
 
     function cardTag(p) {
-      return p.cat === 'nippers' ? 'SUS 420 J2' : p.material;
+      if (p.cat === 'nippers') return 'SUS 420 J2';
+      return p.material;
+    }
+
+    function cardImgAlt(p) {
+      if (p.cat === 'nippers') return `${p.model}, лезвие ${p.blade} мм`;
+      if (p.cat === 'pushers') return `Пушер-шабер ZERK ${p.model}`;
+      return `Ножницы ZERK ${p.model}`;
     }
 
     function renderCard(p, delayIndex) {
@@ -141,10 +151,7 @@
         ? `<span class="catalog-card__blade">${p.blade} мм</span>`
         : '';
       const searchKey = `${p.id} ${p.model} ${p.blade || ''} ${p.title || ''}`.toLowerCase();
-      const imgAlt =
-        p.cat === 'nippers'
-          ? `${p.model}, лезвие ${p.blade} мм`
-          : `Ножницы ZERK ${p.model}`;
+      const imgAlt = cardImgAlt(p);
       const cardTitle = p.title || p.model;
       return `
         <a href="${productUrl(p.id)}"

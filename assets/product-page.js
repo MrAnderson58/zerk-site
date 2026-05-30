@@ -32,16 +32,25 @@
     breadcrumbCurrent.textContent = product.id;
 
     document.getElementById('productEyebrow').textContent = `ZERK · ${catLabel}`;
-    document.getElementById('productTitle').textContent =
-      product.cat === 'nippers' ? `${product.model} · ${product.blade} мм` : product.model;
+    const titleEl = document.getElementById('productTitle');
+    if (product.cat === 'nippers') {
+      titleEl.textContent = `${product.model} · ${product.blade} мм`;
+    } else if (product.cat === 'pushers') {
+      titleEl.textContent = `${product.model} · пушер-шабер`;
+    } else {
+      titleEl.textContent = product.model;
+    }
     document.getElementById('productLead').textContent = product.desc;
 
     const img = document.getElementById('productImage');
     img.src = product.image;
-    img.alt =
-      product.cat === 'nippers'
-        ? `${product.model}, лезвие ${product.blade} мм`
-        : `Ножницы ZERK ${product.model}`;
+    if (product.cat === 'nippers') {
+      img.alt = `${product.model}, лезвие ${product.blade} мм`;
+    } else if (product.cat === 'pushers') {
+      img.alt = `Пушер-шабер ZERK ${product.model}`;
+    } else {
+      img.alt = `Ножницы ZERK ${product.model}`;
+    }
 
     const specsEl = document.getElementById('productSpecs');
     specsEl.innerHTML = catalog
@@ -66,12 +75,16 @@
 
     if (siblings.length) {
       variantsBlock.hidden = false;
+      const variantTitles = {
+        nippers: 'Другие размеры лезвия',
+        pushers: 'Другие модели пушера-шабера',
+        scissors: 'Другие модели ножниц',
+      };
       variantsBlock.querySelector('.product-variants__title').textContent =
-        product.cat === 'nippers' ? 'Другие размеры лезвия' : 'Другие модели';
+        variantTitles[product.cat] || 'Другие модели';
       variantsList.innerHTML = siblings
         .map((p) => {
-          const label =
-            product.cat === 'nippers' ? `${p.blade} мм` : p.model;
+          const label = product.cat === 'nippers' ? `${p.blade} мм` : p.model;
           const active = p.id === product.id ? ' is-active' : '';
           return `<a href="${catalog.productUrl(p.id)}" class="product-variant${active}">${label}</a>`;
         })
