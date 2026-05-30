@@ -33,7 +33,10 @@
   function onScroll() {
     const y = window.scrollY;
 
-    if (header) header.classList.toggle('is-scrolled', y > 20);
+    if (header) {
+      const alwaysSolid = document.body.classList.contains('catalog-page');
+      header.classList.toggle('is-scrolled', alwaysSolid || y > 20);
+    }
 
     if (!prefersReduced && heroVisual && y < window.innerHeight * 1.1) {
       const p = y / window.innerHeight;

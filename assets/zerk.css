@@ -1141,10 +1141,38 @@ body::-webkit-scrollbar-thumb {
   .mobile-menu { display: none !important; }
 }
 
+/* Каталог: шапка всегда непрозрачная, контент не наезжает на лого и меню */
+.catalog-page header {
+  background: rgba(0, 0, 0, 0.92);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.45);
+}
+
+.catalog-page .header-nav a[href="catalog.html"] {
+  color: var(--text-muted);
+  pointer-events: none;
+  opacity: 0.55;
+}
+
 .catalog-hero {
   padding: calc(var(--header-h) + env(safe-area-inset-top) + 80px) var(--space-page) 64px;
   max-width: 1200px;
   margin: 0 auto;
+  position: relative;
+}
+
+.catalog-page .catalog-hero {
+  padding-top: calc(var(--header-h) + env(safe-area-inset-top) + 72px);
+}
+
+.catalog-page .catalog-hero::before {
+  content: '';
+  display: block;
+  height: 1px;
+  margin-bottom: 36px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.12) 20%, rgba(255, 255, 255, 0.12) 80%, transparent);
 }
 
 @keyframes catalog-fade-up {
@@ -1161,8 +1189,12 @@ body::-webkit-scrollbar-thumb {
   letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--text-muted);
-  margin-bottom: 20px;
+  margin-bottom: 16px;
   animation: catalog-fade-up 0.9s var(--ease-cinematic) 0.1s both;
+}
+
+.catalog-page .catalog-eyebrow {
+  margin-top: 0;
 }
 
 .catalog-eyebrow::before {
@@ -1217,11 +1249,15 @@ body::-webkit-scrollbar-thumb {
 
 .catalog-toolbar {
   position: sticky;
-  top: calc(var(--header-h) + 8px);
+  top: calc(var(--header-h) + env(safe-area-inset-top, 0) + 12px);
   z-index: 50;
   max-width: 1200px;
   margin: 0 auto 40px;
   padding: 0 var(--space-page);
+}
+
+.catalog-page .catalog-toolbar {
+  margin-top: 8px;
 }
 
 .toolbar-inner {
@@ -1665,10 +1701,22 @@ body::-webkit-scrollbar-thumb {
 }
 
 @media (max-width: 900px) {
+  .catalog-page .catalog-hero {
+    padding-top: calc(var(--header-h) + env(safe-area-inset-top) + 56px);
+  }
+
+  .catalog-page .catalog-hero::before {
+    margin-bottom: 24px;
+  }
+
+  .catalog-page .catalog-hero h1 {
+    font-size: clamp(36px, 9vw, 48px);
+  }
+
   .catalog-hero { text-align: center; }
   .catalog-hero p { margin-left: auto; margin-right: auto; }
   .catalog-stats { justify-content: center; gap: 32px; }
-  .catalog-toolbar { top: calc(var(--header-h) + 4px); }
+  .catalog-toolbar { top: calc(var(--header-h) + env(safe-area-inset-top, 0) + 8px); }
   .toolbar-inner {
     flex-direction: column;
     align-items: stretch;
