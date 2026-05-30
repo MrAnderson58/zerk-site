@@ -143,14 +143,14 @@
           <div class="catalog-card__media">
             ${badgeHtml}
             <span class="catalog-card__blade">${p.blade} мм</span>
-            <img src="${p.image || 'images/nippers-main.jpg'}" alt="${p.model}, лезвие ${p.blade} мм" width="400" height="300" loading="lazy" decoding="async"${p.model === 'IL-03' ? ' class="catalog-card__img--catalog"' : ''}>
+            <img src="${p.image}" alt="${p.model}, лезвие ${p.blade} мм" width="400" height="300" loading="lazy" decoding="async" class="catalog-card__img--catalog">
           </div>
           <div class="catalog-card__body">
             <div class="catalog-card__code">ZERK · ${CAT_LABELS[p.cat]}</div>
             <div class="catalog-card__model">${p.model}</div>
             <div class="catalog-card__title">Лезвие ${p.blade} мм</div>
             <p class="catalog-card__desc">${p.desc}</p>
-            <span class="catalog-card__spec">Артикул · ${p.id}</span>
+            <span class="catalog-card__spec">Артикул · ${p.id} · ${p.weight} г · ${p.size} мм</span>
             <div class="catalog-card__footer">
               <span class="catalog-card__tag">SUS 420 J2</span>
               <span class="catalog-card__cta">Запросить →</span>
