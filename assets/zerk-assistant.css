@@ -111,10 +111,17 @@
   width: min(400px, calc(100vw - var(--za-gap) * 2));
   height: min(560px, calc(100vh - var(--za-fab) - var(--za-gap) * 2 - 24px));
   max-height: 72vh;
-  display: flex;
-  flex-direction: column;
+  min-height: 0;
+  display: grid;
+  grid-template-rows: auto 1fr auto auto;
+  grid-template-areas:
+    "header"
+    "body"
+    "chips"
+    "composer";
   border-radius: 24px;
   overflow: hidden;
+  isolation: isolate;
   background: var(--za-bg);
   backdrop-filter: blur(28px) saturate(160%);
   -webkit-backdrop-filter: blur(28px) saturate(160%);
@@ -141,13 +148,27 @@
 }
 
 .zerk-assistant-header {
-  flex-shrink: 0;
-  padding: 18px 20px;
+  grid-area: header;
+  position: relative;
+  z-index: 3;
+  padding: 16px 18px;
   display: flex;
   align-items: center;
   gap: 12px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.04) 0%, transparent 100%);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(10, 10, 12, 0.98);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35);
+}
+
+/* Прокручиваемая зона: сообщения не заезжают под шапку */
+.zerk-assistant-body {
+  grid-area: body;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: rgba(0, 0, 0, 0.15);
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .zerk-assistant-avatar {
@@ -191,12 +212,25 @@
   flex-shrink: 0;
 }
 
+/* Сообщения без .zerk-assistant-body (старая разметка) */
+.zerk-assistant-panel > .zerk-assistant-messages {
+  grid-area: body;
+  min-height: 0;
+}
+
+.zerk-assistant-panel > .zerk-assistant-typing {
+  display: none;
+}
+
 /* Messages */
 .zerk-assistant-messages {
   flex: 1;
+  min-height: 0;
+  height: 100%;
   overflow-y: auto;
   overflow-x: hidden;
-  padding: 16px 16px 8px;
+  overscroll-behavior: contain;
+  padding: 14px 16px 12px;
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -220,12 +254,17 @@
   font-size: 14px;
   line-height: 1.5;
   animation: za-msg-in 0.4s var(--za-ease) both;
+  flex-shrink: 0;
+}
+
+.zerk-assistant-messages .zerk-assistant-msg--bot:first-child {
+  margin-top: 2px;
 }
 
 @keyframes za-msg-in {
   from {
     opacity: 0;
-    transform: translateY(8px);
+    transform: translateY(12px);
   }
   to {
     opacity: 1;
@@ -270,11 +309,14 @@
 
 /* Typing indicator */
 .zerk-assistant-typing {
-  align-self: flex-start;
+  flex-shrink: 0;
   display: none;
   align-items: center;
   gap: 5px;
+  margin: 0 16px 12px;
   padding: 14px 16px;
+  width: fit-content;
+  max-width: calc(100% - 32px);
   border-radius: 18px;
   background: var(--za-glass);
   border: 1px solid rgba(255, 255, 255, 0.08);
@@ -304,7 +346,7 @@
 
 /* Quick chips */
 .zerk-assistant-chips {
-  flex-shrink: 0;
+  grid-area: chips;
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
@@ -333,7 +375,7 @@
 
 /* Composer */
 .zerk-assistant-composer {
-  flex-shrink: 0;
+  grid-area: composer;
   padding: 12px 14px 14px;
   border-top: 1px solid rgba(255, 255, 255, 0.06);
   background: rgba(0, 0, 0, 0.25);

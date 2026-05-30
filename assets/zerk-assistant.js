@@ -247,9 +247,11 @@ IL-03 — классика; IL-07 — плотная/сухая кутикула
           </div>
           <span class="zerk-assistant-status" aria-hidden="true" title="Онлайн"></span>
         </header>
-        <div class="zerk-assistant-messages" role="log" aria-relevant="additions"></div>
-        <div class="zerk-assistant-typing" aria-hidden="true">
-          <span></span><span></span><span></span>
+        <div class="zerk-assistant-body">
+          <div class="zerk-assistant-messages" role="log" aria-relevant="additions"></div>
+          <div class="zerk-assistant-typing" aria-hidden="true">
+            <span></span><span></span><span></span>
+          </div>
         </div>
         <div class="zerk-assistant-chips"></div>
         <div class="zerk-assistant-composer">
