@@ -23,9 +23,9 @@
 
   const SYSTEM_PROMPT = `Ты — премиальный консультант ZERK по профессиональному маникюрному инструменту.
 Стиль: лаконично, уверенно, как консультант Apple/Tesla. Язык: русский.
-Продукты: кусачки для кутикулы серии IL-03, IL-07, IL-09, IL-12 — у каждой лезвия 4, 5 или 6 мм. Сталь SUS 420 J2, ручная заточка, стерилизация.
-IL-03 — классика; IL-07 — плотная/сухая кутикула; IL-09 — салонный баланс; IL-12 — удлинённые ручки.
-Рекомендуй модель и размер лезвия. Для заказа направляй в Telegram @Mr_Anderson_pnz или WhatsApp +7 (925) 770-08-03.
+Кусачки IL-03, IL-07, IL-09, IL-12, IAL-01 (лезвия 4–8 мм), книпсеры CL-01, CL-02, CS-02, пушеры P-504…P-514 — производство ВЬЕТНАМ (важно: не Китай и не Пакистан).
+Кусачки — сталь SUS 420 J2; книпсеры и пушеры — S45C. Ножницы 817/837 — Solingen, Германия.
+Рекомендуй модель и размер. Для заказа — Telegram @Mr_Anderson_pnz или WhatsApp +7 (925) 770-08-03.
 Не выдумывай цены и наличие — предложи связаться с менеджером.`;
 
   const WELCOME =
@@ -34,7 +34,7 @@ IL-03 — классика; IL-07 — плотная/сухая кутикула
   const CHIPS = [
     'Какую модель выбрать?',
     'Разница IL-03 и IL-07',
-    'Лезвие 4 или 5 мм?',
+    'Производство Вьетнам',
     'Стерилизация',
   ];
 
@@ -98,15 +98,27 @@ IL-03 — классика; IL-07 — плотная/сухая кутикула
       return 'ZERK использует японскую сталь <strong>SUS 420 J2</strong>: высокая прочность, коррозионная стойкость, ручная заточка и мягкий ход — стандарт для профессионального инструмента.';
     }
 
+    if (/вьетнам|vietnam|китай|пакистан|производ|страна|где сделан|откуда/.test(q)) {
+      return 'Кусачки серии <strong>IL и IAL</strong>, <strong>книпсеры CL-01 / CL-02 / CS-02</strong> и <strong>пушеры-шаберы P-504…P-514</strong> производятся во <strong>Вьетнаме</strong> — это осознанный выбор ZERK: контролируемое качество, не массовый сегмент Китая и Пакистана.\n\nНожницы <strong>817 и 837</strong> — Solingen, Германия.';
+    }
+
+    if (/книпс|clipper|cl-01|cl-02|cs-02/.test(q)) {
+      return 'Книпсеры ZERK — сталь <strong>S45C</strong>, производство <strong>Вьетнам</strong>:\n\n• <strong>CL-01</strong> — крупный\n• <strong>CL-02</strong> — средний, универсальный\n• <strong>CS-02</strong> — компактный\n\n<a href="catalog.html?cat=nippers">Смотреть в каталоге</a>';
+    }
+
+    if (/пушер|шабер|p-50|p-51/.test(q)) {
+      return 'Пушеры-шаберы <strong>P-504…P-514</strong> — сталь <strong>S45C</strong>, производство <strong>Вьетнам</strong> (не Китай и не Пакистан). Двусторонние насадки под разные этапы подготовки. <a href="catalog.html?cat=pushers">Каталог пушеров</a>';
+    }
+
     if (/кусач|кутикул|маникюр|инструмент|выбрать|подобрать|рекоменд/.test(q)) {
-      return 'Для подбора уточните тип кутикулы:\n\n• Обычная / комбинированная → <strong>IL-03</strong> или <strong>IL-09</strong>, лезвие <strong>5 мм</strong>\n• Плотная, сухая → <strong>IL-07</strong>, лезвие <strong>4–5 мм</strong>\n• Педикюр / толстая кутикула → <strong>IAL-01</strong>, лезвие <strong>8 мм</strong>\n• Ножницы Solingen → <strong>817</strong> или <strong>837</strong>\n• Пушер-шабер → <strong>P-504…P-514</strong>\n• Пилки-файлы → <strong>Mini / Maxi / Long / Лодка</strong>, грит <strong>100–240</strong>\n\n<a href="' + CONFIG.catalogUrl + '">Открыть каталог</a> или напишите в <a href="' + CONFIG.telegram + '" target="_blank" rel="noopener">Telegram</a>.';
+      return 'Для подбора уточните тип кутикулы:\n\n• Обычная / комбинированная → <strong>IL-03</strong> или <strong>IL-09</strong>, лезвие <strong>5 мм</strong>\n• Плотная, сухая → <strong>IL-07</strong>, лезвие <strong>4–5 мм</strong>\n• Педикюр / толстая кутикула → <strong>IAL-01</strong>, лезвие <strong>8 мм</strong>\n• Книпсеры → <strong>CL-01 / CL-02 / CS-02</strong>\n• Ножницы Solingen → <strong>817</strong> или <strong>837</strong>\n• Пушер-шабер → <strong>P-504…P-514</strong> (Вьетнам)\n• Пилки-файлы → <strong>Mini / Maxi / Long / Лодка</strong>\n\nКусачки IL и пушеры — <strong>производство Вьетнам</strong>. <a href="' + CONFIG.catalogUrl + '">Каталог</a>';
     }
 
     if (/привет|здравств|добрый|hello|hi\b/.test(q)) {
       return 'Добрый день. Расскажите, с какой кутикулой работаете чаще — обычной, плотной или сухой? Подберу серию IL и размер лезвия.';
     }
 
-    return 'Могу подсказать по кусачкам <strong>IL-03…IAL-01</strong>, ножницам <strong>817, 837</strong>, пушерам <strong>P-504…P-514</strong>, пилкам-файлам <strong>Mini / Maxi / Long / Лодка</strong> и стерилизации. Откройте карточку в каталоге или напишите в <a href="' + CONFIG.telegram + '" target="_blank" rel="noopener">Telegram</a>.';
+    return 'Могу подсказать по кусачкам <strong>IL-03…IAL-01</strong>, книпсерам <strong>CL-01…CS-02</strong>, пушерам <strong>P-504…P-514</strong> (Вьетнам), ножницам Solingen и пилкам-файлам. Откройте карточку в каталоге или напишите в <a href="' + CONFIG.telegram + '" target="_blank" rel="noopener">Telegram</a>.';
   }
 
   /* ——— API layer (OpenAI-ready) ——— */

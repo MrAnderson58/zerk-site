@@ -6,6 +6,9 @@
 
   const DEFAULT_IMAGE = 'images/nippers-main.jpg';
   const STANDARD_BLADES = [4, 5, 6];
+  const ORIGIN_VIETNAM = 'Вьетнам';
+  const VIETNAM_NOTE =
+    'Производство во Вьетнаме — контролируемое качество, не массовый сегмент Китая и Пакистана.';
 
   const NIPPER_MODELS = [
     {
@@ -14,6 +17,7 @@
       image: 'images/il-03.jpg',
       weight: 40,
       size: 107,
+      origin: ORIGIN_VIETNAM,
     },
     {
       code: 'IL-07',
@@ -21,6 +25,7 @@
       image: 'images/il-07.jpg',
       weight: 40,
       size: 113,
+      origin: ORIGIN_VIETNAM,
     },
     {
       code: 'IL-09',
@@ -28,6 +33,7 @@
       image: 'images/il-09.jpg',
       weight: 42,
       size: 115,
+      origin: ORIGIN_VIETNAM,
     },
     {
       code: 'IL-12',
@@ -35,6 +41,7 @@
       image: 'images/il-12.jpg',
       weight: 25,
       size: 100,
+      origin: ORIGIN_VIETNAM,
     },
     {
       code: 'IAL-01',
@@ -44,6 +51,40 @@
       weight: 50,
       size: 113,
       badge: 'Педикюр',
+      origin: ORIGIN_VIETNAM,
+    },
+  ];
+
+  const CLIPPER_MODELS = [
+    {
+      code: 'CL-01',
+      sizeLabel: 'Крупный',
+      note: 'Крупный книпсер CL-01 — усиленный рычаг и уверенный срез для плотных ногтей и педикюра.',
+      details: [
+        'Модель CL-01 — самый крупный размер в линейке книпсеров ZERK. Гравировка ZK на рычаге, сталь S45C.',
+        'Подходит для салонного протокола, когда нужна мощность без рывков и сколов ногтевой пластины.',
+        VIETNAM_NOTE,
+      ],
+    },
+    {
+      code: 'CL-02',
+      sizeLabel: 'Средний',
+      note: 'Универсальный книпсер CL-02 — основной размер для ежедневной работы мастера.',
+      details: [
+        'CL-02 — сбалансированный средний формат: удобный захват, предсказуемый ход, сталь S45C.',
+        'Оптимален для комбинированного и классического маникюра, коррекции длины и формы.',
+        VIETNAM_NOTE,
+      ],
+    },
+    {
+      code: 'CS-02',
+      sizeLabel: 'Компактный',
+      note: 'Компактный книпсер CS-02 — точная работа на узкой пластине и детской коррекции.',
+      details: [
+        'CS-02 — компактная геометрия для деликатных зон и мастеров, которым важен максимальный контроль.',
+        'Нержавеющая сталь S45C, фирменная маркировка ZK.',
+        VIETNAM_NOTE,
+      ],
     },
   ];
 
@@ -83,6 +124,7 @@
       details: [
         'Двусторонний пушер-шабер P-504: с одной стороны плоская прямоугольная рабочая площадка для отодвигания кутикулы, с другой — острый конический шабер для точной очистки боковых валиков.',
         'Рифлёная рукоять не скользит в перчатках и при длительной работе. Сталь S45C держит заточку и выдерживает салонную обработку.',
+        VIETNAM_NOTE,
       ],
     },
     {
@@ -93,6 +135,7 @@
       details: [
         'P-505 — универсальная связка для комбинированного маникюра: широкий изогнутый пушер охватывает ногтевую пластину, скошенный шабер снимает птеригий и ороговевшую кожу.',
         'Удобен мастерам, которым нужен один инструмент на весь этап подготовки ногтевой пластины.',
+        VIETNAM_NOTE,
       ],
     },
     {
@@ -103,6 +146,7 @@
       details: [
         'P-506 — для точной работы в труднодоступных зонах: изогнутый пушер следует форме ногтя, узкий шабер позволяет аккуратно вычистить углубления и боковые синусы.',
         'Рекомендуется при плотной кутикуле и сложной геометрии ногтевой пластины.',
+        VIETNAM_NOTE,
       ],
     },
     {
@@ -112,6 +156,7 @@
       tips: 'Два профиля пушера',
       details: [
         'P-507 — две рабочие поверхности пушера без агрессивного шабера: изогнутая и ложкообразная. Подходит для деликатной подготовки и финишной обработки кутикулы без риска повреждения ногтя.',
+        VIETNAM_NOTE,
       ],
     },
     {
@@ -122,6 +167,7 @@
       details: [
         'P-508 — флагман линейки с гравировкой ZK на головке: ложкообразный пушер для отодвигания кутикулы и широкий изогнутый крюк для снятия птеригия.',
         'Очень острая и качественная заточка, сталь S45C.',
+        VIETNAM_NOTE,
       ],
     },
     {
@@ -131,6 +177,7 @@
       tips: 'Пушер-ложка · шабер узкий',
       details: [
         'P-511 — сбалансированная модель: та же эргономика пушера, что у P-508, но более узкий изогнутый шабер для контролируемой работы в боковых зонах.',
+        VIETNAM_NOTE,
       ],
     },
     {
@@ -141,6 +188,7 @@
       details: [
         'P-514 — максимальная точность на шаберной стороне: копьевидное лезвие для точечной очистки, вросших участков и детальной коррекции валика.',
         'Для опытных мастеров, которым важен контроль каждого движения.',
+        VIETNAM_NOTE,
       ],
     },
   ];
@@ -154,6 +202,7 @@
       `${model.note}${pedicure}`,
       `Корпус ${model.size} мм, вес ${model.weight} г. Сталь SUS 420 J2: высокая твёрдость режущей кромки, стабильность при стерилизации.`,
       'Ручная заточка и контроль качества перед отгрузкой. Подходит для химической и термической обработки в салоне.',
+      VIETNAM_NOTE,
     ];
   }
 
@@ -177,8 +226,24 @@
       weight: model.weight,
       size: model.size,
       material: 'SUS 420 J2',
+      origin: model.origin || ORIGIN_VIETNAM,
     }));
   });
+
+  const clippers = CLIPPER_MODELS.map((model) => ({
+    id: model.code,
+    model: model.code,
+    cat: 'nippers',
+    productType: 'clipper',
+    title: 'Книпсер',
+    desc: model.note,
+    details: model.details,
+    badge: '',
+    image: 'images/clippers.jpg',
+    material: 'Нержавеющая сталь S45C',
+    origin: ORIGIN_VIETNAM,
+    sizeLabel: model.sizeLabel,
+  }));
 
   const scissors = SCISSOR_MODELS.map((model) => ({
     id: model.code,
@@ -276,6 +341,7 @@
     badge: '',
     image: model.image,
     material: 'Нержавеющая сталь S45C',
+    origin: ORIGIN_VIETNAM,
   }));
 
   const fileStrips = FILE_MODELS.flatMap((model) =>
@@ -296,7 +362,7 @@
     }))
   );
 
-  const products = [...nippers, ...scissors, ...pushers, ...fileStrips];
+  const products = [...nippers, ...clippers, ...scissors, ...pushers, ...fileStrips];
 
   function productUrl(id) {
     return `product.html?id=${encodeURIComponent(id)}`;
@@ -305,6 +371,9 @@
   function orderMessage(product) {
     if (!product) return 'Здравствуйте! Хочу оформить заказ ZERK.';
     if (product.cat === 'nippers') {
+      if (product.productType === 'clipper') {
+        return `Здравствуйте! Интересует книпсер ${product.model} (артикул ${product.id}).`;
+      }
       return `Здравствуйте! Интересует ${product.model}, лезвие ${product.blade} мм (артикул ${product.id}).`;
     }
     if (product.cat === 'pushers') {
@@ -330,6 +399,16 @@
   function specsFor(product) {
     if (!product) return [];
     if (product.cat === 'nippers') {
+      if (product.productType === 'clipper') {
+        return [
+          { label: 'Артикул', value: product.id },
+          { label: 'Модель', value: product.model },
+          { label: 'Размер', value: product.sizeLabel },
+          { label: 'Материал', value: product.material },
+          { label: 'Производство', value: product.origin },
+          { label: 'Категория', value: 'Книпсер' },
+        ];
+      }
       return [
         { label: 'Артикул', value: product.id },
         { label: 'Модель', value: product.model },
@@ -337,6 +416,7 @@
         { label: 'Вес', value: `${product.weight} г` },
         { label: 'Размер', value: `${product.size} мм` },
         { label: 'Материал', value: product.material },
+        { label: 'Производство', value: product.origin },
         { label: 'Категория', value: 'Кусачки для кутикулы' },
       ];
     }
@@ -346,6 +426,7 @@
         { label: 'Модель', value: product.model },
         { label: 'Насадки', value: product.tips },
         { label: 'Материал', value: product.material },
+        { label: 'Производство', value: product.origin },
         { label: 'Категория', value: 'Пушер-шабер' },
       ];
     }
@@ -372,7 +453,12 @@
   function siblings(product) {
     if (!product) return [];
     if (product.cat === 'nippers') {
-      return products.filter((p) => p.cat === 'nippers' && p.model === product.model);
+      if (product.productType === 'clipper') {
+        return products.filter((p) => p.cat === 'nippers' && p.productType === 'clipper');
+      }
+      return products.filter(
+        (p) => p.cat === 'nippers' && p.model === product.model && !p.productType
+      );
     }
     if (product.cat === 'pushers') {
       return products.filter((p) => p.cat === 'pushers');
@@ -393,15 +479,24 @@
       files: 'Пилки файлы',
     },
     families: {
-      nippers: NIPPER_MODELS.map((m) => ({
-        code: m.code,
-        title: m.code,
-        subtitle:
-          m.blades && m.blades[0] === 8
-            ? `Кусачки · лезвие 8 мм · ${m.weight} г · ${m.size} мм · SUS 420 J2`
-            : `Кусачки · ${m.weight} г · ${m.size} мм · SUS 420 J2`,
-        image: m.image,
-      })),
+      nippers: [
+        ...NIPPER_MODELS.map((m) => ({
+          code: m.code,
+          title: m.code,
+          subtitle:
+            m.blades && m.blades[0] === 8
+              ? `Кусачки · лезвие 8 мм · ${m.weight} г · ${m.size} мм · SUS 420 J2 · ${ORIGIN_VIETNAM}`
+              : `Кусачки · ${m.weight} г · ${m.size} мм · SUS 420 J2 · ${ORIGIN_VIETNAM}`,
+          image: m.image,
+        })),
+        {
+          code: 'clippers',
+          title: 'Книпсеры',
+          subtitle: `CL-01 / CL-02 / CS-02 · сталь S45C · ${ORIGIN_VIETNAM}`,
+          image: 'images/clippers.jpg',
+          productIds: clippers.map((p) => p.id),
+        },
+      ],
       scissors: [
         {
           code: 'scissors-solingen',
@@ -415,14 +510,14 @@
         {
           code: 'pushers-504',
           title: 'Пушер-шабер P-504 — P-507',
-          subtitle: 'Двусторонние · рифлёная рукоять · сталь S45C',
+          subtitle: `Двусторонние · рифлёная рукоять · S45C · ${ORIGIN_VIETNAM}`,
           image: 'images/pushers-p504-507.jpg',
           productIds: ['P-504', 'P-505', 'P-506', 'P-507'],
         },
         {
           code: 'pushers-508',
           title: 'Пушер-шабер P-508 — P-514',
-          subtitle: 'Острые профессиональные · гравировка ZK · S45C',
+          subtitle: `Острые профессиональные · гравировка ZK · S45C · ${ORIGIN_VIETNAM}`,
           image: 'images/pushers-p508-514.jpg',
           productIds: ['P-508', 'P-511', 'P-514'],
         },
@@ -448,5 +543,7 @@
     telegramOrderUrl,
     specsFor,
     siblings,
+    originVietnam: ORIGIN_VIETNAM,
+    vietnamNote: VIETNAM_NOTE,
   };
 })();

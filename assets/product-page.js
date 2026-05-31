@@ -26,14 +26,16 @@
     const catLabel = catalog.labels[product.cat] || product.cat;
     const catUrl = `catalog.html?cat=${encodeURIComponent(product.cat)}`;
 
-    document.title = `${product.model}${product.blade ? ` · ${product.blade} мм` : product.grit ? ` · ${product.grit} грит` : ''} — ZERK`;
+    document.title = `${product.model}${product.blade ? ` · ${product.blade} мм` : product.grit ? ` · ${product.grit} грит` : product.productType === 'clipper' ? ' · книпсер' : ''} — ZERK`;
     catLink.textContent = catLabel;
     catLink.href = catUrl;
     breadcrumbCurrent.textContent = product.id;
 
     document.getElementById('productEyebrow').textContent = `ZERK · ${catLabel}`;
     const titleEl = document.getElementById('productTitle');
-    if (product.cat === 'nippers') {
+    if (product.cat === 'nippers' && product.productType === 'clipper') {
+      titleEl.textContent = `${product.model} · книпсер`;
+    } else if (product.cat === 'nippers') {
       titleEl.textContent = `${product.model} · ${product.blade} мм`;
     } else if (product.cat === 'pushers') {
       titleEl.textContent = `${product.model} · пушер-шабер`;
@@ -46,7 +48,9 @@
 
     const img = document.getElementById('productImage');
     img.src = product.image;
-    if (product.cat === 'nippers') {
+    if (product.cat === 'nippers' && product.productType === 'clipper') {
+      img.alt = `Книпсер ZERK ${product.model}, ${product.sizeLabel}`;
+    } else if (product.cat === 'nippers') {
       img.alt = `${product.model}, лезвие ${product.blade} мм`;
     } else if (product.cat === 'pushers') {
       img.alt = `Пушер-шабер ZERK ${product.model}`;
@@ -80,7 +84,7 @@
     if (siblings.length) {
       variantsBlock.hidden = false;
       const variantTitles = {
-        nippers: 'Другие размеры лезвия',
+        nippers: product.productType === 'clipper' ? 'Другие книпсеры' : 'Другие размеры лезвия',
         pushers: 'Другие модели пушера-шабера',
         scissors: 'Другие модели ножниц',
         files: 'Другие гриты',
@@ -90,11 +94,13 @@
       variantsList.innerHTML = siblings
         .map((p) => {
           const label =
-            product.cat === 'nippers'
-              ? `${p.blade} мм`
-              : product.cat === 'files'
-                ? `${p.grit} грит`
-                : p.model;
+            product.cat === 'nippers' && product.productType === 'clipper'
+              ? p.model
+              : product.cat === 'nippers'
+                ? `${p.blade} мм`
+                : product.cat === 'files'
+                  ? `${p.grit} грит`
+                  : p.model;
           const active = p.id === product.id ? ' is-active' : '';
           return `<a href="${catalog.productUrl(p.id)}" class="product-variant${active}">${label}</a>`;
         })
