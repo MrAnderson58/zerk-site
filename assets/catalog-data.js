@@ -413,6 +413,12 @@
     return `${tg}?text=${encodeURIComponent(orderMessage(product))}`;
   }
 
+  function vkOrderUrl() {
+    return typeof window !== 'undefined' && window.ZERK_VK
+      ? window.ZERK_VK
+      : 'https://vk.com/goldengel';
+  }
+
   function getById(id) {
     return products.find((p) => p.id === id) || null;
   }
@@ -570,6 +576,7 @@
     getById,
     orderMessage,
     telegramOrderUrl,
+    vkOrderUrl,
     specsFor,
     siblings,
     originVietnam: ORIGIN_VIETNAM,

@@ -13,7 +13,9 @@
       apiEndpoint: '/api/chat',
       apiEnabled: false,
       telegram: typeof window.ZERK_TELEGRAM === 'string' ? window.ZERK_TELEGRAM : 'https://t.me/Mr_Anderson_pnz',
-      whatsapp: 'https://wa.me/79257700803',
+      vk: typeof window.ZERK_VK === 'string' ? window.ZERK_VK : 'https://vk.com/goldengel',
+      whatsapp:
+        typeof window.ZERK_WHATSAPP === 'string' ? window.ZERK_WHATSAPP : 'https://wa.me/79257700803',
       catalogUrl: 'catalog.html?cat=nippers',
       typingMinMs: 600,
       typingMaxMs: 1400,
@@ -26,7 +28,7 @@
 Кусачки IL-03, IL-07, IL-09, IL-12, IAL-01 (лезвия 4–8 мм), книпсеры CL-01, CL-02, CS-02, пушеры P-504…P-514 — производство Вьетнам.
 Цены: кусачки IL/IAL — 1300 ₽; книпсеры — 540 ₽; пушеры — 320 ₽; ножницы 817/837 — 1680 ₽; пилки-файлы Mini 450 ₽, Maxi 500 ₽, Long/Лодка 630 ₽ (грит 100/180/240 — одна цена на форму).
 Кусачки — сталь SUS 420 J2; книпсеры и пушеры — S45C. Ножницы 817/837 — Solingen, Германия.
-Рекомендуй модель и размер. Для заказа — Telegram @Mr_Anderson_pnz или WhatsApp +7 (925) 770-08-03.
+Рекомендуй модель и размер. Для заказа — Telegram @Mr_Anderson_pnz, группа ВК vk.com/goldengel или WhatsApp +7 (925) 770-08-03.
 Используй только указанные цены. Наличие уточняй через менеджера.`;
 
   const WELCOME =
@@ -64,7 +66,7 @@
     const q = text.toLowerCase();
 
     if (/telegram|телеграм|тг|написать|заказ|купить|связаться|менеджер/.test(q)) {
-      return `Оформить заказ и уточнить наличие лучше напрямую:\n\n• <a href="${CONFIG.telegram}" target="_blank" rel="noopener">Telegram @Mr_Anderson_pnz</a>\n• <a href="${CONFIG.whatsapp}" target="_blank" rel="noopener">WhatsApp</a>\n\nНапишите модель и размер лезвия — например, <strong>IL-07-5</strong>.`;
+      return `Оформить заказ и уточнить наличие:\n\n• <a href="${CONFIG.telegram}" target="_blank" rel="noopener">Telegram @Mr_Anderson_pnz</a>\n• <a href="${CONFIG.vk}" target="_blank" rel="noopener">ВКонтакте — группа GoldenGel</a>\n• <a href="${CONFIG.whatsapp}" target="_blank" rel="noopener">WhatsApp</a>\n\nНапишите артикул — например, <strong>IL-07-5</strong>.`;
     }
 
     if (/il-03|il03|03/.test(q) && !/il-07|il-09|il-12/.test(q)) {
@@ -104,7 +106,7 @@
     }
 
     if (/цен|стоим|руб|сколько|прайс|price/.test(q)) {
-      return 'Актуальные цены ZERK:\n\n• Кусачки IL / IAL — <strong>1 300 ₽</strong>\n• Книпсеры CL-01, CL-02, CS-02 — <strong>540 ₽</strong>\n• Пушеры-шаберы — <strong>320 ₽</strong>\n• Ножницы Solingen 817 / 837 — <strong>1 680 ₽</strong>\n• Пилки-файлы Mini — <strong>450 ₽</strong>, Maxi — <strong>500 ₽</strong>, Long и Лодка — <strong>630 ₽</strong> (на любой грит)\n\n<a href="' + CONFIG.catalogUrl + '">Каталог</a> · заказ в <a href="' + CONFIG.telegram + '" target="_blank" rel="noopener">Telegram</a>';
+      return 'Актуальные цены ZERK:\n\n• Кусачки IL / IAL — <strong>1 300 ₽</strong>\n• Книпсеры CL-01, CL-02, CS-02 — <strong>540 ₽</strong>\n• Пушеры-шаберы — <strong>320 ₽</strong>\n• Ножницы Solingen 817 / 837 — <strong>1 680 ₽</strong>\n• Пилки-файлы Mini — <strong>450 ₽</strong>, Maxi — <strong>500 ₽</strong>, Long и Лодка — <strong>630 ₽</strong> (на любой грит)\n\n<a href="' + CONFIG.catalogUrl + '">Каталог</a> · <a href="' + CONFIG.telegram + '" target="_blank" rel="noopener">Telegram</a> · <a href="' + CONFIG.vk + '" target="_blank" rel="noopener">ВКонтакте</a>';
     }
 
     if (/книпс|clipper|cl-01|cl-02|cs-02/.test(q)) {
@@ -123,7 +125,7 @@
       return 'Добрый день. Расскажите, с какой кутикулой работаете чаще — обычной, плотной или сухой? Подберу серию IL и размер лезвия.';
     }
 
-    return 'Могу подсказать по кусачкам <strong>IL-03…IAL-01</strong>, книпсерам <strong>CL-01…CS-02</strong>, пушерам <strong>P-504…P-514</strong> (Вьетнам), ножницам Solingen и пилкам-файлам. Откройте карточку в каталоге или напишите в <a href="' + CONFIG.telegram + '" target="_blank" rel="noopener">Telegram</a>.';
+    return 'Могу подсказать по кусачкам <strong>IL-03…IAL-01</strong>, книпсерам <strong>CL-01…CS-02</strong>, пушерам <strong>P-504…P-514</strong> (Вьетнам), ножницам Solingen и пилкам-файлам. Заказ: <a href="' + CONFIG.telegram + '" target="_blank" rel="noopener">Telegram</a> или <a href="' + CONFIG.vk + '" target="_blank" rel="noopener">ВКонтакте</a>.';
   }
 
   /* ——— API layer (OpenAI-ready) ——— */
@@ -280,6 +282,7 @@
           </div>
           <div class="zerk-assistant-links">
             <a class="zerk-assistant-link zerk-assistant-link--tg" href="${CONFIG.telegram}" target="_blank" rel="noopener noreferrer">Telegram</a>
+            <a class="zerk-assistant-link zerk-assistant-link--vk" href="${CONFIG.vk}" target="_blank" rel="noopener noreferrer">ВКонтакте</a>
             <a class="zerk-assistant-link zerk-assistant-link--wa" href="${CONFIG.whatsapp}" target="_blank" rel="noopener noreferrer">WhatsApp</a>
           </div>
         </div>

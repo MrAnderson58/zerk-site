@@ -4,9 +4,15 @@
 (function () {
   'use strict';
 
-  /** Ссылка на Telegram — замените на свою при необходимости */
-  const ZERK_TELEGRAM = 'https://t.me/Mr_Anderson_pnz';
-  window.ZERK_TELEGRAM = ZERK_TELEGRAM;
+  const ZERK_CONTACTS = {
+    telegram: 'https://t.me/Mr_Anderson_pnz',
+    vk: 'https://vk.com/goldengel',
+    whatsapp: 'https://wa.me/79257700803',
+  };
+
+  window.ZERK_TELEGRAM = ZERK_CONTACTS.telegram;
+  window.ZERK_VK = ZERK_CONTACTS.vk;
+  window.ZERK_WHATSAPP = ZERK_CONTACTS.whatsapp;
 
   const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const finePointer = window.matchMedia('(pointer: fine)').matches;
@@ -141,7 +147,11 @@
   observePreviewCards();
 
   document.querySelectorAll('[data-telegram]').forEach((link) => {
-    link.href = ZERK_TELEGRAM;
+    link.href = ZERK_CONTACTS.telegram;
+  });
+
+  document.querySelectorAll('[data-vk]').forEach((link) => {
+    link.href = ZERK_CONTACTS.vk;
   });
 
   /* ——— Catalog page API ——— */

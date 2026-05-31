@@ -81,8 +81,11 @@
       .map((p) => `<p>${p}</p>`)
       .join('');
 
-    const orderBtn = document.getElementById('productOrderBtn');
-    orderBtn.href = catalog.telegramOrderUrl(product);
+    document.getElementById('productOrderTg').href = catalog.telegramOrderUrl(product);
+    const vkBtn = document.getElementById('productOrderVk');
+    vkBtn.href = catalog.vkOrderUrl();
+    document.getElementById('productOrderHint').textContent =
+      'В Telegram заказ подставится автоматически. Во ВКонтакте напишите в сообщения группы артикул и модель из карточки.';
 
     const siblings = catalog.siblings(product).filter((p) => p.id !== product.id);
     const variantsBlock = document.getElementById('productVariants');

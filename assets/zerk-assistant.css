@@ -466,6 +466,12 @@
   color: #64b5ff;
 }
 
+.zerk-assistant-link--vk {
+  background: rgba(81, 129, 184, 0.15);
+  border: 1px solid rgba(81, 129, 184, 0.35);
+  color: #8eb5e8;
+}
+
 .zerk-assistant-link--wa {
   background: rgba(48, 209, 88, 0.1);
   border: 1px solid rgba(48, 209, 88, 0.3);
