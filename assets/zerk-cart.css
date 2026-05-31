@@ -550,7 +550,7 @@
   position: fixed;
   top: max(20px, env(safe-area-inset-top));
   left: 50%;
-  z-index: 8600;
+  z-index: 9300;
   transform: translateX(-50%) translateY(-120%);
   display: flex;
   align-items: center;
@@ -613,11 +613,175 @@
   }
 }
 
+/* VK order modal */
+.zerk-vk-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 9200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: max(20px, env(safe-area-inset-top)) max(20px, env(safe-area-inset-right))
+    max(20px, env(safe-area-inset-bottom)) max(20px, env(safe-area-inset-left));
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', system-ui, sans-serif;
+}
+
+.zerk-vk-modal[hidden] {
+  display: none;
+}
+
+.zerk-vk-modal__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.72);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.zerk-vk-modal__panel {
+  position: relative;
+  width: min(100%, 440px);
+  max-height: min(90vh, 640px);
+  overflow: auto;
+  padding: 24px 22px 22px;
+  border-radius: 20px;
+  background: linear-gradient(165deg, rgba(32, 32, 36, 0.98) 0%, rgba(14, 14, 16, 0.98) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow:
+    0 24px 80px rgba(0, 0, 0, 0.65),
+    0 0 0 1px rgba(255, 255, 255, 0.04) inset;
+  color: #f5f5f7;
+}
+
+.zerk-vk-modal__close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.7);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s, color 0.2s;
+}
+
+.zerk-vk-modal__close:hover {
+  background: rgba(255, 255, 255, 0.14);
+  color: #fff;
+}
+
+.zerk-vk-modal__title {
+  margin: 0 32px 10px 0;
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.zerk-vk-modal__lead {
+  margin: 0 0 16px;
+  font-size: 14px;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.zerk-vk-modal__lead kbd {
+  display: inline-block;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-family: inherit;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.zerk-vk-modal__label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.zerk-vk-modal__text {
+  width: 100%;
+  margin: 0 0 16px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid rgba(81, 129, 184, 0.35);
+  background: rgba(0, 0, 0, 0.35);
+  color: #e8f0fa;
+  font-size: 13px;
+  line-height: 1.5;
+  resize: vertical;
+  min-height: 140px;
+  font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+}
+
+.zerk-vk-modal__text:focus {
+  outline: 2px solid rgba(81, 129, 184, 0.5);
+  outline-offset: 2px;
+}
+
+.zerk-vk-modal__actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.zerk-vk-modal__btn {
+  width: 100%;
+  padding: 13px 16px;
+  border-radius: 980px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: transform 0.25s var(--zc-ease), box-shadow 0.25s;
+}
+
+.zerk-vk-modal__btn:hover {
+  transform: translateY(-1px);
+}
+
+.zerk-vk-modal__btn--copy {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.15);
+  color: #f5f5f7;
+}
+
+.zerk-vk-modal__btn--open {
+  background: linear-gradient(135deg, rgba(81, 129, 184, 0.65), rgba(42, 88, 140, 0.55));
+  border-color: rgba(81, 129, 184, 0.5);
+  color: #fff;
+  box-shadow: 0 8px 28px rgba(41, 100, 180, 0.35);
+}
+
+.zerk-vk-modal__btn--ghost {
+  background: transparent;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.zerk-vk-modal__btn--ghost:hover {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+body.zerk-vk-modal-open {
+  overflow: hidden;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .zerk-cart-panel,
   .zerk-cart-fab,
   .zerk-cart-toast,
-  .zerk-add-btn {
+  .zerk-add-btn,
+  .zerk-vk-modal__btn {
     transition-duration: 0.01ms;
   }
 }

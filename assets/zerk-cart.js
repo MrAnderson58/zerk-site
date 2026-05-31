@@ -179,6 +179,106 @@
     return !!(name && phone);
   }
 
+  let vkModalEl;
+  let vkModalTextEl;
+
+  function mountVkOrderModal() {
+    if (document.querySelector('.zerk-vk-modal')) return;
+
+    const modal = document.createElement('div');
+    modal.className = 'zerk-vk-modal';
+    modal.hidden = true;
+    modal.setAttribute('role', 'dialog');
+    modal.setAttribute('aria-modal', 'true');
+    modal.setAttribute('aria-labelledby', 'zerk-vk-modal-title');
+    modal.innerHTML = `
+      <div class="zerk-vk-modal__backdrop" data-vk-modal-close tabindex="-1"></div>
+      <div class="zerk-vk-modal__panel">
+        <button type="button" class="zerk-vk-modal__close" data-vk-modal-close aria-label="Закрыть">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+        </button>
+        <h2 class="zerk-vk-modal__title" id="zerk-vk-modal-title">Заказ в ВКонтакте</h2>
+        <p class="zerk-vk-modal__lead">
+          ВКонтакте не позволяет автоматически подставить текст заказа с сайта. Скопируйте сообщение ниже,
+          откройте диалог и вставьте его в поле ввода (<kbd>Ctrl+V</kbd> или <kbd>⌘V</kbd>).
+        </p>
+        <label class="zerk-vk-modal__label" for="zerk-vk-order-text">Ваш заказ</label>
+        <textarea id="zerk-vk-order-text" class="zerk-vk-modal__text" readonly rows="8"></textarea>
+        <div class="zerk-vk-modal__actions">
+          <button type="button" class="zerk-vk-modal__btn zerk-vk-modal__btn--copy" data-vk-copy>Скопировать заказ</button>
+          <button type="button" class="zerk-vk-modal__btn zerk-vk-modal__btn--open" data-vk-open>Открыть ВКонтакте</button>
+          <button type="button" class="zerk-vk-modal__btn zerk-vk-modal__btn--ghost" data-vk-modal-close>Закрыть</button>
+        </div>
+      </div>`;
+
+    document.body.appendChild(modal);
+    vkModalEl = modal;
+    vkModalTextEl = modal.querySelector('#zerk-vk-order-text');
+
+    modal.querySelectorAll('[data-vk-modal-close]').forEach((el) => {
+      el.addEventListener('click', closeVkOrderModal);
+    });
+
+    modal.querySelector('[data-vk-copy]').addEventListener('click', () => {
+      copyVkOrderText().then((ok) => {
+        showToast(ok ? 'Заказ скопирован — вставьте в ВК' : 'Выделите текст и скопируйте вручную');
+      });
+    });
+
+    modal.querySelector('[data-vk-open]').addEventListener('click', async () => {
+      const ok = await copyVkOrderText();
+      showToast(
+        ok
+          ? 'Заказ скопирован. Вставьте его в диалог ВКонтакте'
+          : 'Скопируйте заказ вручную и вставьте в ВК'
+      );
+      window.open(contacts.vk, '_blank', 'noopener,noreferrer');
+      closeVkOrderModal();
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && vkModalEl && !vkModalEl.hidden) closeVkOrderModal();
+    });
+  }
+
+  function openVkOrderModal(text) {
+    if (!vkModalEl) mountVkOrderModal();
+    vkModalTextEl.value = text;
+    vkModalEl.hidden = false;
+    document.body.classList.add('zerk-vk-modal-open');
+    requestAnimationFrame(() => {
+      vkModalTextEl.focus();
+      vkModalTextEl.select();
+    });
+  }
+
+  function closeVkOrderModal() {
+    if (!vkModalEl) return;
+    vkModalEl.hidden = true;
+    document.body.classList.remove('zerk-vk-modal-open');
+  }
+
+  async function copyVkOrderText() {
+    const text = vkModalTextEl?.value || '';
+    if (!text) return false;
+    try {
+      await navigator.clipboard.writeText(text);
+      return true;
+    } catch {
+      vkModalTextEl.focus();
+      vkModalTextEl.select();
+      try {
+        return document.execCommand('copy');
+      } catch {
+        return false;
+      }
+    }
+  }
+
+  function showVkOrderModal(text) {
+    openVkOrderModal(text);
+  }
+
   let toastTimer;
   function showToast(message) {
     let toast = document.querySelector('.zerk-cart-toast');
@@ -333,7 +433,7 @@
               </div>
             </form>
             <p style="font-size:12px;color:rgba(255,255,255,.45);margin:8px 0 0;line-height:1.45">
-              Telegram и WhatsApp — готовый текст заказа. В ВКонтакте текст копируется при отправке — вставьте в диалог.
+              Telegram и WhatsApp откроются с готовым текстом. Для ВКонтакте появится подсказка со скопированным заказом.
             </p>
             <div class="zerk-cart-send">
               <a class="zerk-cart-send__btn zerk-cart-send__btn--tg" href="#" data-send="telegram" target="_blank" rel="noopener noreferrer">Отправить в Telegram</a>
@@ -381,14 +481,7 @@
         const channel = link.dataset.send;
         if (channel === 'vk') {
           e.preventDefault();
-          const text = buildOrderMessage();
-          try {
-            await navigator.clipboard.writeText(text);
-            showToast('Текст заказа скопирован — вставьте в ВК');
-          } catch (_) {
-            showToast('Откройте ВК и вставьте текст заказа');
-          }
-          window.open(contacts.vk, '_blank', 'noopener,noreferrer');
+          showVkOrderModal(buildOrderMessage());
           return;
         }
         link.href = orderUrl(channel);
@@ -424,6 +517,8 @@
     });
   }
 
+  window.ZERK_showVkOrderModal = showVkOrderModal;
+
   window.ZERK_CART = {
     add,
     remove,
@@ -443,6 +538,7 @@
   };
 
   function init() {
+    mountVkOrderModal();
     mount();
     bindAddButtons();
     const obs = new MutationObserver(() => bindAddButtons());

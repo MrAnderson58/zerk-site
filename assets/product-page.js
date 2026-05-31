@@ -86,15 +86,16 @@
     const vkBtn = document.getElementById('productOrderVk');
     const orderText = catalog.orderMessage(product);
     vkBtn.href = catalog.vkOrderUrl();
-    vkBtn.addEventListener('click', async () => {
-      try {
-        await navigator.clipboard.writeText(orderText);
-      } catch (_) {
-        /* clipboard unavailable */
+    vkBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      if (typeof window.ZERK_showVkOrderModal === 'function') {
+        window.ZERK_showVkOrderModal(orderText);
+      } else {
+        window.open(catalog.vkOrderUrl(), '_blank', 'noopener,noreferrer');
       }
     });
     document.getElementById('productOrderHint').textContent =
-      'Telegram и WhatsApp откроются с готовым текстом заказа. В ВКонтакте текст копируется при нажатии — вставьте в диалог.';
+      'Telegram и WhatsApp — готовый текст заказа. Для ВКонтакте появится окно с текстом для копирования.';
 
     const siblings = catalog.siblings(product).filter((p) => p.id !== product.id);
     const variantsBlock = document.getElementById('productVariants');

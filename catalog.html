@@ -367,11 +367,12 @@
       if (tg) tg.href = CATALOG.telegramOrderUrl(null);
       if (vk) {
         vk.href = CATALOG.vkOrderUrl();
-        vk.addEventListener('click', async () => {
-          try {
-            await navigator.clipboard.writeText(genericOrder);
-          } catch (_) {
-            /* clipboard unavailable */
+        vk.addEventListener('click', (e) => {
+          e.preventDefault();
+          if (typeof window.ZERK_showVkOrderModal === 'function') {
+            window.ZERK_showVkOrderModal(genericOrder);
+          } else {
+            window.open(CATALOG.vkOrderUrl(), '_blank', 'noopener,noreferrer');
           }
         });
       }
