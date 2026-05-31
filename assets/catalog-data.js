@@ -7,8 +7,23 @@
   const DEFAULT_IMAGE = 'images/nippers-main.jpg';
   const STANDARD_BLADES = [4, 5, 6];
   const ORIGIN_VIETNAM = 'Вьетнам';
-  const VIETNAM_NOTE =
-    'Производство во Вьетнаме — контролируемое качество, не массовый сегмент Китая и Пакистана.';
+  const VIETNAM_NOTE = 'Производство во Вьетнаме — контролируемое качество.';
+
+  const PRICES = {
+    nipper: 1300,
+    clipper: 540,
+    pusher: 320,
+    scissors: 1680,
+    file: { mini: 450, maxi: 500, long: 630, boat: 630 },
+  };
+
+  function formatPrice(amount) {
+    return new Intl.NumberFormat('ru-RU', {
+      style: 'currency',
+      currency: 'RUB',
+      maximumFractionDigits: 0,
+    }).format(amount);
+  }
 
   const NIPPER_MODELS = [
     {
@@ -227,6 +242,7 @@
       size: model.size,
       material: 'SUS 420 J2',
       origin: model.origin || ORIGIN_VIETNAM,
+      price: PRICES.nipper,
     }));
   });
 
@@ -243,6 +259,7 @@
     material: 'Нержавеющая сталь S45C',
     origin: ORIGIN_VIETNAM,
     sizeLabel: model.sizeLabel,
+    price: PRICES.clipper,
   }));
 
   const scissors = SCISSOR_MODELS.map((model) => ({
@@ -256,6 +273,7 @@
     image: model.image,
     material: model.material,
     origin: model.origin,
+    price: PRICES.scissors,
   }));
 
   const FILE_GRITS = [100, 180, 240];
@@ -342,6 +360,7 @@
     image: model.image,
     material: 'Нержавеющая сталь S45C',
     origin: ORIGIN_VIETNAM,
+    price: PRICES.pusher,
   }));
 
   const fileStrips = FILE_MODELS.flatMap((model) =>
@@ -359,6 +378,7 @@
       shape: model.shape,
       dimensions: fileDimensions(model),
       material: 'Сменный абразив на основу',
+      price: PRICES.file[model.code],
     }))
   );
 
@@ -370,19 +390,20 @@
 
   function orderMessage(product) {
     if (!product) return 'Здравствуйте! Хочу оформить заказ ZERK.';
+    const priceLine = product.price ? `, ${formatPrice(product.price)}` : '';
     if (product.cat === 'nippers') {
       if (product.productType === 'clipper') {
-        return `Здравствуйте! Интересует книпсер ${product.model} (артикул ${product.id}).`;
+        return `Здравствуйте! Интересует книпсер ${product.model} (артикул ${product.id}${priceLine}).`;
       }
-      return `Здравствуйте! Интересует ${product.model}, лезвие ${product.blade} мм (артикул ${product.id}).`;
+      return `Здравствуйте! Интересует ${product.model}, лезвие ${product.blade} мм (артикул ${product.id}${priceLine}).`;
     }
     if (product.cat === 'pushers') {
-      return `Здравствуйте! Интересует пушер-шабер ${product.model} (артикул ${product.id}).`;
+      return `Здравствуйте! Интересует пушер-шабер ${product.model} (артикул ${product.id}${priceLine}).`;
     }
     if (product.cat === 'files') {
-      return `Здравствуйте! Интересуют пилки-файлы ${product.model}, ${product.grit} грит (артикул ${product.id}).`;
+      return `Здравствуйте! Интересуют пилки-файлы ${product.model}, ${product.grit} грит (артикул ${product.id}${priceLine}).`;
     }
-    return `Здравствуйте! Интересует ножницы ${product.model} (артикул ${product.id}).`;
+    return `Здравствуйте! Интересует ножницы ${product.model} (артикул ${product.id}${priceLine}).`;
   }
 
   function telegramOrderUrl(product) {
@@ -398,10 +419,14 @@
 
   function specsFor(product) {
     if (!product) return [];
+    const priceRow = product.price
+      ? [{ label: 'Цена', value: formatPrice(product.price) }]
+      : [];
     if (product.cat === 'nippers') {
       if (product.productType === 'clipper') {
         return [
           { label: 'Артикул', value: product.id },
+          ...priceRow,
           { label: 'Модель', value: product.model },
           { label: 'Размер', value: product.sizeLabel },
           { label: 'Материал', value: product.material },
@@ -411,6 +436,7 @@
       }
       return [
         { label: 'Артикул', value: product.id },
+        ...priceRow,
         { label: 'Модель', value: product.model },
         { label: 'Лезвие', value: `${product.blade} мм` },
         { label: 'Вес', value: `${product.weight} г` },
@@ -423,6 +449,7 @@
     if (product.cat === 'pushers') {
       return [
         { label: 'Артикул', value: product.id },
+        ...priceRow,
         { label: 'Модель', value: product.model },
         { label: 'Насадки', value: product.tips },
         { label: 'Материал', value: product.material },
@@ -433,6 +460,7 @@
     if (product.cat === 'files') {
       return [
         { label: 'Артикул', value: product.id },
+        ...priceRow,
         { label: 'Форма', value: product.model },
         { label: 'Профиль', value: product.shape },
         { label: 'Размер', value: product.dimensions },
@@ -443,6 +471,7 @@
     }
     return [
       { label: 'Артикул', value: product.id },
+      ...priceRow,
       { label: 'Модель', value: product.model },
       { label: 'Материал', value: product.material },
       { label: 'Производство', value: product.origin },
@@ -545,5 +574,7 @@
     siblings,
     originVietnam: ORIGIN_VIETNAM,
     vietnamNote: VIETNAM_NOTE,
+    prices: PRICES,
+    formatPrice,
   };
 })();

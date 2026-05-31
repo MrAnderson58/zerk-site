@@ -1605,8 +1605,18 @@ body::-webkit-scrollbar-thumb {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px 12px;
   padding-top: 14px;
   border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.catalog-card__price {
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  color: var(--text-primary);
+  margin-left: auto;
 }
 
 .catalog-card__tag {
@@ -1842,6 +1852,14 @@ body::-webkit-scrollbar-thumb {
   letter-spacing: -0.04em;
   line-height: 1.05;
   margin: 0 0 14px;
+}
+
+.product-article__price {
+  font-size: clamp(24px, 3vw, 32px);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  color: var(--text-primary);
+  margin: -6px 0 16px;
 }
 
 .product-article__lead {

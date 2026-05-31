@@ -44,6 +44,13 @@
     } else {
       titleEl.textContent = product.model;
     }
+    const priceEl = document.getElementById('productPrice');
+    if (product.price && catalog.formatPrice) {
+      priceEl.textContent = catalog.formatPrice(product.price);
+      priceEl.hidden = false;
+    } else {
+      priceEl.hidden = true;
+    }
     document.getElementById('productLead').textContent = product.desc;
 
     const img = document.getElementById('productImage');

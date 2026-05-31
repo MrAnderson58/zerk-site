@@ -51,7 +51,7 @@
       <h1 id="catalog-title" class="metallic-text">Премиальный каталог</h1>
       <p>
         Профессиональный маникюрный инструмент: кусачки из японской стали SUS 420 J2,
-        пушеры и кусачки серии IL — <strong>производство во Вьетнаме</strong>, не Китай и не Пакистан.
+        пушеры и кусачки серии IL — <strong>производство во Вьетнаме</strong>.
         Ручная заточка, мягкий ход, готовность к стерилизации.
       </p>
       <div class="catalog-stats">
@@ -117,7 +117,7 @@
   <script>
     document.addEventListener('DOMContentLoaded', () => {
     const CATALOG = window.ZERK_CATALOG;
-    const { products: PRODUCTS, labels: CAT_LABELS, families, productUrl } = CATALOG;
+    const { products: PRODUCTS, labels: CAT_LABELS, families, productUrl, formatPrice } = CATALOG;
     const layout = document.getElementById('catalogLayout');
     const emptyEl = document.getElementById('catalogEmpty');
     const comingSoonEl = document.getElementById('catalogComingSoon');
@@ -193,6 +193,7 @@
             <span class="catalog-card__spec">${cardSpecLine(p)}</span>
             <div class="catalog-card__footer">
               <span class="catalog-card__tag">${cardTag(p)}</span>
+              ${p.price ? `<span class="catalog-card__price">${formatPrice(p.price)}</span>` : ''}
               <span class="catalog-card__cta">Подробнее →</span>
             </div>
           </div>

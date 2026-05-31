@@ -23,10 +23,11 @@
 
   const SYSTEM_PROMPT = `Ты — премиальный консультант ZERK по профессиональному маникюрному инструменту.
 Стиль: лаконично, уверенно, как консультант Apple/Tesla. Язык: русский.
-Кусачки IL-03, IL-07, IL-09, IL-12, IAL-01 (лезвия 4–8 мм), книпсеры CL-01, CL-02, CS-02, пушеры P-504…P-514 — производство ВЬЕТНАМ (важно: не Китай и не Пакистан).
+Кусачки IL-03, IL-07, IL-09, IL-12, IAL-01 (лезвия 4–8 мм), книпсеры CL-01, CL-02, CS-02, пушеры P-504…P-514 — производство Вьетнам.
+Цены: кусачки IL/IAL — 1300 ₽; книпсеры — 540 ₽; пушеры — 320 ₽; ножницы 817/837 — 1680 ₽; пилки-файлы Mini 450 ₽, Maxi 500 ₽, Long/Лодка 630 ₽ (грит 100/180/240 — одна цена на форму).
 Кусачки — сталь SUS 420 J2; книпсеры и пушеры — S45C. Ножницы 817/837 — Solingen, Германия.
 Рекомендуй модель и размер. Для заказа — Telegram @Mr_Anderson_pnz или WhatsApp +7 (925) 770-08-03.
-Не выдумывай цены и наличие — предложи связаться с менеджером.`;
+Используй только указанные цены. Наличие уточняй через менеджера.`;
 
   const WELCOME =
     'Здравствуйте. Я консультант <strong>ZERK</strong> — помогу подобрать кусачки, объяснить разницу моделей IL и размер лезвия (4–6&nbsp;мм). Чем могу помочь?';
@@ -98,16 +99,20 @@
       return 'ZERK использует японскую сталь <strong>SUS 420 J2</strong>: высокая прочность, коррозионная стойкость, ручная заточка и мягкий ход — стандарт для профессионального инструмента.';
     }
 
-    if (/вьетнам|vietnam|китай|пакистан|производ|страна|где сделан|откуда/.test(q)) {
-      return 'Кусачки серии <strong>IL и IAL</strong>, <strong>книпсеры CL-01 / CL-02 / CS-02</strong> и <strong>пушеры-шаберы P-504…P-514</strong> производятся во <strong>Вьетнаме</strong> — это осознанный выбор ZERK: контролируемое качество, не массовый сегмент Китая и Пакистана.\n\nНожницы <strong>817 и 837</strong> — Solingen, Германия.';
+    if (/вьетнам|vietnam|производ|страна|где сделан|откуда/.test(q)) {
+      return 'Кусачки серии <strong>IL и IAL</strong>, <strong>книпсеры CL-01 / CL-02 / CS-02</strong> и <strong>пушеры-шаберы P-504…P-514</strong> производятся во <strong>Вьетнаме</strong>.\n\nНожницы <strong>817 и 837</strong> — Solingen, Германия.';
+    }
+
+    if (/цен|стоим|руб|сколько|прайс|price/.test(q)) {
+      return 'Актуальные цены ZERK:\n\n• Кусачки IL / IAL — <strong>1 300 ₽</strong>\n• Книпсеры CL-01, CL-02, CS-02 — <strong>540 ₽</strong>\n• Пушеры-шаберы — <strong>320 ₽</strong>\n• Ножницы Solingen 817 / 837 — <strong>1 680 ₽</strong>\n• Пилки-файлы Mini — <strong>450 ₽</strong>, Maxi — <strong>500 ₽</strong>, Long и Лодка — <strong>630 ₽</strong> (на любой грит)\n\n<a href="' + CONFIG.catalogUrl + '">Каталог</a> · заказ в <a href="' + CONFIG.telegram + '" target="_blank" rel="noopener">Telegram</a>';
     }
 
     if (/книпс|clipper|cl-01|cl-02|cs-02/.test(q)) {
-      return 'Книпсеры ZERK — сталь <strong>S45C</strong>, производство <strong>Вьетнам</strong>:\n\n• <strong>CL-01</strong> — крупный\n• <strong>CL-02</strong> — средний, универсальный\n• <strong>CS-02</strong> — компактный\n\n<a href="catalog.html?cat=nippers">Смотреть в каталоге</a>';
+      return 'Книпсеры ZERK — <strong>540 ₽</strong>, сталь <strong>S45C</strong>, производство <strong>Вьетнам</strong>:\n\n• <strong>CL-01</strong> — крупный\n• <strong>CL-02</strong> — средний\n• <strong>CS-02</strong> — компактный\n\n<a href="catalog.html?cat=nippers">Каталог</a>';
     }
 
     if (/пушер|шабер|p-50|p-51/.test(q)) {
-      return 'Пушеры-шаберы <strong>P-504…P-514</strong> — сталь <strong>S45C</strong>, производство <strong>Вьетнам</strong> (не Китай и не Пакистан). Двусторонние насадки под разные этапы подготовки. <a href="catalog.html?cat=pushers">Каталог пушеров</a>';
+      return 'Пушеры-шаберы <strong>P-504…P-514</strong> — <strong>320 ₽</strong>, сталь <strong>S45C</strong>, производство <strong>Вьетнам</strong>. <a href="catalog.html?cat=pushers">Каталог пушеров</a>';
     }
 
     if (/кусач|кутикул|маникюр|инструмент|выбрать|подобрать|рекоменд/.test(q)) {
