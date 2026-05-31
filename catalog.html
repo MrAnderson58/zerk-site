@@ -16,6 +16,7 @@
   <meta property="og:description" content="Премиальный каталог профессионального маникюрного инструмента.">
   <link rel="stylesheet" href="assets/zerk.css">
   <link rel="stylesheet" href="assets/zerk-assistant.css?v=2">
+  <link rel="stylesheet" href="assets/zerk-cart.css">
 </head>
 <body class="catalog-page">
   <div class="bg" aria-hidden="true">
@@ -116,6 +117,7 @@
 
   <script src="assets/catalog-data.js" defer></script>
   <script src="assets/zerk.js" defer></script>
+  <script src="assets/zerk-cart.js" defer></script>
   <script src="assets/zerk-assistant.js?v=2" defer></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
@@ -175,32 +177,34 @@
       const imgAlt = cardImgAlt(p);
       const cardTitle = p.title || p.model;
       return `
-        <a href="${productUrl(p.id)}"
-           class="catalog-card glass"
+        <article class="catalog-card glass"
            data-category="${p.cat}"
            data-family="${p.model}"
            data-name="${searchKey}"
            style="transition-delay:${(delayIndex % 6) * 0.05}s">
-          <span class="catalog-card__shine"></span>
-          <span class="catalog-card__sweep"></span>
-          <div class="catalog-card__media">
-            ${badgeHtml}
-            ${cornerHtml}
-            <img src="${p.image}" alt="${imgAlt}" width="400" height="300" loading="lazy" decoding="async" class="catalog-card__img--catalog">
-          </div>
-          <div class="catalog-card__body">
-            <div class="catalog-card__code">ZERK · ${CAT_LABELS[p.cat]}</div>
-            <div class="catalog-card__model">${p.model}</div>
-            <div class="catalog-card__title">${cardTitle}</div>
-            <p class="catalog-card__desc">${p.desc}</p>
-            <span class="catalog-card__spec">${cardSpecLine(p)}</span>
-            <div class="catalog-card__footer">
-              <span class="catalog-card__tag">${cardTag(p)}</span>
-              ${p.price ? `<span class="catalog-card__price">${formatPrice(p.price)}</span>` : ''}
-              <span class="catalog-card__cta">Подробнее →</span>
+          <a href="${productUrl(p.id)}" class="catalog-card__link">
+            <span class="catalog-card__shine"></span>
+            <span class="catalog-card__sweep"></span>
+            <div class="catalog-card__media">
+              ${badgeHtml}
+              ${cornerHtml}
+              <img src="${p.image}" alt="${imgAlt}" width="400" height="300" loading="lazy" decoding="async" class="catalog-card__img--catalog">
             </div>
-          </div>
-        </a>`;
+            <div class="catalog-card__body">
+              <div class="catalog-card__code">ZERK · ${CAT_LABELS[p.cat]}</div>
+              <div class="catalog-card__model">${p.model}</div>
+              <div class="catalog-card__title">${cardTitle}</div>
+              <p class="catalog-card__desc">${p.desc}</p>
+              <span class="catalog-card__spec">${cardSpecLine(p)}</span>
+              <div class="catalog-card__footer">
+                <span class="catalog-card__tag">${cardTag(p)}</span>
+                ${p.price ? `<span class="catalog-card__price">${formatPrice(p.price)}</span>` : ''}
+                <span class="catalog-card__cta">Подробнее →</span>
+              </div>
+            </div>
+          </a>
+          <button type="button" class="zerk-add-btn" data-add-cart="${p.id}">В корзину</button>
+        </article>`;
     }
 
     function familyProducts(family, cat) {
@@ -234,6 +238,7 @@
 
       window.Zerk.observeCards('.catalog-card');
       window.Zerk.initCardTilt('.catalog-card');
+      window.ZERK_CART?.bindAddButtons();
     }
 
     const filterGroup = document.getElementById('filterGroup');

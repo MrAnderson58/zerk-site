@@ -13,6 +13,7 @@
   <link rel="apple-touch-icon" href="icons/icon-180.png">
   <link rel="stylesheet" href="assets/zerk.css">
   <link rel="stylesheet" href="assets/zerk-assistant.css?v=2">
+  <link rel="stylesheet" href="assets/zerk-cart.css">
 </head>
 <body class="product-page">
   <div class="bg" aria-hidden="true">
@@ -66,6 +67,9 @@
           <h2 class="product-variants__title">Другие размеры лезвия</h2>
           <div class="product-variants__list" id="productVariantsList"></div>
         </div>
+        <div class="product-add-cart-wrap" id="productAddCartWrap" hidden>
+          <button type="button" class="zerk-add-btn" id="productAddCart" data-add-cart="">В корзину</button>
+        </div>
         <div class="product-actions">
           <div class="product-actions__channels">
             <a href="#" class="btn-order" id="productOrderTg" rel="noopener noreferrer" target="_blank">Заказать в Telegram</a>
@@ -93,6 +97,7 @@
 
   <script src="assets/catalog-data.js" defer></script>
   <script src="assets/zerk.js" defer></script>
+  <script src="assets/zerk-cart.js" defer></script>
   <script src="assets/product-page.js" defer></script>
   <script src="assets/zerk-assistant.js?v=2" defer></script>
 </body>

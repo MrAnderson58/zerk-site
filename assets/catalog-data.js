@@ -423,6 +423,56 @@
     return products.find((p) => p.id === id) || null;
   }
 
+  function productDisplayName(product) {
+    if (!product) return '';
+    if (product.cat === 'nippers' && product.productType === 'clipper') {
+      return `Книпсер ${product.model}`;
+    }
+    if (product.cat === 'nippers') {
+      return `${product.model}, лезвие ${product.blade} мм`;
+    }
+    if (product.cat === 'pushers') {
+      return `Пушер-шабер ${product.model}`;
+    }
+    if (product.cat === 'files') {
+      return `Пилки-файлы ${product.model}, ${product.grit} грит`;
+    }
+    return `Ножницы ${product.model}`;
+  }
+
+  function cartLineSnapshot(product) {
+    if (!product) return null;
+    return {
+      id: product.id,
+      name: productDisplayName(product),
+      price: product.price || 0,
+      image: product.image,
+      url: productUrl(product.id),
+    };
+  }
+
+  function buildCartOrderMessage(items, customer) {
+    const lines = ['Заказ ZERK TOOL', ''];
+    if (customer.name) lines.push(`Имя: ${customer.name}`);
+    if (customer.phone) lines.push(`Телефон: ${customer.phone}`);
+    if (customer.comment) lines.push(`Комментарий: ${customer.comment}`);
+    lines.push('', 'Товары:');
+
+    let totalQty = 0;
+    let totalSum = 0;
+    items.forEach((item) => {
+      const sum = item.price * item.qty;
+      totalQty += item.qty;
+      totalSum += sum;
+      const pricePart = item.price ? ` = ${formatPrice(sum)}` : '';
+      lines.push(`• ${item.name} (${item.id}) × ${item.qty}${pricePart}`);
+    });
+
+    lines.push('', `Всего позиций: ${totalQty}`);
+    if (totalSum) lines.push(`Сумма: ${formatPrice(totalSum)}`);
+    return lines.join('\n');
+  }
+
   function specsFor(product) {
     if (!product) return [];
     const priceRow = product.price
@@ -574,6 +624,9 @@
     },
     productUrl,
     getById,
+    productDisplayName,
+    cartLineSnapshot,
+    buildCartOrderMessage,
     orderMessage,
     telegramOrderUrl,
     vkOrderUrl,

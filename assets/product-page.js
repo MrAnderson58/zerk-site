@@ -117,6 +117,14 @@
         .join('');
     }
 
+    const addWrap = document.getElementById('productAddCartWrap');
+    const addBtn = document.getElementById('productAddCart');
+    if (addWrap && addBtn) {
+      addWrap.hidden = false;
+      addBtn.dataset.addCart = product.id;
+      window.ZERK_CART?.bindAddButtons();
+    }
+
     article.hidden = false;
     article.classList.add('is-visible');
   });
