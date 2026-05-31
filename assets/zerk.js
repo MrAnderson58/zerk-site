@@ -6,13 +6,20 @@
 
   const ZERK_CONTACTS = {
     telegram: 'https://t.me/Mr_Anderson_pnz',
-    vk: 'https://vk.com/goldengel',
+    vk: 'https://vk.com/im/convo/94289869?tab=all',
     whatsapp: 'https://wa.me/79257700803',
   };
 
   window.ZERK_TELEGRAM = ZERK_CONTACTS.telegram;
   window.ZERK_VK = ZERK_CONTACTS.vk;
+  window.ZERK_VK_IM = ZERK_CONTACTS.vk;
   window.ZERK_WHATSAPP = ZERK_CONTACTS.whatsapp;
+
+  window.zerkVkMessageUrl = function (text) {
+    const base = ZERK_CONTACTS.vk;
+    if (!text) return base;
+    return `${base}&msg=${encodeURIComponent(text)}`;
+  };
 
   const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const finePointer = window.matchMedia('(pointer: fine)').matches;

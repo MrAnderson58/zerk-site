@@ -13,7 +13,7 @@
       apiEndpoint: '/api/chat',
       apiEnabled: false,
       telegram: typeof window.ZERK_TELEGRAM === 'string' ? window.ZERK_TELEGRAM : 'https://t.me/Mr_Anderson_pnz',
-      vk: typeof window.ZERK_VK === 'string' ? window.ZERK_VK : 'https://vk.com/goldengel',
+      vk: typeof window.ZERK_VK === 'string' ? window.ZERK_VK : 'https://vk.com/im/convo/94289869?tab=all',
       whatsapp:
         typeof window.ZERK_WHATSAPP === 'string' ? window.ZERK_WHATSAPP : 'https://wa.me/79257700803',
       catalogUrl: 'catalog.html?cat=nippers',
@@ -28,7 +28,7 @@
 Кусачки IL-03, IL-07, IL-09, IL-12, IAL-01 (лезвия 4–8 мм), книпсеры CL-01, CL-02, CS-02, пушеры P-504…P-514 — производство Вьетнам.
 Цены: кусачки IL/IAL — 1300 ₽; книпсеры — 540 ₽; пушеры — 320 ₽; ножницы 817/837 — 1680 ₽; пилки-файлы Mini 450 ₽, Maxi 500 ₽, Long/Лодка 630 ₽ (грит 100/180/240 — одна цена на форму).
 Кусачки — сталь SUS 420 J2; книпсеры и пушеры — S45C. Ножницы 817/837 — Solingen, Германия.
-Рекомендуй модель и размер. Для заказа — Telegram @Mr_Anderson_pnz, группа ВК vk.com/goldengel или WhatsApp +7 (925) 770-08-03.
+Рекомендуй модель и размер. Для заказа — Telegram @Mr_Anderson_pnz, личные сообщения ВК или WhatsApp +7 (925) 770-08-03.
 Используй только указанные цены. Наличие уточняй через менеджера.`;
 
   const WELCOME =
@@ -66,7 +66,7 @@
     const q = text.toLowerCase();
 
     if (/telegram|телеграм|тг|написать|заказ|купить|связаться|менеджер/.test(q)) {
-      return `Оформить заказ и уточнить наличие:\n\n• <a href="${CONFIG.telegram}" target="_blank" rel="noopener">Telegram @Mr_Anderson_pnz</a>\n• <a href="${CONFIG.vk}" target="_blank" rel="noopener">ВКонтакте — группа GoldenGel</a>\n• <a href="${CONFIG.whatsapp}" target="_blank" rel="noopener">WhatsApp</a>\n\nНапишите артикул — например, <strong>IL-07-5</strong>.`;
+      return `Оформить заказ и уточнить наличие:\n\n• <a href="${CONFIG.telegram}" target="_blank" rel="noopener">Telegram @Mr_Anderson_pnz</a>\n• <a href="${CONFIG.vk}" target="_blank" rel="noopener">ВКонтакте — личные сообщения</a>\n• <a href="${CONFIG.whatsapp}" target="_blank" rel="noopener">WhatsApp</a>\n\nНапишите артикул — например, <strong>IL-07-5</strong>.`;
     }
 
     if (/il-03|il03|03/.test(q) && !/il-07|il-09|il-12/.test(q)) {

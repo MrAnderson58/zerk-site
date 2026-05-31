@@ -11,7 +11,7 @@
       typeof window.ZERK_TELEGRAM === 'string'
         ? window.ZERK_TELEGRAM
         : 'https://t.me/Mr_Anderson_pnz',
-    vk: typeof window.ZERK_VK === 'string' ? window.ZERK_VK : 'https://vk.com/goldengel',
+    vk: typeof window.ZERK_VK === 'string' ? window.ZERK_VK : 'https://vk.com/im/convo/94289869?tab=all',
     whatsapp:
       typeof window.ZERK_WHATSAPP === 'string'
         ? window.ZERK_WHATSAPP
@@ -159,12 +159,21 @@
   }
 
   function orderUrl(channel) {
-    const text = encodeURIComponent(buildOrderMessage());
+    const text = buildOrderMessage();
     if (channel === 'telegram') {
-      return `${contacts.telegram}?text=${text}`;
+      return `${contacts.telegram}?text=${encodeURIComponent(text)}`;
     }
     if (channel === 'whatsapp') {
-      return `${contacts.whatsapp}?text=${text}`;
+      return `${contacts.whatsapp}?text=${encodeURIComponent(text)}`;
+    }
+    if (channel === 'vk') {
+      if (window.ZERK_CATALOG?.vkMessageUrl) {
+        return window.ZERK_CATALOG.vkMessageUrl(text);
+      }
+      if (typeof window.zerkVkMessageUrl === 'function') {
+        return window.zerkVkMessageUrl(text);
+      }
+      return contacts.vk;
     }
     return contacts.vk;
   }
@@ -330,7 +339,7 @@
               </div>
             </form>
             <p style="font-size:12px;color:rgba(255,255,255,.45);margin:8px 0 0;line-height:1.45">
-              Отправьте заказ в Telegram, ВКонтакте или WhatsApp — менеджер подтвердит наличие.
+              Telegram и ВКонтакте откроются с готовым текстом заказа. WhatsApp — с тем же текстом.
             </p>
             <div class="zerk-cart-send">
               <a class="zerk-cart-send__btn zerk-cart-send__btn--tg" href="#" data-send="telegram" target="_blank" rel="noopener noreferrer">Отправить в Telegram</a>
@@ -375,21 +384,7 @@
           showToast('Укажите имя и телефон');
           return;
         }
-        const channel = link.dataset.send;
-        if (channel === 'vk') {
-          e.preventDefault();
-          const msg = buildOrderMessage();
-          if (navigator.clipboard?.writeText) {
-            navigator.clipboard.writeText(msg).then(() => {
-              showToast('Заказ скопирован — вставьте в сообщения ВК');
-              window.open(contacts.vk, '_blank', 'noopener');
-            });
-          } else {
-            window.open(contacts.vk, '_blank', 'noopener');
-          }
-          return;
-        }
-        link.href = orderUrl(channel);
+        link.href = orderUrl(link.dataset.send);
       });
     });
 

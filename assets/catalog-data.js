@@ -413,10 +413,18 @@
     return `${tg}?text=${encodeURIComponent(orderMessage(product))}`;
   }
 
-  function vkOrderUrl() {
-    return typeof window !== 'undefined' && window.ZERK_VK
-      ? window.ZERK_VK
-      : 'https://vk.com/goldengel';
+  function vkMessageUrl(text) {
+    if (typeof window !== 'undefined' && typeof window.zerkVkMessageUrl === 'function') {
+      return window.zerkVkMessageUrl(text);
+    }
+    const base = 'https://vk.com/im/convo/94289869?tab=all';
+    if (!text) return base;
+    return `${base}&msg=${encodeURIComponent(text)}`;
+  }
+
+  function vkOrderUrl(product) {
+    const text = product ? orderMessage(product) : '';
+    return vkMessageUrl(text);
   }
 
   function getById(id) {
@@ -629,6 +637,7 @@
     buildCartOrderMessage,
     orderMessage,
     telegramOrderUrl,
+    vkMessageUrl,
     vkOrderUrl,
     specsFor,
     siblings,
