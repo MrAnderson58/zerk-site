@@ -99,14 +99,14 @@ IL-03 — классика; IL-07 — плотная/сухая кутикула
     }
 
     if (/кусач|кутикул|маникюр|инструмент|выбрать|подобрать|рекоменд/.test(q)) {
-      return 'Для подбора уточните тип кутикулы:\n\n• Обычная / комбинированная → <strong>IL-03</strong> или <strong>IL-09</strong>, лезвие <strong>5 мм</strong>\n• Плотная, сухая → <strong>IL-07</strong>, лезвие <strong>4–5 мм</strong>\n• Педикюр / толстая кутикула → <strong>IAL-01</strong>, лезвие <strong>8 мм</strong>\n• Ножницы Solingen → <strong>817</strong> или <strong>837</strong>\n• Пушер-шабер → <strong>P-504…P-514</strong>\n\n<a href="' + CONFIG.catalogUrl + '">Открыть каталог</a> или напишите в <a href="' + CONFIG.telegram + '" target="_blank" rel="noopener">Telegram</a>.';
+      return 'Для подбора уточните тип кутикулы:\n\n• Обычная / комбинированная → <strong>IL-03</strong> или <strong>IL-09</strong>, лезвие <strong>5 мм</strong>\n• Плотная, сухая → <strong>IL-07</strong>, лезвие <strong>4–5 мм</strong>\n• Педикюр / толстая кутикула → <strong>IAL-01</strong>, лезвие <strong>8 мм</strong>\n• Ножницы Solingen → <strong>817</strong> или <strong>837</strong>\n• Пушер-шабер → <strong>P-504…P-514</strong>\n• Пилки-файлы → <strong>Mini / Maxi / Long / Лодка</strong>, грит <strong>100–240</strong>\n\n<a href="' + CONFIG.catalogUrl + '">Открыть каталог</a> или напишите в <a href="' + CONFIG.telegram + '" target="_blank" rel="noopener">Telegram</a>.';
     }
 
     if (/привет|здравств|добрый|hello|hi\b/.test(q)) {
       return 'Добрый день. Расскажите, с какой кутикулой работаете чаще — обычной, плотной или сухой? Подберу серию IL и размер лезвия.';
     }
 
-    return 'Могу подсказать по кусачкам <strong>IL-03…IL-12, IAL-01</strong>, ножницам <strong>817, 837</strong>, пушерам <strong>P-504…P-514</strong> и стерилизации. Откройте карточку в каталоге или напишите в <a href="' + CONFIG.telegram + '" target="_blank" rel="noopener">Telegram</a>.';
+    return 'Могу подсказать по кусачкам <strong>IL-03…IAL-01</strong>, ножницам <strong>817, 837</strong>, пушерам <strong>P-504…P-514</strong>, пилкам-файлам <strong>Mini / Maxi / Long / Лодка</strong> и стерилизации. Откройте карточку в каталоге или напишите в <a href="' + CONFIG.telegram + '" target="_blank" rel="noopener">Telegram</a>.';
   }
 
   /* ——— API layer (OpenAI-ready) ——— */

@@ -26,7 +26,7 @@
     const catLabel = catalog.labels[product.cat] || product.cat;
     const catUrl = `catalog.html?cat=${encodeURIComponent(product.cat)}`;
 
-    document.title = `${product.model}${product.blade ? ` · ${product.blade} мм` : ''} — ZERK`;
+    document.title = `${product.model}${product.blade ? ` · ${product.blade} мм` : product.grit ? ` · ${product.grit} грит` : ''} — ZERK`;
     catLink.textContent = catLabel;
     catLink.href = catUrl;
     breadcrumbCurrent.textContent = product.id;
@@ -37,6 +37,8 @@
       titleEl.textContent = `${product.model} · ${product.blade} мм`;
     } else if (product.cat === 'pushers') {
       titleEl.textContent = `${product.model} · пушер-шабер`;
+    } else if (product.cat === 'files') {
+      titleEl.textContent = `${product.model} · ${product.grit} грит`;
     } else {
       titleEl.textContent = product.model;
     }
@@ -48,6 +50,8 @@
       img.alt = `${product.model}, лезвие ${product.blade} мм`;
     } else if (product.cat === 'pushers') {
       img.alt = `Пушер-шабер ZERK ${product.model}`;
+    } else if (product.cat === 'files') {
+      img.alt = `Пилки-файлы ZERK ${product.model}, ${product.grit} грит`;
     } else {
       img.alt = `Ножницы ZERK ${product.model}`;
     }
@@ -79,12 +83,18 @@
         nippers: 'Другие размеры лезвия',
         pushers: 'Другие модели пушера-шабера',
         scissors: 'Другие модели ножниц',
+        files: 'Другие гриты',
       };
       variantsBlock.querySelector('.product-variants__title').textContent =
         variantTitles[product.cat] || 'Другие модели';
       variantsList.innerHTML = siblings
         .map((p) => {
-          const label = product.cat === 'nippers' ? `${p.blade} мм` : p.model;
+          const label =
+            product.cat === 'nippers'
+              ? `${p.blade} мм`
+              : product.cat === 'files'
+                ? `${p.grit} грит`
+                : p.model;
           const active = p.id === product.id ? ' is-active' : '';
           return `<a href="${catalog.productUrl(p.id)}" class="product-variant${active}">${label}</a>`;
         })

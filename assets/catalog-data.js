@@ -193,6 +193,78 @@
     origin: model.origin,
   }));
 
+  const FILE_GRITS = [100, 180, 240];
+
+  const FILE_MODELS = [
+    {
+      code: 'mini',
+      title: 'Mini',
+      shape: 'прямая',
+      width: 12,
+      length: 130,
+      image: 'images/files-mini.jpg',
+      note: 'Узкий сменный файл 12×130 мм — точная работа у боковых валиков и на узкой пластине.',
+      detailsIntro:
+        'Сменные абразивные полоски для металлической основы Mini. Компактная ширина даёт контроль в труднодоступных зонах.',
+    },
+    {
+      code: 'maxi',
+      title: 'Maxi',
+      shape: 'прямая',
+      width: 20,
+      length: 130,
+      image: 'images/files-maxi.jpg',
+      note: 'Ширина 20 мм и длина 130 мм — больше рабочая зона за один проход по пластине.',
+      detailsIntro:
+        'Формат Maxi для стандартных металлических основ: прямая геометрия, удобный захват, стабильная подача абразива.',
+    },
+    {
+      code: 'long',
+      title: 'Long',
+      shape: 'прямая',
+      width: 20,
+      length: 180,
+      image: 'images/files-long.jpg',
+      note: 'Удлинённый файл 20×180 мм — для длинных основ и обработки без смены хвата.',
+      detailsIntro:
+        'Long закрывает потребность в увеличенной рабочей длине: меньше перестановок руки, ровнее шлифовка всей пластины.',
+    },
+    {
+      code: 'boat',
+      title: 'Лодка',
+      shape: 'лодочка',
+      width: null,
+      length: 180,
+      image: 'images/files-boat.jpg',
+      note: 'Форма «лодочка», длина 180 мм — прямая и изогнутая грань для валика и архитектуры ногтя.',
+      detailsIntro:
+        'Профиль «лодка»: одна сторона прямая, вторая дугообразная. Подходит для контролируемой обработки валика и боковых зон.',
+    },
+  ];
+
+  function gritNote(grit) {
+    if (grit === 100) {
+      return 'Грит 100 — грубый абразив для коррекции длины, снятия гель-лака и выраженных неровностей.';
+    }
+    if (grit === 180) {
+      return 'Грит 180 — универсальный салонный вариант: баланс скорости и контролируемой обработки.';
+    }
+    return 'Грит 240 — финишная доводка поверхности и подготовка под покрытие.';
+  }
+
+  function fileDimensions(model) {
+    if (model.width) return `${model.width} × ${model.length} мм`;
+    return `${model.length} мм`;
+  }
+
+  function fileDetails(model, grit) {
+    return [
+      `${model.detailsIntro} ${gritNote(grit)}`,
+      `Форма: ${model.shape}, размер ${fileDimensions(model)}. Крепление на металлическую основу — смена на каждого клиента, гигиеничный протокол.`,
+      'Металлические основы ZERK подходят для химической и термической стерилизации. Абразивные файлы — расходный элемент, замена по регламенту салона.',
+    ];
+  }
+
   const pushers = PUSHER_MODELS.map((model) => ({
     id: model.code,
     model: model.code,
@@ -206,7 +278,25 @@
     material: 'Нержавеющая сталь S45C',
   }));
 
-  const products = [...nippers, ...scissors, ...pushers];
+  const fileStrips = FILE_MODELS.flatMap((model) =>
+    FILE_GRITS.map((grit) => ({
+      id: `FILE-${model.code.toUpperCase()}-${grit}`,
+      model: model.title,
+      modelCode: model.code,
+      grit,
+      cat: 'files',
+      title: `${grit} грит`,
+      desc: `${model.note} Абразив ${grit} грит.`,
+      details: fileDetails(model, grit),
+      badge: grit === 180 && model.code === 'mini' ? 'Хит' : '',
+      image: model.image,
+      shape: model.shape,
+      dimensions: fileDimensions(model),
+      material: 'Сменный абразив на основу',
+    }))
+  );
+
+  const products = [...nippers, ...scissors, ...pushers, ...fileStrips];
 
   function productUrl(id) {
     return `product.html?id=${encodeURIComponent(id)}`;
@@ -219,6 +309,9 @@
     }
     if (product.cat === 'pushers') {
       return `Здравствуйте! Интересует пушер-шабер ${product.model} (артикул ${product.id}).`;
+    }
+    if (product.cat === 'files') {
+      return `Здравствуйте! Интересуют пилки-файлы ${product.model}, ${product.grit} грит (артикул ${product.id}).`;
     }
     return `Здравствуйте! Интересует ножницы ${product.model} (артикул ${product.id}).`;
   }
@@ -256,6 +349,17 @@
         { label: 'Категория', value: 'Пушер-шабер' },
       ];
     }
+    if (product.cat === 'files') {
+      return [
+        { label: 'Артикул', value: product.id },
+        { label: 'Форма', value: product.model },
+        { label: 'Профиль', value: product.shape },
+        { label: 'Размер', value: product.dimensions },
+        { label: 'Абразив', value: `${product.grit} грит` },
+        { label: 'Основа', value: 'Металл · стерилизация' },
+        { label: 'Категория', value: 'Пилки файлы' },
+      ];
+    }
     return [
       { label: 'Артикул', value: product.id },
       { label: 'Модель', value: product.model },
@@ -273,6 +377,11 @@
     if (product.cat === 'pushers') {
       return products.filter((p) => p.cat === 'pushers');
     }
+    if (product.cat === 'files') {
+      return products.filter(
+        (p) => p.cat === 'files' && p.modelCode === product.modelCode
+      );
+    }
     return products.filter((p) => p.cat === 'scissors');
   }
 
@@ -281,7 +390,7 @@
       nippers: 'Кусачки для кутикулы',
       scissors: 'Ножницы',
       pushers: 'Пушер-шабер',
-      files: 'Пилки',
+      files: 'Пилки файлы',
     },
     families: {
       nippers: NIPPER_MODELS.map((m) => ({
@@ -318,6 +427,12 @@
           productIds: ['P-508', 'P-511', 'P-514'],
         },
       ],
+      files: FILE_MODELS.map((m) => ({
+        code: m.code,
+        title: m.title,
+        subtitle: `${fileDimensions(m)} · ${m.shape} · грит 100 / 180 / 240`,
+        image: m.image,
+      })),
     },
     products,
     defaultImage: DEFAULT_IMAGE,
@@ -325,6 +440,7 @@
       ...Object.fromEntries(NIPPER_MODELS.map((m) => [m.code, m.image])),
       ...Object.fromEntries(SCISSOR_MODELS.map((m) => [m.code, m.image])),
       ...Object.fromEntries(PUSHER_MODELS.map((m) => [m.code, m.image])),
+      ...Object.fromEntries(FILE_MODELS.map((m) => [m.code, m.image])),
     },
     productUrl,
     getById,
