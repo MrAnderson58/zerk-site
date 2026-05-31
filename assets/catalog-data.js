@@ -14,6 +14,7 @@
     clipper: 540,
     pusher: 320,
     scissors: 1680,
+    glove: 590,
     file: { mini: 450, maxi: 500, long: 630, boat: 630 },
   };
 
@@ -26,6 +27,14 @@
   }
 
   const NIPPER_MODELS = [
+    {
+      code: 'IL-02',
+      note: 'Компактный профиль 105 мм — точный контроль и мягкий ход для ежедневного маникюра.',
+      image: 'images/il-02.jpg',
+      weight: 40,
+      size: 105,
+      origin: ORIGIN_VIETNAM,
+    },
     {
       code: 'IL-03',
       note: 'Классический профиль для ежедневной работы с кутикулой.',
@@ -363,6 +372,28 @@
     price: PRICES.pusher,
   }));
 
+  const GLOVE_SIZES = ['S', 'M', 'L'];
+
+  const gloves = GLOVE_SIZES.map((size) => ({
+    id: `NG-100-${size}`,
+    model: 'NG-100',
+    size,
+    packSize: 100,
+    cat: 'gloves',
+    title: `Размер ${size}`,
+    desc: 'Нитриловые перчатки ZERK без пудры — плотное прилегание и тактильный контроль для салонного протокола.',
+    details: [
+      'Перчатки нитрил ZERK NG-100 — без пудры, нестерильные, для одноразового использования в маникюре и педикюре.',
+      `Упаковка ${100} шт., размер ${size}. Подходят для комбинированного и аппаратного маникюра, защиты рук мастера при работе с препаратами.`,
+      'Материал нитрил — устойчивость к растяжению и проколам, удобная посадка без «перчаточного» запаха латекса.',
+    ],
+    badge: size === 'M' ? 'Хит' : '',
+    image: 'images/gloves-nitrile.svg',
+    material: 'Нитрил',
+    origin: 'Поставка под контролем ZERK',
+    price: PRICES.glove,
+  }));
+
   const fileStrips = FILE_MODELS.flatMap((model) =>
     FILE_GRITS.map((grit) => ({
       id: `FILE-${model.code.toUpperCase()}-${grit}`,
@@ -382,7 +413,7 @@
     }))
   );
 
-  const products = [...nippers, ...clippers, ...scissors, ...pushers, ...fileStrips];
+  const products = [...nippers, ...clippers, ...scissors, ...pushers, ...fileStrips, ...gloves];
 
   function productUrl(id) {
     return `product.html?id=${encodeURIComponent(id)}`;
@@ -402,6 +433,9 @@
     }
     if (product.cat === 'files') {
       return `Здравствуйте! Интересуют пилки-файлы ${product.model}, ${product.grit} грит (артикул ${product.id}${priceLine}).`;
+    }
+    if (product.cat === 'gloves') {
+      return `Здравствуйте! Интересуют перчатки нитрил ZERK ${product.model}, размер ${product.size} (артикул ${product.id}${priceLine}).`;
     }
     return `Здравствуйте! Интересует ножницы ${product.model} (артикул ${product.id}${priceLine}).`;
   }
@@ -445,6 +479,9 @@
     }
     if (product.cat === 'files') {
       return `Пилки-файлы ${product.model}, ${product.grit} грит`;
+    }
+    if (product.cat === 'gloves') {
+      return `Перчатки нитрил ZERK ${product.model}, размер ${product.size}`;
     }
     return `Ножницы ${product.model}`;
   }
@@ -531,7 +568,18 @@
         { label: 'Размер', value: product.dimensions },
         { label: 'Абразив', value: `${product.grit} грит` },
         { label: 'Основа', value: 'Металл · стерилизация' },
-        { label: 'Категория', value: 'Пилки файлы' },
+        { label: 'Категория', value: 'Пилки файлы ZERK' },
+      ];
+    }
+    if (product.cat === 'gloves') {
+      return [
+        { label: 'Артикул', value: product.id },
+        ...priceRow,
+        { label: 'Модель', value: product.model },
+        { label: 'Размер', value: product.size },
+        { label: 'Упаковка', value: `${product.packSize} шт.` },
+        { label: 'Материал', value: product.material },
+        { label: 'Категория', value: 'Перчатки нитрил ZERK' },
       ];
     }
     return [
@@ -562,6 +610,9 @@
         (p) => p.cat === 'files' && p.modelCode === product.modelCode
       );
     }
+    if (product.cat === 'gloves') {
+      return products.filter((p) => p.cat === 'gloves' && p.model === product.model);
+    }
     return products.filter((p) => p.cat === 'scissors');
   }
 
@@ -571,6 +622,7 @@
       scissors: 'Ножницы',
       pushers: 'Пушер-шабер',
       files: 'Пилки файлы',
+      gloves: 'Перчатки нитрил',
     },
     families: {
       nippers: [
@@ -619,10 +671,19 @@
       files: FILE_MODELS.map((m) => ({
         code: m.code,
         title: m.title,
-        subtitle: `${fileDimensions(m)} · ${m.shape} · грит 100 / 180 / 240`,
+        subtitle: `${fileDimensions(m)} · ${m.shape} · грит 100 / 180 / 240 · ZERK`,
         image: m.image,
       })),
+      gloves: [
+        {
+          code: 'NG-100',
+          title: 'Перчатки нитрил NG-100',
+          subtitle: 'Без пудры · 100 шт · размеры S / M / L · ZERK',
+          image: 'images/gloves-nitrile.svg',
+        },
+      ],
     },
+    productCount: products.length,
     products,
     defaultImage: DEFAULT_IMAGE,
     modelImages: {

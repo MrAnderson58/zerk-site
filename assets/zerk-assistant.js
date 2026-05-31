@@ -25,7 +25,7 @@
 
   const SYSTEM_PROMPT = `Ты — премиальный консультант ZERK по профессиональному маникюрному инструменту.
 Стиль: лаконично, уверенно, как консультант Apple/Tesla. Язык: русский.
-Кусачки IL-03, IL-07, IL-09, IL-12, IAL-01 (лезвия 4–8 мм), книпсеры CL-01, CL-02, CS-02, пушеры P-504…P-514 — производство Вьетнам.
+Кусачки IL-02, IL-03, IL-07, IL-09, IL-12, IAL-01 (лезвия 4–8 мм), книпсеры CL-01, CL-02, CS-02, пушеры P-504…P-514, перчатки нитрил NG-100 — производство IL/пушеров Вьетнам.
 Цены: кусачки IL/IAL — 1300 ₽; книпсеры — 540 ₽; пушеры — 320 ₽; ножницы 817/837 — 1680 ₽; пилки-файлы Mini 450 ₽, Maxi 500 ₽, Long/Лодка 630 ₽ (грит 100/180/240 — одна цена на форму).
 Кусачки — сталь SUS 420 J2; книпсеры и пушеры — S45C. Ножницы 817/837 — Solingen, Германия.
 Рекомендуй модель и размер. Связь: Telegram @Mr_Anderson_pnz, ВКонтакте (личные сообщения), WhatsApp +7 (925) 770-08-03.
@@ -67,6 +67,10 @@
 
     if (/telegram|телеграм|тг|написать|заказ|купить|связаться|менеджер/.test(q)) {
       return `Связаться с нами:\n\n• <a href="${CONFIG.telegram}" target="_blank" rel="noopener">Telegram @Mr_Anderson_pnz</a>\n• <a href="${CONFIG.vk}" target="_blank" rel="noopener">ВКонтакте</a>\n• <a href="${CONFIG.whatsapp}" target="_blank" rel="noopener">WhatsApp</a>\n\nНапишите артикул — например, <strong>IL-07-5</strong>.`;
+    }
+
+    if (/il-02|il02|02/.test(q) && !/il-03|il-07|il-09|il-12/.test(q)) {
+      return '<strong>IL-02</strong> — компактные кусачки ZERK 105 мм для точного ежедневного маникюра. Лезвия <strong>4, 5 или 6 мм</strong>. <a href="' + CONFIG.catalogUrl + '">Каталог ZERK</a>';
     }
 
     if (/il-03|il03|03/.test(q) && !/il-07|il-09|il-12/.test(q)) {
@@ -125,7 +129,11 @@
       return 'Добрый день. Расскажите, с какой кутикулой работаете чаще — обычной, плотной или сухой? Подберу серию IL и размер лезвия.';
     }
 
-    return 'Могу подсказать по кусачкам <strong>IL-03…IAL-01</strong>, книпсерам <strong>CL-01…CS-02</strong>, пушерам <strong>P-504…P-514</strong> (Вьетнам), ножницам Solingen и пилкам-файлам. Связь: <a href="' + CONFIG.telegram + '" target="_blank" rel="noopener">Telegram</a> · <a href="' + CONFIG.vk + '" target="_blank" rel="noopener">ВК</a> · <a href="' + CONFIG.whatsapp + '" target="_blank" rel="noopener">WhatsApp</a>.';
+    if (/перчатк|нитрил|ng-100|glove/.test(q)) {
+      return 'Перчатки нитрил <strong>ZERK NG-100</strong> — без пудры, 100 шт, размеры S / M / L, <strong>590 ₽</strong>. <a href="catalog.html?cat=gloves">Раздел в каталоге ZERK</a>';
+    }
+
+    return 'Могу подсказать по кусачкам <strong>IL-02…IAL-01</strong>, книпсерам <strong>CL-01…CS-02</strong>, пушерам <strong>P-504…P-514</strong> (Вьетнам), ножницам Solingen, пилкам-файлам и перчаткам нитрил ZERK. Связь: <a href="' + CONFIG.telegram + '" target="_blank" rel="noopener">Telegram</a> · <a href="' + CONFIG.vk + '" target="_blank" rel="noopener">ВК</a> · <a href="' + CONFIG.whatsapp + '" target="_blank" rel="noopener">WhatsApp</a>.';
   }
 
   /* ——— API layer (OpenAI-ready) ——— */

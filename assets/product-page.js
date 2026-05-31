@@ -6,6 +6,7 @@
 
   document.addEventListener('DOMContentLoaded', () => {
     const catalog = window.ZERK_CATALOG;
+    const seo = window.ZERK_SEO;
     if (!catalog) return;
 
     const params = new URLSearchParams(window.location.search);
@@ -18,7 +19,14 @@
     const breadcrumbCurrent = document.getElementById('productBreadcrumbCurrent');
 
     if (!product) {
-      document.title = 'Товар не найден — ZERK';
+      document.title = `Товар не найден — ZERK`;
+      if (seo) {
+        seo.applyPageMeta({
+          title: `Товар не найден — ZERK`,
+          description: 'Товар не найден в каталоге ZERK. Выберите модель на zerk-tool.ru.',
+          canonical: `${seo.SITE}/catalog.html`,
+        });
+      }
       notFound.hidden = false;
       return;
     }
@@ -26,24 +34,19 @@
     const catLabel = catalog.labels[product.cat] || product.cat;
     const catUrl = `catalog.html?cat=${encodeURIComponent(product.cat)}`;
 
-    document.title = `${product.model}${product.blade ? ` · ${product.blade} мм` : product.grit ? ` · ${product.grit} грит` : product.productType === 'clipper' ? ' · книпсер' : ''} — ZERK`;
+    if (seo) seo.applyProductSeo(product, catalog);
+    else {
+      document.title = `${product.id} — ZERK`;
+    }
+
     catLink.textContent = catLabel;
     catLink.href = catUrl;
-    breadcrumbCurrent.textContent = product.id;
+    breadcrumbCurrent.textContent = `${product.id} · ZERK`;
 
     document.getElementById('productEyebrow').textContent = `ZERK · ${catLabel}`;
     const titleEl = document.getElementById('productTitle');
-    if (product.cat === 'nippers' && product.productType === 'clipper') {
-      titleEl.textContent = `${product.model} · книпсер`;
-    } else if (product.cat === 'nippers') {
-      titleEl.textContent = `${product.model} · ${product.blade} мм`;
-    } else if (product.cat === 'pushers') {
-      titleEl.textContent = `${product.model} · пушер-шабер`;
-    } else if (product.cat === 'files') {
-      titleEl.textContent = `${product.model} · ${product.grit} грит`;
-    } else {
-      titleEl.textContent = product.model;
-    }
+    titleEl.textContent = seo ? seo.productH1(product) : product.model;
+
     const priceEl = document.getElementById('productPrice');
     if (product.price && catalog.formatPrice) {
       priceEl.textContent = catalog.formatPrice(product.price);
@@ -55,17 +58,7 @@
 
     const img = document.getElementById('productImage');
     img.src = product.image;
-    if (product.cat === 'nippers' && product.productType === 'clipper') {
-      img.alt = `Книпсер ZERK ${product.model}, ${product.sizeLabel}`;
-    } else if (product.cat === 'nippers') {
-      img.alt = `${product.model}, лезвие ${product.blade} мм`;
-    } else if (product.cat === 'pushers') {
-      img.alt = `Пушер-шабер ZERK ${product.model}`;
-    } else if (product.cat === 'files') {
-      img.alt = `Пилки-файлы ZERK ${product.model}, ${product.grit} грит`;
-    } else {
-      img.alt = `Ножницы ZERK ${product.model}`;
-    }
+    img.alt = seo ? seo.imageAlt(product) : `ZERK ${product.id}`;
 
     const specsEl = document.getElementById('productSpecs');
     specsEl.innerHTML = catalog
@@ -95,7 +88,7 @@
       }
     });
     document.getElementById('productOrderHint').textContent =
-      'Telegram и WhatsApp — готовый текст заказа. Для ВКонтакте появится окно с текстом для копирования.';
+      'Telegram и WhatsApp — готовый текст заказа ZERK. Для ВКонтакте появится окно с текстом для копирования.';
 
     const siblings = catalog.siblings(product).filter((p) => p.id !== product.id);
     const variantsBlock = document.getElementById('productVariants');
@@ -104,13 +97,14 @@
     if (siblings.length) {
       variantsBlock.hidden = false;
       const variantTitles = {
-        nippers: product.productType === 'clipper' ? 'Другие книпсеры' : 'Другие размеры лезвия',
-        pushers: 'Другие модели пушера-шабера',
-        scissors: 'Другие модели ножниц',
-        files: 'Другие гриты',
+        nippers: product.productType === 'clipper' ? 'Другие книпсеры ZERK' : 'Другие размеры лезвия',
+        pushers: 'Другие модели пушера-шабера ZERK',
+        scissors: 'Другие модели ножниц ZERK',
+        files: 'Другие гриты ZERK',
+        gloves: 'Другие размеры перчаток ZERK',
       };
       variantsBlock.querySelector('.product-variants__title').textContent =
-        variantTitles[product.cat] || 'Другие модели';
+        variantTitles[product.cat] || 'Другие модели ZERK';
       variantsList.innerHTML = siblings
         .map((p) => {
           const label =
@@ -120,7 +114,9 @@
                 ? `${p.blade} мм`
                 : product.cat === 'files'
                   ? `${p.grit} грит`
-                  : p.model;
+                  : product.cat === 'gloves'
+                    ? `Размер ${p.size}`
+                    : p.model;
           const active = p.id === product.id ? ' is-active' : '';
           return `<a href="${catalog.productUrl(p.id)}" class="product-variant${active}">${label}</a>`;
         })

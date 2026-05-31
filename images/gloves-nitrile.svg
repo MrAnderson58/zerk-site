@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" role="img" aria-label="5@G0B:8 =8B@8; ZERK">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1a1a1e"/>
+      <stop offset="100%" stop-color="#0a0a0c"/>
+    </linearGradient>
+    <linearGradient id="glove" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#3d4a5c"/>
+      <stop offset="100%" stop-color="#252d38"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="300" fill="url(#bg)"/>
+  <path fill="url(#glove)" stroke="rgba(255,255,255,.12)" stroke-width="1.5" d="M120 220c0-50 18-95 55-120 12-8 28-12 45-12 28 0 52 14 68 38 18 28 22 62 14 94l-8 32h-52l-18-32z"/>
+  <path fill="url(#glove)" stroke="rgba(255,255,255,.12)" stroke-width="1.5" transform="scale(-1,1) translate(-400,0)" d="M120 220c0-50 18-95 55-120 12-8 28-12 45-12 28 0 52 14 68 38 18 28 22 62 14 94l-8 32h-52l-18-32z"/>
+  <text x="200" y="268" text-anchor="middle" fill="rgba(255,255,255,.35)" font-family="system-ui,sans-serif" font-size="13" letter-spacing=".2em">ZERK · NG-100</text>
+</svg>
