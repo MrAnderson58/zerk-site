@@ -83,11 +83,18 @@
 
     document.getElementById('productOrderTg').href = catalog.telegramOrderUrl(product);
     document.getElementById('productOrderWa').href = catalog.whatsappOrderUrl(product);
-    const vkUrl = window.ZERK_VK || 'https://vk.com/im/convo/94289869?tab=all';
-    document.getElementById('productOrderHint').innerHTML =
-      'В Telegram и WhatsApp текст заказа подставится автоматически. <a href="' +
-      vkUrl +
-      '" target="_blank" rel="noopener">Вопрос в ВКонтакте</a> — без оформления заказа.';
+    const vkBtn = document.getElementById('productOrderVk');
+    const orderText = catalog.orderMessage(product);
+    vkBtn.href = catalog.vkOrderUrl();
+    vkBtn.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(orderText);
+      } catch (_) {
+        /* clipboard unavailable */
+      }
+    });
+    document.getElementById('productOrderHint').textContent =
+      'Telegram и WhatsApp откроются с готовым текстом заказа. В ВКонтакте текст копируется при нажатии — вставьте в диалог.';
 
     const siblings = catalog.siblings(product).filter((p) => p.id !== product.id);
     const variantsBlock = document.getElementById('productVariants');

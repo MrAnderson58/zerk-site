@@ -102,8 +102,8 @@
         </div>
         <div class="catalog-cta__actions">
           <a href="https://t.me/Mr_Anderson_pnz" class="btn-order" data-telegram rel="noopener noreferrer" target="_blank">Заказ в Telegram</a>
+          <a href="https://vk.com/im/convo/94289869?tab=all" class="btn-order btn-order--vk" data-vk rel="noopener noreferrer" target="_blank">Заказ в ВКонтакте</a>
           <a href="https://wa.me/79257700803" class="btn-order btn-order--wa" data-whatsapp rel="noopener noreferrer" target="_blank">Заказ в WhatsApp</a>
-          <a href="https://vk.com/im/convo/94289869?tab=all" class="catalog-cta__vk" data-vk rel="noopener noreferrer" target="_blank">Вопрос в ВКонтакте</a>
         </div>
       </div>
     </div>
@@ -112,6 +112,11 @@
   <footer>
     <div class="footer-inner">
       <span class="footer-brand">ZERK</span>
+      <nav class="footer-channels" aria-label="Связаться">
+        <a href="https://t.me/Mr_Anderson_pnz" data-telegram rel="noopener noreferrer" target="_blank">Telegram</a>
+        <a href="https://vk.com/im/convo/94289869?tab=all" data-vk rel="noopener noreferrer" target="_blank">ВКонтакте</a>
+        <a href="https://wa.me/79257700803" data-whatsapp rel="noopener noreferrer" target="_blank">WhatsApp</a>
+      </nav>
       <a href="tel:+79257700803">+7 (925) 770-08-03</a>
     </div>
   </footer>
@@ -351,6 +356,26 @@
       requestAnimationFrame(() => moveIndicator(tab));
     } else {
       requestAnimationFrame(() => moveIndicator(filterGroup.querySelector('.filter-btn.is-active')));
+    }
+
+    const ctaActions = document.querySelector('.catalog-cta__actions');
+    if (ctaActions && CATALOG) {
+      const tg = ctaActions.querySelector('[data-telegram]');
+      const vk = ctaActions.querySelector('[data-vk]');
+      const wa = ctaActions.querySelector('[data-whatsapp]');
+      const genericOrder = CATALOG.orderMessage(null);
+      if (tg) tg.href = CATALOG.telegramOrderUrl(null);
+      if (vk) {
+        vk.href = CATALOG.vkOrderUrl();
+        vk.addEventListener('click', async () => {
+          try {
+            await navigator.clipboard.writeText(genericOrder);
+          } catch (_) {
+            /* clipboard unavailable */
+          }
+        });
+      }
+      if (wa) wa.href = CATALOG.whatsappOrderUrl(null);
     }
     });
   </script>

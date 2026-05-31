@@ -422,6 +422,12 @@
     return `${wa}?text=${encodeURIComponent(text)}`;
   }
 
+  function vkOrderUrl() {
+    return typeof window !== 'undefined' && window.ZERK_VK
+      ? window.ZERK_VK
+      : 'https://vk.com/im/convo/94289869?tab=all';
+  }
+
   function getById(id) {
     return products.find((p) => p.id === id) || null;
   }
@@ -633,6 +639,7 @@
     orderMessage,
     telegramOrderUrl,
     whatsappOrderUrl,
+    vkOrderUrl,
     specsFor,
     siblings,
     originVietnam: ORIGIN_VIETNAM,
