@@ -166,16 +166,7 @@
     if (channel === 'whatsapp') {
       return `${contacts.whatsapp}?text=${encodeURIComponent(text)}`;
     }
-    if (channel === 'vk') {
-      if (window.ZERK_CATALOG?.vkMessageUrl) {
-        return window.ZERK_CATALOG.vkMessageUrl(text);
-      }
-      if (typeof window.zerkVkMessageUrl === 'function') {
-        return window.zerkVkMessageUrl(text);
-      }
-      return contacts.vk;
-    }
-    return contacts.vk;
+    return contacts.whatsapp + '?text=' + encodeURIComponent(text);
   }
 
   function validateForm() {
@@ -339,12 +330,11 @@
               </div>
             </form>
             <p style="font-size:12px;color:rgba(255,255,255,.45);margin:8px 0 0;line-height:1.45">
-              Telegram и ВКонтакте откроются с готовым текстом заказа. WhatsApp — с тем же текстом.
+              Telegram и WhatsApp откроются с готовым текстом заказа. Вопросы можно задать в <a href="${contacts.vk}" target="_blank" rel="noopener" style="color:#8eb5e8">ВКонтакте</a>.
             </p>
             <div class="zerk-cart-send">
               <a class="zerk-cart-send__btn zerk-cart-send__btn--tg" href="#" data-send="telegram" target="_blank" rel="noopener noreferrer">Отправить в Telegram</a>
-              <a class="zerk-cart-send__btn zerk-cart-send__btn--vk" href="#" data-send="vk" target="_blank" rel="noopener noreferrer">Отправить во ВКонтакте</a>
-              <a class="zerk-cart-send__btn zerk-cart-send__btn--wa" href="#" data-send="whatsapp" target="_blank" rel="noopener noreferrer">WhatsApp</a>
+              <a class="zerk-cart-send__btn zerk-cart-send__btn--wa" href="#" data-send="whatsapp" target="_blank" rel="noopener noreferrer">Отправить в WhatsApp</a>
             </div>
           </div>
         </footer>

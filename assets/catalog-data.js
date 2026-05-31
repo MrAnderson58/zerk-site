@@ -413,18 +413,13 @@
     return `${tg}?text=${encodeURIComponent(orderMessage(product))}`;
   }
 
-  function vkMessageUrl(text) {
-    if (typeof window !== 'undefined' && typeof window.zerkVkMessageUrl === 'function') {
-      return window.zerkVkMessageUrl(text);
-    }
-    const base = 'https://vk.com/im/convo/94289869?tab=all';
-    if (!text) return base;
-    return `${base}&msg=${encodeURIComponent(text)}`;
-  }
-
-  function vkOrderUrl(product) {
-    const text = product ? orderMessage(product) : '';
-    return vkMessageUrl(text);
+  function whatsappOrderUrl(product) {
+    const wa =
+      typeof window !== 'undefined' && window.ZERK_WHATSAPP
+        ? window.ZERK_WHATSAPP
+        : 'https://wa.me/79257700803';
+    const text = product ? orderMessage(product) : 'Здравствуйте! Хочу оформить заказ ZERK.';
+    return `${wa}?text=${encodeURIComponent(text)}`;
   }
 
   function getById(id) {
@@ -637,8 +632,7 @@
     buildCartOrderMessage,
     orderMessage,
     telegramOrderUrl,
-    vkMessageUrl,
-    vkOrderUrl,
+    whatsappOrderUrl,
     specsFor,
     siblings,
     originVietnam: ORIGIN_VIETNAM,

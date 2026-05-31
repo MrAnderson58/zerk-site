@@ -82,9 +82,12 @@
       .join('');
 
     document.getElementById('productOrderTg').href = catalog.telegramOrderUrl(product);
-    document.getElementById('productOrderVk').href = catalog.vkOrderUrl(product);
-    document.getElementById('productOrderHint').textContent =
-      'В Telegram и ВКонтакте текст заказа подставится автоматически — останется отправить сообщение.';
+    document.getElementById('productOrderWa').href = catalog.whatsappOrderUrl(product);
+    const vkUrl = window.ZERK_VK || 'https://vk.com/im/convo/94289869?tab=all';
+    document.getElementById('productOrderHint').innerHTML =
+      'В Telegram и WhatsApp текст заказа подставится автоматически. <a href="' +
+      vkUrl +
+      '" target="_blank" rel="noopener">Вопрос в ВКонтакте</a> — без оформления заказа.';
 
     const siblings = catalog.siblings(product).filter((p) => p.id !== product.id);
     const variantsBlock = document.getElementById('productVariants');

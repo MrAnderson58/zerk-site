@@ -12,14 +12,7 @@
 
   window.ZERK_TELEGRAM = ZERK_CONTACTS.telegram;
   window.ZERK_VK = ZERK_CONTACTS.vk;
-  window.ZERK_VK_IM = ZERK_CONTACTS.vk;
   window.ZERK_WHATSAPP = ZERK_CONTACTS.whatsapp;
-
-  window.zerkVkMessageUrl = function (text) {
-    const base = ZERK_CONTACTS.vk;
-    if (!text) return base;
-    return `${base}&msg=${encodeURIComponent(text)}`;
-  };
 
   const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const finePointer = window.matchMedia('(pointer: fine)').matches;
@@ -159,6 +152,10 @@
 
   document.querySelectorAll('[data-vk]').forEach((link) => {
     link.href = ZERK_CONTACTS.vk;
+  });
+
+  document.querySelectorAll('[data-whatsapp]').forEach((link) => {
+    if (!link.dataset.orderLink) link.href = ZERK_CONTACTS.whatsapp;
   });
 
   /* ——— Catalog page API ——— */
