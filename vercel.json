@@ -1,0 +1,32 @@
+{
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "redirects": [
+    { "source": "/catalog.html", "destination": "/collection", "permanent": true },
+    { "source": "/index.html", "destination": "/", "permanent": true },
+    {
+      "source": "/product.html",
+      "has": [{ "type": "query", "key": "id" }],
+      "destination": "/collection",
+      "permanent": false
+    },
+    { "source": "/product.html", "destination": "/collection", "permanent": true }
+  ],
+  "rewrites": [
+    { "source": "/nippers/:model/:variant", "destination": "/product" },
+    { "source": "/nippers/:slug", "destination": "/product" },
+    { "source": "/scissors/:slug", "destination": "/product" },
+    { "source": "/pushers/:slug", "destination": "/product" },
+    { "source": "/replaceable-files/:slug", "destination": "/product" },
+    { "source": "/nitrile-gloves/:slug", "destination": "/product" }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "X-Content-Type-Options", "value": "nosniff" },
+        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" }
+      ]
+    }
+  ]
+}

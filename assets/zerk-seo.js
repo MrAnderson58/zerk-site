@@ -4,7 +4,8 @@
 (function () {
   'use strict';
 
-  const BRAND = 'ZERK';
+  const BRAND = 'ZERK TOOL';
+  const BRAND_SHORT = 'ZERK';
   const SITE = 'https://zerk-tool.ru';
 
   const KEYWORDS = {
@@ -204,10 +205,44 @@
     setMeta('description', opts.description);
     if (opts.keywords) setMeta('keywords', opts.keywords);
     if (opts.canonical) setLink('canonical', opts.canonical);
+    setMeta('og:type', opts.ogType || 'website', 'property');
     setMeta('og:title', opts.ogTitle || opts.title, 'property');
     setMeta('og:description', opts.ogDescription || opts.description, 'property');
+    setMeta('og:url', opts.canonical, 'property');
     if (opts.ogImage) setMeta('og:image', opts.ogImage, 'property');
     setMeta('og:site_name', BRAND, 'property');
+    setMeta('og:locale', 'ru_RU', 'property');
+    setMeta('twitter:card', 'summary_large_image');
+    setMeta('twitter:title', opts.ogTitle || opts.title);
+    setMeta('twitter:description', opts.ogDescription || opts.description);
+    if (opts.ogImage) setMeta('twitter:image', opts.ogImage);
+  }
+
+  function breadcrumbSchema(items) {
+    return {
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: items.map((item, i) => ({
+        '@type': 'ListItem',
+        position: i + 1,
+        name: item.name,
+        item: item.url ? `${SITE}${item.url}` : undefined,
+      })),
+    };
+  }
+
+  function renderBreadcrumbs(el, items) {
+    if (!el || !items?.length) return;
+    el.innerHTML = items
+      .map((item, i) => {
+        const sep = i < items.length - 1 ? '<span aria-hidden="true">/</span>' : '';
+        const inner = item.url
+          ? `<a href="${item.url}">${item.name}</a>`
+          : `<span aria-current="page">${item.name}</span>`;
+        return `${inner}${sep}`;
+      })
+      .join('');
+    injectJsonLd('zerk-schema-breadcrumbs', breadcrumbSchema(items));
   }
 
   function faqSchema(items) {
@@ -258,6 +293,34 @@
       {
         q: 'Какие размеры лезвий у кусачек ZERK?',
         a: 'Модели IL-02, IL-03, IL-07, IL-09, IL-12 — лезвия 4, 5 и 6 мм. IAL-01 — 8 мм для педикюра и плотной кутикулы.',
+      },
+    ],
+    nippers: [
+      {
+        q: 'Какие кусачки ZERK TOOL выбрать для старта?',
+        a: 'Для старта мастера часто выбирают ZERK TOOL IL-03 или IL-02 с лезвием 5 мм — универсальный баланс контроля и мягкого хода. Для плотной кутикулы — IL-07, для педикюра — IAL-01 (8 мм).',
+      },
+      {
+        q: 'Из какой стали кусачки ZERK TOOL?',
+        a: 'Серия IL и IAL — японская нержавеющая сталь SUS 420 J2, ручная заточка, готовность к стерилизации. Производство кусачек — во Вьетнаме под контролем ZERK TOOL.',
+      },
+    ],
+    scissors: [
+      {
+        q: 'Чем ножницы ZERK TOOL Solingen отличаются от кусачек?',
+        a: 'Ножницы ZERK TOOL 817/837 — деликатная работа с кутикулой и кожицей, производство Solingen, Германия. Кусачки ZERK TOOL — для среза кутикулы плотных типов, сталь SUS 420 J2.',
+      },
+    ],
+    files: [
+      {
+        q: 'Какие гриты сменных файлов ZERK TOOL бывают?',
+        a: 'ZERK TOOL предлагает грит 100 (коррекция), 180 (универсальный салонный) и 240 (финиш). Форматы Mini, Maxi, Long и лодочка на металлическую основу.',
+      },
+    ],
+    gloves: [
+      {
+        q: 'Какие размеры перчаток ZERK TOOL NG-100?',
+        a: 'Перчатки нитрил ZERK TOOL NG-100 выпускаются в размерах S, M и L, упаковка 100 шт без пудры.',
       },
     ],
     catalog: [
@@ -392,8 +455,8 @@
     return joinKeywords(KEYWORDS.global, KEYWORDS[cat] || [], extra);
   }
 
-  function productSchema(product, catalog) {
-    const url = `${SITE}/${catalog.productUrl(product.id)}`;
+  function productSchema(product, catalog, url) {
+    const productUrl = url || `${SITE}${catalog.productUrl(product.id)}`;
     return {
       '@context': 'https://schema.org',
       '@type': 'Product',
@@ -401,21 +464,44 @@
       description: product.desc,
       image: product.image.startsWith('http') ? product.image : `${SITE}/${product.image}`,
       sku: product.id,
-      brand: { '@type': 'Brand', name: BRAND },
+      brand: { '@type': 'Brand', name: BRAND_SHORT },
+      manufacturer: { '@type': 'Organization', name: BRAND },
       offers: product.price
         ? {
             '@type': 'Offer',
             priceCurrency: 'RUB',
             price: String(product.price),
             availability: 'https://schema.org/InStock',
-            url,
+            url: productUrl,
           }
         : undefined,
     };
   }
 
-  function applyProductSeo(product, catalog) {
-    const canonical = `${SITE}/${catalog.productUrl(product.id)}`;
+  function getCategoryFaq(key) {
+    return FAQ[key] || FAQ.catalog;
+  }
+
+  function applyCategoryPage(config, key) {
+    const catKey = config.cat || key;
+    const kw = config.cat
+      ? joinKeywords(KEYWORDS.global, KEYWORDS[config.cat] || [])
+      : joinKeywords(KEYWORDS.global, KEYWORDS.nippers);
+    applyPageMeta({
+      title: config.title,
+      description: config.description,
+      keywords: kw,
+      canonical: `${SITE}${config.path}`,
+      ogImage: `${SITE}/images/nippers-main.jpg`,
+    });
+    const faq = getCategoryFaq(catKey === 'files' ? 'files' : catKey) || FAQ.catalog;
+    injectJsonLd('zerk-schema-faq', faqSchema(faq));
+    return faq;
+  }
+
+  function applyProductSeo(product, catalog, routes) {
+    const path = catalog.productUrl(product.id);
+    const canonical = path.startsWith('http') ? path : `${SITE}${path}`;
     const kw = keywordsForProduct(product);
     applyPageMeta({
       title: productTitle(product),
@@ -424,8 +510,18 @@
       canonical,
       ogImage: product.image.startsWith('http') ? product.image : `${SITE}/${product.image}`,
     });
-    injectJsonLd('zerk-schema-product', productSchema(product, catalog));
+    const crumbs = [
+      { name: BRAND, url: '/' },
+      { name: 'Коллекция', url: '/collection' },
+    ];
+    const catPath = routes?.categoryPathForProduct?.(product);
+    const catLabel = catalog.labels[product.cat];
+    if (catPath) crumbs.push({ name: catLabel, url: catPath });
+    crumbs.push({ name: product.id, url: null });
+
+    injectJsonLd('zerk-schema-product', productSchema(product, catalog, canonical));
     injectJsonLd('zerk-schema-faq', faqSchema(productFaq(product, catalog)));
+    renderBreadcrumbs(document.getElementById('productBreadcrumbs'), crumbs);
     const faqEl = document.getElementById('productFaq');
     renderFaq(faqEl, productFaq(product, catalog));
   }
@@ -454,7 +550,7 @@
       url: SITE,
       potentialAction: {
         '@type': 'SearchAction',
-        target: `${SITE}/catalog.html?q={search_term_string}`,
+        target: `${SITE}/collection?q={search_term_string}`,
         'query-input': 'required name=search_term_string',
       },
     });
@@ -468,7 +564,7 @@
       description:
         `Каталог ${BRAND}: кусачки для кутикулы IL-02…IAL-01, ножницы Solingen, пилки-файлы на основу, пушеры, перчатки нитрил NG-100. Профессиональный инструмент — zerk-tool.ru.`,
       keywords: joinKeywords(KEYWORDS.global, KEYWORDS.nippers, KEYWORDS.scissors, KEYWORDS.files, KEYWORDS.gloves),
-      canonical: `${SITE}/catalog.html`,
+      canonical: `${SITE}/collection`,
     });
     injectJsonLd('zerk-schema-faq', faqSchema(FAQ.catalog));
     renderFaq(document.getElementById('catalogFaq'), FAQ.catalog);
@@ -478,17 +574,24 @@
 
   window.ZERK_SEO = {
     BRAND,
+    BRAND_SHORT,
     SITE,
     KEYWORDS,
+    FAQ,
     joinKeywords,
     applyPageMeta,
+    applyCategoryPage,
     applyProductSeo,
     initHomePage,
     initCatalogPage,
+    getCategoryFaq,
     productH1,
     imageAlt,
     productFaq,
     faqSchema,
+    breadcrumbSchema,
+    renderBreadcrumbs,
     renderFaq,
+    injectJsonLd,
   };
 })();

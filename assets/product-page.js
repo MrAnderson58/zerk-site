@@ -1,5 +1,5 @@
 /**
- * ZERK — страница товара
+ * ZERK TOOL — product page (clean URLs)
  */
 (function () {
   'use strict';
@@ -7,45 +7,56 @@
   document.addEventListener('DOMContentLoaded', () => {
     const catalog = window.ZERK_CATALOG;
     const seo = window.ZERK_SEO;
-    if (!catalog) return;
+    const routes = window.ZERK_ROUTES;
+    if (!catalog || !routes) return;
 
     const params = new URLSearchParams(window.location.search);
-    const id = params.get('id');
-    const product = catalog.getById(id);
+    const legacyId = params.get('id');
+    if (legacyId) {
+      const dest = routes.legacyProductRedirect(legacyId, catalog);
+      window.location.replace(dest);
+      return;
+    }
+
+    let product = catalog.getByPath(window.location.pathname);
+    if (!product) {
+      const parsed = routes.parseProductPath(window.location.pathname);
+      if (parsed && parsed.variantPart === null && parsed.cat === 'nippers') {
+        const id = routes.legacyIdFromPath(parsed, catalog);
+        if (id) {
+          const p = catalog.getById(id);
+          if (p?.path && p.path !== window.location.pathname) {
+            window.location.replace(p.path);
+            return;
+          }
+        }
+      }
+    }
 
     const article = document.getElementById('productArticle');
     const notFound = document.getElementById('productNotFound');
-    const catLink = document.getElementById('productCatLink');
-    const breadcrumbCurrent = document.getElementById('productBreadcrumbCurrent');
 
     if (!product) {
-      document.title = `Товар не найден — ZERK`;
       if (seo) {
         seo.applyPageMeta({
-          title: `Товар не найден — ZERK`,
-          description: 'Товар не найден в каталоге ZERK. Выберите модель на zerk-tool.ru.',
-          canonical: `${seo.SITE}/catalog.html`,
+          title: `Товар не найден — ZERK TOOL`,
+          description: 'Товар не найден в каталоге ZERK TOOL.',
+          canonical: `${seo.SITE}/collection`,
         });
       }
       notFound.hidden = false;
       return;
     }
 
+    if (seo) seo.applyProductSeo(product, catalog, routes);
+
     const catLabel = catalog.labels[product.cat] || product.cat;
-    const catUrl = `catalog.html?cat=${encodeURIComponent(product.cat)}`;
+    const catPath = routes.categoryPathForProduct(product);
 
-    if (seo) seo.applyProductSeo(product, catalog);
-    else {
-      document.title = `${product.id} — ZERK`;
-    }
-
-    catLink.textContent = catLabel;
-    catLink.href = catUrl;
-    breadcrumbCurrent.textContent = `${product.id} · ZERK`;
-
-    document.getElementById('productEyebrow').textContent = `ZERK · ${catLabel}`;
-    const titleEl = document.getElementById('productTitle');
-    titleEl.textContent = seo ? seo.productH1(product) : product.model;
+    document.getElementById('productEyebrow').textContent = `ZERK TOOL · ${catLabel}`;
+    document.getElementById('productTitle').textContent = seo
+      ? seo.productH1(product)
+      : product.model;
 
     const priceEl = document.getElementById('productPrice');
     if (product.price && catalog.formatPrice) {
@@ -56,12 +67,18 @@
     }
     document.getElementById('productLead').textContent = product.desc;
 
-    const img = document.getElementById('productImage');
-    img.src = product.image;
-    img.alt = seo ? seo.imageAlt(product) : `ZERK ${product.id}`;
+    const aiEl = document.getElementById('productAiSnippet');
+    if (aiEl) {
+      const name = catalog.productDisplayName(product);
+      aiEl.innerHTML = `<strong>Кратко (ZERK TOOL):</strong> ${name} — ${product.desc} Артикул <code>${product.id}</code>. ${product.material ? `Материал: ${product.material}.` : ''} ${product.origin ? `Происхождение: ${product.origin}.` : ''}`;
+    }
 
-    const specsEl = document.getElementById('productSpecs');
-    specsEl.innerHTML = catalog
+    const img = document.getElementById('productImage');
+    const imgPath = product.image.startsWith('/') ? product.image : `/${product.image}`;
+    img.src = imgPath;
+    img.alt = seo ? seo.imageAlt(product) : `ZERK TOOL ${product.id}`;
+
+    document.getElementById('productSpecs').innerHTML = catalog
       .specsFor(product)
       .map(
         (s) =>
@@ -69,8 +86,7 @@
       )
       .join('');
 
-    const detailsEl = document.getElementById('productDetails');
-    detailsEl.innerHTML = (product.details || [])
+    document.getElementById('productDetails').innerHTML = (product.details || [])
       .map((p) => `<p>${p}</p>`)
       .join('');
 
@@ -81,46 +97,58 @@
     vkBtn.href = catalog.vkOrderUrl();
     vkBtn.addEventListener('click', (e) => {
       e.preventDefault();
-      if (typeof window.ZERK_showVkOrderModal === 'function') {
-        window.ZERK_showVkOrderModal(orderText);
-      } else {
-        window.open(catalog.vkOrderUrl(), '_blank', 'noopener,noreferrer');
-      }
+      window.ZERK_showVkOrderModal?.(orderText);
     });
-    document.getElementById('productOrderHint').textContent =
-      'Telegram и WhatsApp — готовый текст заказа ZERK. Для ВКонтакте появится окно с текстом для копирования.';
 
     const siblings = catalog.siblings(product).filter((p) => p.id !== product.id);
     const variantsBlock = document.getElementById('productVariants');
     const variantsList = document.getElementById('productVariantsList');
-
     if (siblings.length) {
       variantsBlock.hidden = false;
       const variantTitles = {
-        nippers: product.productType === 'clipper' ? 'Другие книпсеры ZERK' : 'Другие размеры лезвия',
-        pushers: 'Другие модели пушера-шабера ZERK',
-        scissors: 'Другие модели ножниц ZERK',
-        files: 'Другие гриты ZERK',
-        gloves: 'Другие размеры перчаток ZERK',
+        nippers: product.productType === 'clipper' ? 'Другие книпсеры ZERK TOOL' : 'Размер лезвия',
+        pushers: 'Другие модели',
+        scissors: 'Другие модели',
+        files: 'Другие гриты',
+        gloves: 'Другие размеры',
       };
       variantsBlock.querySelector('.product-variants__title').textContent =
-        variantTitles[product.cat] || 'Другие модели ZERK';
+        variantTitles[product.cat] || 'Варианты';
       variantsList.innerHTML = siblings
         .map((p) => {
           const label =
-            product.cat === 'nippers' && product.productType === 'clipper'
-              ? p.model
-              : product.cat === 'nippers'
-                ? `${p.blade} мм`
-                : product.cat === 'files'
-                  ? `${p.grit} грит`
-                  : product.cat === 'gloves'
-                    ? `Размер ${p.size}`
-                    : p.model;
+            product.cat === 'nippers' && !product.productType
+              ? `${p.blade} мм`
+              : product.cat === 'files'
+                ? `${p.grit} грит`
+                : product.cat === 'gloves'
+                  ? p.size
+                  : p.model;
+          const href = p.path || catalog.productUrl(p.id);
           const active = p.id === product.id ? ' is-active' : '';
-          return `<a href="${catalog.productUrl(p.id)}" class="product-variant${active}">${label}</a>`;
+          return `<a href="${href}" class="product-variant${active}">${label}</a>`;
         })
         .join('');
+    }
+
+    const related = catalog.getRelated(product, 4);
+    const relatedEl = document.getElementById('productRelated');
+    if (relatedEl && related.length) {
+      relatedEl.hidden = false;
+      relatedEl.innerHTML = `
+        <h2 class="section-title">С этим выбирают ZERK TOOL</h2>
+        <div class="product-related__grid">
+          ${related
+            .map(
+              (p) => `
+            <a href="${p.path || catalog.productUrl(p.id)}" class="product-related__card glass">
+              <img src="/${p.image.replace(/^\//, '')}" alt="${seo ? seo.imageAlt(p) : p.id}" width="200" height="150" loading="lazy">
+              <span>${catalog.productDisplayName(p)}</span>
+              ${p.price ? `<strong>${catalog.formatPrice(p.price)}</strong>` : ''}
+            </a>`
+            )
+            .join('')}
+        </div>`;
     }
 
     const addWrap = document.getElementById('productAddCartWrap');
@@ -128,10 +156,11 @@
     if (addWrap && addBtn) {
       addWrap.hidden = false;
       addBtn.dataset.addCart = product.id;
-      window.ZERK_CART?.bindAddButtons();
+      window.ZERK_CART?.bindAddButtons?.();
     }
 
     article.hidden = false;
     article.classList.add('is-visible');
+    document.body.classList.add('is-loaded');
   });
 })();

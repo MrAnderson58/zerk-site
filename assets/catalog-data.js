@@ -415,8 +415,38 @@
 
   const products = [...nippers, ...clippers, ...scissors, ...pushers, ...fileStrips, ...gloves];
 
+  function attachSlugs() {
+    const routes = window.ZERK_ROUTES;
+    if (!routes) return;
+    products.forEach((p) => {
+      p.slug = routes.productSlug(p);
+      p.path = routes.productPath(p);
+    });
+  }
+
+  attachSlugs();
+
   function productUrl(id) {
-    return `product.html?id=${encodeURIComponent(id)}`;
+    const p = getById(id);
+    if (p?.path) return p.path;
+    const routes = window.ZERK_ROUTES;
+    if (p && routes) return routes.productPath(p);
+    return `/collection`;
+  }
+
+  function getByPath(pathname) {
+    const routes = window.ZERK_ROUTES;
+    if (!routes) return null;
+    const id = routes.legacyIdFromPath(routes.parseProductPath(pathname), { products, getById });
+    return id ? getById(id) : null;
+  }
+
+  function getRelated(product, limit = 4) {
+    if (!product) return [];
+    const sameCat = products.filter((p) => p.cat === product.cat && p.id !== product.id);
+    const sameModel = sameCat.filter((p) => p.model === product.model);
+    const pool = sameModel.length > 1 ? sameModel : sameCat;
+    return pool.slice(0, limit);
   }
 
   function orderMessage(product) {
@@ -693,6 +723,8 @@
       ...Object.fromEntries(FILE_MODELS.map((m) => [m.code, m.image])),
     },
     productUrl,
+    getByPath,
+    getRelated,
     getById,
     productDisplayName,
     cartLineSnapshot,

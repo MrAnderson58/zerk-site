@@ -306,7 +306,7 @@
   function renderItems() {
     if (!items.length) {
       return `<div class="zerk-cart-empty">
-        Корзина пуста.<br><a href="catalog.html">Перейти в каталог</a>
+        Корзина пуста.<br><a href="/collection">Перейти в коллекцию ZERK TOOL</a>
       </div>`;
     }
     return items

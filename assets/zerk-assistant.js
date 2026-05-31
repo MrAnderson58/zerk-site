@@ -16,7 +16,7 @@
       vk: typeof window.ZERK_VK === 'string' ? window.ZERK_VK : 'https://vk.com/im/convo/94289869?tab=all',
       whatsapp:
         typeof window.ZERK_WHATSAPP === 'string' ? window.ZERK_WHATSAPP : 'https://wa.me/79257700803',
-      catalogUrl: 'catalog.html?cat=nippers',
+      catalogUrl: '/nippers',
       typingMinMs: 600,
       typingMaxMs: 1400,
     },
@@ -114,11 +114,11 @@
     }
 
     if (/книпс|clipper|cl-01|cl-02|cs-02/.test(q)) {
-      return 'Книпсеры ZERK — <strong>540 ₽</strong>, сталь <strong>S45C</strong>, производство <strong>Вьетнам</strong>:\n\n• <strong>CL-01</strong> — крупный\n• <strong>CL-02</strong> — средний\n• <strong>CS-02</strong> — компактный\n\n<a href="catalog.html?cat=nippers">Каталог</a>';
+      return 'Книпсеры ZERK TOOL — <strong>540 ₽</strong>, сталь <strong>S45C</strong>, производство <strong>Вьетнам</strong>:\n\n• <strong>CL-01</strong> — крупный\n• <strong>CL-02</strong> — средний\n• <strong>CS-02</strong> — компактный\n\n<a href="/nippers">Кусачки ZERK TOOL</a>';
     }
 
     if (/пушер|шабер|p-50|p-51/.test(q)) {
-      return 'Пушеры-шаберы <strong>P-504…P-514</strong> — <strong>320 ₽</strong>, сталь <strong>S45C</strong>, производство <strong>Вьетнам</strong>. <a href="catalog.html?cat=pushers">Каталог</a> · <a href="' + CONFIG.telegram + '" target="_blank" rel="noopener">Telegram</a> · <a href="' + CONFIG.vk + '" target="_blank" rel="noopener">ВК</a> · <a href="' + CONFIG.whatsapp + '" target="_blank" rel="noopener">WhatsApp</a>';
+      return 'Пушеры-шаберы <strong>P-504…P-514</strong> — <strong>320 ₽</strong>, сталь <strong>S45C</strong>, производство <strong>Вьетнам</strong>. <a href="/pushers">ZERK TOOL</a> · <a href="' + CONFIG.telegram + '" target="_blank" rel="noopener">Telegram</a> · <a href="' + CONFIG.vk + '" target="_blank" rel="noopener">ВК</a> · <a href="' + CONFIG.whatsapp + '" target="_blank" rel="noopener">WhatsApp</a>';
     }
 
     if (/кусач|кутикул|маникюр|инструмент|выбрать|подобрать|рекоменд/.test(q)) {
@@ -130,7 +130,7 @@
     }
 
     if (/перчатк|нитрил|ng-100|glove/.test(q)) {
-      return 'Перчатки нитрил <strong>ZERK NG-100</strong> — без пудры, 100 шт, размеры S / M / L, <strong>590 ₽</strong>. <a href="catalog.html?cat=gloves">Раздел в каталоге ZERK</a>';
+      return 'Перчатки нитрил <strong>ZERK TOOL NG-100</strong> — без пудры, 100 шт, размеры S / M / L, <strong>590 ₽</strong>. <a href="/nitrile-gloves">Раздел ZERK TOOL</a>';
     }
 
     return 'Могу подсказать по кусачкам <strong>IL-02…IAL-01</strong>, книпсерам <strong>CL-01…CS-02</strong>, пушерам <strong>P-504…P-514</strong> (Вьетнам), ножницам Solingen, пилкам-файлам и перчаткам нитрил ZERK. Связь: <a href="' + CONFIG.telegram + '" target="_blank" rel="noopener">Telegram</a> · <a href="' + CONFIG.vk + '" target="_blank" rel="noopener">ВК</a> · <a href="' + CONFIG.whatsapp + '" target="_blank" rel="noopener">WhatsApp</a>.';

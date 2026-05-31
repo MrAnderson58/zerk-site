@@ -26,21 +26,53 @@
     });
   });
 
-  /* ——— Header + hero parallax (native scroll) ——— */
-  const header = document.getElementById('siteHeader');
-  const menuToggle = document.getElementById('menuToggle');
-  const mobileMenu = document.getElementById('mobileMenu');
-  const heroVisual = document.getElementById('heroVisual');
-  const heroImg = document.getElementById('heroImg');
-
   let tiltX = 0;
   let tiltY = 0;
 
-  function onScroll() {
-    const y = window.scrollY;
+  function initHeader() {
+    const header = document.getElementById('siteHeader');
+    const menuToggle = document.getElementById('menuToggle');
+    const mobileMenu = document.getElementById('mobileMenu');
+    if (!menuToggle || !mobileMenu) return;
+
+    function closeMenu() {
+      menuToggle.classList.remove('is-open');
+      menuToggle.setAttribute('aria-expanded', 'false');
+      mobileMenu.classList.remove('is-open');
+      mobileMenu.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }
+
+    menuToggle.replaceWith(menuToggle.cloneNode(true));
+    const toggle = document.getElementById('menuToggle');
+    toggle.addEventListener('click', () => {
+      const open = !toggle.classList.contains('is-open');
+      toggle.classList.toggle('is-open', open);
+      toggle.setAttribute('aria-expanded', open);
+      mobileMenu.classList.toggle('is-open', open);
+      mobileMenu.setAttribute('aria-hidden', !open);
+      document.body.style.overflow = open ? 'hidden' : '';
+    });
+    mobileMenu.querySelectorAll('a').forEach((a) => a.addEventListener('click', closeMenu));
 
     if (header) {
-      const alwaysSolid = document.body.classList.contains('catalog-page');
+      const alwaysSolid =
+        document.body.classList.contains('catalog-page') ||
+        document.body.classList.contains('product-page');
+      header.classList.toggle('is-scrolled', alwaysSolid);
+    }
+  }
+
+  const heroVisual = document.getElementById('heroVisual');
+  const heroImg = document.getElementById('heroImg');
+
+  function onScroll() {
+    const y = window.scrollY;
+    const header = document.getElementById('siteHeader');
+    if (header) {
+      const alwaysSolid =
+        document.body.classList.contains('catalog-page') ||
+        document.body.classList.contains('product-page');
       header.classList.toggle('is-scrolled', alwaysSolid || y > 20);
     }
 
@@ -55,28 +87,8 @@
 
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
-
-  /* ——— Mobile menu ——— */
-  if (menuToggle && mobileMenu) {
-    function closeMenu() {
-      menuToggle.classList.remove('is-open');
-      menuToggle.setAttribute('aria-expanded', 'false');
-      mobileMenu.classList.remove('is-open');
-      mobileMenu.setAttribute('aria-hidden', 'true');
-      document.body.style.overflow = '';
-    }
-
-    menuToggle.addEventListener('click', () => {
-      const open = !menuToggle.classList.contains('is-open');
-      menuToggle.classList.toggle('is-open', open);
-      menuToggle.setAttribute('aria-expanded', open);
-      mobileMenu.classList.toggle('is-open', open);
-      mobileMenu.setAttribute('aria-hidden', !open);
-      document.body.style.overflow = open ? 'hidden' : '';
-    });
-
-    mobileMenu.querySelectorAll('a').forEach((a) => a.addEventListener('click', closeMenu));
-  }
+  initHeader();
+  document.addEventListener('zerk-shell-ready', initHeader);
 
   /* ——— Hero tilt ——— */
   if (!prefersReduced && finePointer && heroImg) {
@@ -162,6 +174,7 @@
   window.Zerk = {
     prefersReduced,
     finePointer,
+    initHeader,
     observeCards(selector) {
       const cards = document.querySelectorAll(selector);
       if (prefersReduced) {

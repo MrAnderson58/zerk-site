@@ -1,116 +1,41 @@
 <!DOCTYPE html>
-<html lang="ru" class="product-page">
+<html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Товар ZERK — профессиональный маникюрный инструмент</title>
-  <meta name="description" content="Купить товар ZERK — кусачки, ножницы, пилки-файлы или перчатки нитрил. Официальный каталог zerk-tool.ru.">
-  <link rel="canonical" href="https://zerk-tool.ru/product.html">
-  <meta name="theme-color" content="#000000">
-  <link rel="icon" href="favicon.ico" sizes="48x48">
-  <link rel="icon" href="images/favicon.svg" type="image/svg+xml">
-  <link rel="icon" href="favicon-32.png" type="image/png" sizes="32x32">
-  <link rel="icon" href="favicon-16.png" type="image/png" sizes="16x16">
-  <link rel="apple-touch-icon" href="icons/icon-180.png">
-  <link rel="stylesheet" href="assets/zerk.css">
-  <link rel="stylesheet" href="assets/zerk-assistant.css?v=2">
-  <link rel="stylesheet" href="assets/zerk-cart.css">
+  <title>Redirect — ZERK TOOL</title>
+  <script>
+    (function () {
+      var id = new URLSearchParams(location.search).get('id');
+      if (id) {
+        fetch('/assets/catalog-data.js').then(function () {
+          /* fallback */
+          location.replace('/collection');
+        });
+      }
+      var scripts = ['/assets/zerk-routes.js', '/assets/catalog-data.js'];
+      var i = 0;
+      function next() {
+        if (i >= scripts.length) {
+          var cat = window.ZERK_CATALOG;
+          var routes = window.ZERK_ROUTES;
+          if (id && cat && routes) {
+            location.replace(routes.legacyProductRedirect(id, cat));
+          } else {
+            location.replace('/collection');
+          }
+          return;
+        }
+        var s = document.createElement('script');
+        s.src = scripts[i++];
+        s.onload = next;
+        s.onerror = function () { location.replace('/collection'); };
+        document.head.appendChild(s);
+      }
+      next();
+    })();
+  </script>
 </head>
-<body class="product-page">
-  <div class="bg" aria-hidden="true">
-    <div class="bg-mesh"></div>
-    <div class="bg-sweep"></div>
-    <div class="bg-grain"></div>
-    <div class="bg-vignette"></div>
-  </div>
-
-  <header id="siteHeader">
-    <div class="header-inner">
-      <a href="index.html" class="logo" aria-label="ZERK — на главную">ZERK</a>
-      <nav class="header-nav" aria-label="Основная навигация">
-        <a href="index.html">Главная</a>
-        <a href="catalog.html">Каталог</a>
-        <a href="tel:+79257700803" class="phone">+7 (925) 770-08-03</a>
-      </nav>
-      <button type="button" class="menu-toggle" id="menuToggle" aria-label="Открыть меню" aria-expanded="false">
-        <span></span><span></span><span></span>
-      </button>
-    </div>
-  </header>
-
-  <nav class="mobile-menu" id="mobileMenu" aria-hidden="true" aria-label="Мобильное меню">
-    <a href="index.html">Главная</a>
-    <a href="catalog.html">Каталог</a>
-    <a href="tel:+79257700803">Позвонить</a>
-  </nav>
-
-  <main class="product-main" id="productMain">
-    <nav class="product-breadcrumb" aria-label="Навигация">
-      <a href="catalog.html">Каталог</a>
-      <span aria-hidden="true">/</span>
-      <a href="catalog.html" id="productCatLink">Категория</a>
-      <span aria-hidden="true">/</span>
-      <span id="productBreadcrumbCurrent">Товар</span>
-    </nav>
-
-    <article class="product-article glass" id="productArticle" hidden>
-      <div class="product-article__media">
-        <img id="productImage" src="" alt="" width="900" height="700" decoding="async">
-      </div>
-      <div class="product-article__content">
-        <div class="product-article__eyebrow" id="productEyebrow">ZERK</div>
-        <h1 class="product-article__title" id="productTitle">—</h1>
-        <p class="product-article__price" id="productPrice" hidden></p>
-        <p class="product-article__lead" id="productLead"></p>
-        <ul class="product-specs" id="productSpecs"></ul>
-        <div class="product-details" id="productDetails"></div>
-        <div class="product-variants" id="productVariants" hidden>
-          <h2 class="product-variants__title">Другие размеры лезвия</h2>
-          <div class="product-variants__list" id="productVariantsList"></div>
-        </div>
-        <div class="product-add-cart-wrap" id="productAddCartWrap" hidden>
-          <button type="button" class="zerk-add-btn" id="productAddCart" data-add-cart="">В корзину</button>
-        </div>
-        <div class="product-actions">
-          <div class="product-actions__channels">
-            <a href="#" class="btn-order" id="productOrderTg" rel="noopener noreferrer" target="_blank">Заказать в Telegram</a>
-            <a href="#" class="btn-order btn-order--vk" id="productOrderVk" rel="noopener noreferrer" target="_blank">Заказать в ВКонтакте</a>
-            <a href="#" class="btn-order btn-order--wa" id="productOrderWa" rel="noopener noreferrer" target="_blank">Заказать в WhatsApp</a>
-          </div>
-          <p class="product-actions__hint" id="productOrderHint"></p>
-          <a href="catalog.html" class="btn btn-secondary product-actions__back">Вернуться в каталог</a>
-        </div>
-      </div>
-    </article>
-
-    <section class="product-not-found glass" id="productNotFound" hidden>
-      <h1>Товар не найден</h1>
-      <p>Проверьте ссылку или выберите модель в каталоге.</p>
-      <a href="catalog.html" class="btn-order">Открыть каталог</a>
-    </section>
-
-    <section class="zerk-faq product-faq" aria-label="Вопросы о товаре ZERK">
-      <div id="productFaq"></div>
-    </section>
-  </main>
-
-  <footer>
-    <div class="footer-inner">
-      <span class="footer-brand">ZERK</span>
-      <nav class="footer-channels" aria-label="Связаться">
-        <a href="https://t.me/Mr_Anderson_pnz" data-telegram rel="noopener noreferrer" target="_blank">Telegram</a>
-        <a href="https://vk.com/im/convo/94289869?tab=all" data-vk rel="noopener noreferrer" target="_blank">ВКонтакте</a>
-        <a href="https://wa.me/79257700803" data-whatsapp rel="noopener noreferrer" target="_blank">WhatsApp</a>
-      </nav>
-      <a href="tel:+79257700803">+7 (925) 770-08-03</a>
-    </div>
-  </footer>
-
-  <script src="assets/catalog-data.js" defer></script>
-  <script src="assets/zerk-seo.js" defer></script>
-  <script src="assets/zerk.js" defer></script>
-  <script src="assets/zerk-cart.js" defer></script>
-  <script src="assets/product-page.js" defer></script>
-  <script src="assets/zerk-assistant.js?v=2" defer></script>
+<body>
+  <p><a href="/collection">Коллекция ZERK TOOL</a></p>
 </body>
 </html>
