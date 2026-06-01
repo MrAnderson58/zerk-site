@@ -76,11 +76,14 @@
       header.classList.toggle('is-scrolled', alwaysSolid || y > 20);
     }
 
-    if (!prefersReduced && heroVisual && y < window.innerHeight * 1.1) {
+    if (!prefersReduced && heroImg && y < window.innerHeight * 1.1) {
       const p = y / window.innerHeight;
-      heroVisual.style.transform = `translateY(${y * 0.12}px) scale(${1 - p * 0.03})`;
-      if (heroImg && finePointer) {
-        heroImg.style.transform = `translateY(${y * -0.05}px) rotateY(${tiltX}deg) rotateX(${-tiltY}deg)`;
+      const scrollY = y * 0.06;
+      const scale = 1 - p * 0.02;
+      if (finePointer) {
+        heroImg.style.transform = `translateY(${scrollY}px) rotateY(${tiltX}deg) rotateX(${-tiltY}deg) scale(${scale})`;
+      } else {
+        heroImg.style.transform = `translateY(${scrollY}px) scale(${scale})`;
       }
     }
   }
@@ -96,7 +99,10 @@
       tiltX = (e.clientX / window.innerWidth - 0.5) * 10;
       tiltY = (e.clientY / window.innerHeight - 0.5) * 8;
       const y = window.scrollY;
-      heroImg.style.transform = `translateY(${y * -0.05}px) rotateY(${tiltX}deg) rotateX(${-tiltY}deg)`;
+      const scrollY = y * 0.06;
+      const p = y / window.innerHeight;
+      const scale = 1 - p * 0.02;
+      heroImg.style.transform = `translateY(${scrollY}px) rotateY(${tiltX}deg) rotateX(${-tiltY}deg) scale(${scale})`;
     });
   }
 
