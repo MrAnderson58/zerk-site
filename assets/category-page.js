@@ -165,7 +165,10 @@
       ? `<span class="catalog-card__badge${p.badge === 'Хит' ? ' catalog-card__badge--hit' : ''}">${p.badge}</span>`
       : '';
 
-    const cardLabel = `${p.model}${p.blade ? ` · ${p.blade} мм` : ''}`;
+    const cardLabel =
+      p.cat === 'gloves'
+        ? `${p.colorLabel}, размер ${p.size}`
+        : `${p.model}${p.blade ? ` · ${p.blade} мм` : ''}`;
 
     return `
       <article class="catalog-card glass" style="transition-delay:${(delayIndex % 6) * 0.05}s">
@@ -176,8 +179,8 @@
             <img src="/${p.image.replace(/^\//, '')}" alt="${alt}" width="400" height="300" loading="lazy" decoding="async" class="catalog-card__img--catalog">
           </div>
           <div class="catalog-card__body">
-            <div class="catalog-card__code">${p.brand || 'ZERK'} · ${labels[p.cat]}</div>
-            <div class="catalog-card__model">${p.model}</div>
+            <div class="catalog-card__code">${p.brand || 'ZERK'} · ${labels[p.cat]}${p.colorLabel ? ` · ${p.colorLabel}` : ''}</div>
+            <div class="catalog-card__model">${p.cat === 'gloves' ? `${p.model} · ${p.size}` : p.model}</div>
             <p class="catalog-card__desc">${p.desc}</p>
             <div class="catalog-card__footer">
               <span class="catalog-card__cta">Подробнее →</span>

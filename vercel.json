@@ -10,7 +10,10 @@
       "destination": "/product",
       "permanent": true
     },
-    { "source": "/product.html", "destination": "/collection", "permanent": true }
+    { "source": "/product.html", "destination": "/collection", "permanent": true },
+    { "source": "/nitrile-gloves/ng-100-s", "destination": "/nitrile-gloves/ng-100-black-s", "permanent": true },
+    { "source": "/nitrile-gloves/ng-100-m", "destination": "/nitrile-gloves/ng-100-black-m", "permanent": true },
+    { "source": "/nitrile-gloves/ng-100-l", "destination": "/nitrile-gloves/ng-100-black-m", "permanent": true }
   ],
   "rewrites": [
     { "source": "/nippers/:model/:variant", "destination": "/product" },

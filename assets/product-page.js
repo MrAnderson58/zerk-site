@@ -109,34 +109,60 @@
     });
 
     const siblings = catalog.siblings(product).filter((p) => p.id !== product.id);
+    const colorPeers =
+      product.cat === 'gloves'
+        ? catalog.products.filter(
+            (p) =>
+              p.cat === 'gloves' &&
+              p.model === product.model &&
+              p.size === product.size &&
+              p.id !== product.id
+          )
+        : [];
     const variantsBlock = document.getElementById('productVariants');
     const variantsList = document.getElementById('productVariantsList');
-    if (siblings.length) {
+    if (siblings.length || colorPeers.length) {
       variantsBlock.hidden = false;
       const variantTitles = {
         nippers: product.productType === 'clipper' ? 'Другие книпсеры ZERK TOOL' : 'Размер лезвия',
         pushers: 'Другие модели',
         scissors: 'Другие модели',
         files: 'Другие гриты',
-        gloves: 'Другие размеры',
+        gloves: 'Размер',
       };
       variantsBlock.querySelector('.product-variants__title').textContent =
         variantTitles[product.cat] || 'Варианты';
-      variantsList.innerHTML = siblings
-        .map((p) => {
-          const label =
-            product.cat === 'nippers' && !product.productType
-              ? `${p.blade} мм`
-              : product.cat === 'files'
-                ? `${p.grit} грит`
-                : product.cat === 'gloves'
-                  ? p.size
-                  : p.model;
-          const href = p.path || catalog.productUrl(p.id);
-          const active = p.id === product.id ? ' is-active' : '';
-          return `<a href="${href}" class="product-variant${active}">${label}</a>`;
-        })
-        .join('');
+
+      const variantLink = (p, label) => {
+        const href = p.path || catalog.productUrl(p.id);
+        const active = p.id === product.id ? ' is-active' : '';
+        return `<a href="${href}" class="product-variant${active}">${label}</a>`;
+      };
+
+      let html = '';
+      if (siblings.length) {
+        html += siblings
+          .map((p) => {
+            const label =
+              product.cat === 'nippers' && !product.productType
+                ? `${p.blade} мм`
+                : product.cat === 'files'
+                  ? `${p.grit} грит`
+                  : product.cat === 'gloves'
+                    ? p.size
+                    : p.model;
+            return variantLink(p, label);
+          })
+          .join('');
+      }
+      if (colorPeers.length) {
+        html += `<span class="product-variants__divider">Цвет</span>`;
+        html += [product, ...colorPeers]
+          .sort((a, b) => a.color.localeCompare(b.color))
+          .map((p) => variantLink(p, p.colorLabel))
+          .join('');
+      }
+      variantsList.innerHTML = html;
     }
 
     const related = catalog.getRelated(product, 4);

@@ -15,7 +15,7 @@
         { href: '/replaceable-files', label: 'Сменные файлы', desc: '100 / 180 / 240 грит' },
         { href: '/nail-files', label: 'Пилки для ногтей', desc: 'Обзор абразивов ZERK' },
         { href: '/pushers', label: 'Пушеры-шаберы', desc: 'P-504…P-514' },
-        { href: '/nitrile-gloves', label: 'Перчатки Glovity', desc: 'Нитрил · NG-100' },
+        { href: '/nitrile-gloves', label: 'Перчатки Glovity', desc: 'Нитрил · 3 цвета · XS–M' },
       ],
     },
     { href: '/about', label: 'О бренде' },

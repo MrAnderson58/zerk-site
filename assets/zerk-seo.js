@@ -142,15 +142,36 @@
       'файлы long zerk',
     ],
     gloves: [
+      'нитриловые перчатки',
+      'нитриловые перчатки черные',
+      'нитриловые перчатки для маникюра',
+      'перчатки для мастеров маникюра',
+      'перчатки нитриловые купить',
+      'черные нитриловые перчатки',
+      'нитриловые перчатки premium',
+      'перчатки для салонов красоты',
+      'нитриловые перчатки неопудренные',
+      'перчатки для косметологов',
+      'перчатки для мастеров',
+      'нитриловые перчатки размер s',
+      'нитриловые перчатки размер m',
+      'перчатки для стерильной работы',
+      'одноразовые нитриловые перчатки',
+      'профессиональные нитриловые перчатки',
+      'перчатки для nail мастеров',
+      'перчатки для бьюти мастеров',
+      'нитриловые перчатки для салонов',
+      'перчатки для маникюра купить',
+      'черные перчатки для маникюра',
+      'перчатки для аппаратного маникюра',
+      'перчатки для комбинированного маникюра',
+      'нитриловые перчатки Glovity',
+      'перчатки Glovity',
+      'черные перчатки Glovity',
+      'перчатки для маникюра Glovity',
+      'нитриловые перчатки premium Glovity',
       'перчатки нитриловые zerk',
-      'нитриловые перчатки zerk',
-      'перчатки для маникюра zerk',
-      'перчатки нитрил zerk',
-      'перчатки без пудры zerk',
-      'перчатки для салона zerk',
-      'перчатки для мастера маникюра',
-      'нитриловые перчатки купить',
-      'перчатки нитрил для маникюра',
+      'перчатки glovity zerk',
     ],
   };
 
@@ -319,8 +340,12 @@
     ],
     gloves: [
       {
-        q: 'Какие размеры перчаток Glovity NG-100?',
-        a: 'Перчатки нитрил Glovity NG-100 выпускаются в размерах S, M и L, упаковка 100 шт без пудры. Представлены в каталоге ZERK TOOL.',
+        q: 'Какие размеры и цвета перчаток Glovity?',
+        a: 'Нитриловые перчатки Glovity в каталоге ZERK TOOL: цвета чёрный, белый и розовый; размеры XS, S и M. Упаковка 100 шт, без пудры.',
+      },
+      {
+        q: 'Для чего подходят нитриловые перчатки Glovity?',
+        a: 'Для маникюра и салонов, кухни и HoReCa, уборки, косметологии и работы со слабыми химическими растворами. Premium-качество, тактильный контроль.',
       },
     ],
     catalog: [
@@ -338,7 +363,7 @@
       },
       {
         q: 'Перчатки нитрил ZERK — для чего?',
-        a: 'Перчатки Glovity NG-100 без пудры — гигиеничный протокол мастера, размеры S, M и L, упаковка 100 шт.',
+        a: 'Перчатки Glovity без пудры — чёрные, белые и розовые, размеры XS, S и M, упаковка 100 шт. Гигиеничный протокол для мастеров.',
       },
     ],
   };
@@ -387,8 +412,8 @@
     if (product.cat === 'gloves') {
       return [
         {
-          q: `Перчатки Glovity ${product.model} — какой размер?`,
-          a: `Размер ${product.size}, упаковка ${product.packSize} шт. Бренд Glovity, без пудры — для салонного протокола.`,
+          q: `Перчатки Glovity ${product.colorLabel} — какой размер?`,
+          a: `Эта карточка — размер ${product.size}, цвет ${product.colorLabel.toLowerCase()}, упаковка ${product.packSize} шт без пудры. Также доступны XS, S, M и другие цвета в каталоге.`,
         },
         ...common,
       ];
@@ -416,7 +441,7 @@
       return `Кусачки ${BRAND} ${product.model} ${product.blade} мм`;
     }
     if (product.cat === 'gloves') {
-      return `Перчатки Glovity ${product.model} ${product.size}`;
+      return `Перчатки Glovity ${product.colorLabel} ${product.size}`;
     }
     if (product.cat === 'files') {
       return `Пилки-файлы ${BRAND} ${product.model} ${product.grit} грит`;
@@ -429,7 +454,7 @@
 
   function productH1(product) {
     if (product.cat === 'gloves') {
-      return `Glovity · ${product.model} · размер ${product.size}`;
+      return `Glovity · ${product.colorLabel} · ${product.size}`;
     }
     const b = BRAND_SHORT;
     if (product.cat === 'nippers' && product.productType === 'clipper') {
@@ -448,12 +473,21 @@
   }
 
   function imageAlt(product) {
+    if (product.cat === 'gloves') {
+      return `Нитриловые перчатки Glovity ${product.colorLabel}, размер ${product.size}, 100 шт без пудры`;
+    }
     return catalogProductName(product);
   }
 
   function keywordsForProduct(product) {
     const cat = product.cat === 'nippers' && !product.productType ? 'nippers' : product.cat;
     const extra = product.model ? [`${product.model} zerk`, `${product.id} zerk`] : [];
+    if (product.cat === 'gloves' && product.colorLabel) {
+      extra.push(
+        `перчатки glovity ${product.colorLabel.toLowerCase()}`,
+        `нитриловые перчатки ${product.colorLabel.toLowerCase()}`
+      );
+    }
     return joinKeywords(KEYWORDS.global, KEYWORDS[cat] || [], extra);
   }
 
@@ -466,7 +500,10 @@
       description: product.desc,
       image: product.image.startsWith('http') ? product.image : `${SITE}/${product.image}`,
       sku: product.id,
-      brand: { '@type': 'Brand', name: BRAND_SHORT },
+      brand: {
+        '@type': 'Brand',
+        name: product.cat === 'gloves' ? product.brand || 'Glovity' : BRAND_SHORT,
+      },
       manufacturer: { '@type': 'Organization', name: BRAND },
       offers: product.price
         ? {

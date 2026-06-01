@@ -74,12 +74,12 @@
       cat: 'gloves',
       label: 'Перчатки нитрил',
       grid: true,
-      h1: 'Перчатки Glovity',
-      title: 'Перчатки Glovity NG-100 — нитрил без пудры',
+      h1: 'Нитриловые перчатки Glovity',
+      title: 'Перчатки Glovity — нитриловые, чёрные, белые, розовые',
       description:
-        'Нитриловые перчатки Glovity NG-100: 100 шт, размеры S / M / L, без пудры. Для мастеров маникюра и салонов. В каталоге ZERK TOOL.',
+        'Нитриловые перчатки Glovity без пудры: чёрные, белые и розовые, размеры XS / S / M, 100 шт. Для маникюра, салонов и бьюти-мастеров. Каталог ZERK TOOL.',
       intro:
-        'Glovity — нитриловые перчатки без пудры: тактильный контроль, плотное прилегание и гигиена рабочего места. Упаковка 100 шт, размеры S / M / L.',
+        'Профессиональные нитриловые перчатки Glovity — надёжная защита в индустрии красоты, медицине, клининге и салонном протоколе. Без пудры, premium-качество: три цвета (чёрный, белый, розовый) и размеры XS, S, M, упаковка 100 шт.',
     },
     pushers: {
       path: '/pushers',
@@ -140,7 +140,8 @@
       return `${slugify(product.modelCode || product.model)}-${product.grit}`;
     }
     if (product.cat === 'gloves') {
-      return `${slugify(product.model)}-${String(product.size).toLowerCase()}`;
+      const color = slugify(product.color || 'black');
+      return `${slugify(product.model)}-${color}-${String(product.size).toLowerCase()}`;
     }
     return slugify(product.id);
   }
@@ -149,7 +150,7 @@
     if (product.cat === 'nippers' && !product.productType && product.blade) {
       return `${product.blade}-mm`;
     }
-    if (product.cat === 'gloves') return String(product.size).toLowerCase();
+    if (product.cat === 'gloves') return null;
     if (product.cat === 'files') return `${product.grit}-grit`;
     return null;
   }

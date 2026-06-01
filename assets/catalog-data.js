@@ -384,28 +384,44 @@
     price: PRICES.pusher,
   }));
 
-  const GLOVE_SIZES = ['S', 'M', 'L'];
+  const GLOVE_COLORS = [
+    { id: 'black', label: 'Чёрные', labelShort: 'чёрные', image: 'images/gloves-glovity-black.jpg' },
+    { id: 'white', label: 'Белые', labelShort: 'белые', image: 'images/gloves-glovity-white.jpg' },
+    { id: 'pink', label: 'Розовые', labelShort: 'розовые', image: 'images/gloves-glovity-pink.jpg' },
+  ];
 
-  const gloves = GLOVE_SIZES.map((size) => ({
-    id: `NG-100-${size}`,
-    model: 'NG-100',
-    brand: 'Glovity',
-    size,
-    packSize: 100,
-    cat: 'gloves',
-    title: `Размер ${size}`,
-    desc: 'Нитриловые перчатки Glovity без пудры — плотное прилегание и тактильный контроль для салонного протокола.',
-    details: [
-      'Перчатки нитрил Glovity NG-100 — без пудры, нестерильные, для одноразового использования в маникюре и педикюре.',
-      `Упаковка ${100} шт., размер ${size}. Подходят для комбинированного и аппаратного маникюра, защиты рук мастера при работе с препаратами.`,
-      'Материал нитрил — устойчивость к растяжению и проколам, удобная посадка без «перчаточного» запаха латекса.',
-    ],
-    badge: size === 'M' ? 'Хит' : '',
-    image: 'images/gloves-nitrile.svg',
-    material: 'Нитрил',
-    origin: 'Бренд Glovity',
-    price: PRICES.glove,
-  }));
+  const GLOVE_SIZES = ['XS', 'S', 'M'];
+
+  const GLOVE_DETAILS = [
+    'Профессиональные нитриловые перчатки Glovity обеспечивают надёжную защиту рук в индустрии красоты, медицине, клининге, пищевой сфере и бытовом использовании.',
+    'Маникюр и салоны — перчатки защищают кожу рук от контакта с биологическими средами, красителями, пылью, расходными материалами и химическими составами во время процедур.',
+    'Кухня и пищевая сфера — предотвращают попадание бактерий и загрязнений с рук на продукты. Подходят для кухни, кафе, ресторанов и производства.',
+    'Дом и уборка — защита от бытовой химии, загрязнений и влаги при уборке, мытье и контакте с агрессивными средствами.',
+    'Химия и производство — подходят для работы со слабыми растворами кислот, щелочей, солей и различными химическими составами.',
+    'Преимущества: высокая прочность и эластичность, комфортная посадка, тактильная чувствительность, устойчивость к проколам, гипоаллергенный материал, premium-качество для профессионального использования.',
+    'Glovity — профессиональные расходные материалы для мастеров и салонов красоты. Упаковка 100 шт, без пудры, нестерильные, для одноразового протокола.',
+  ];
+
+  const gloves = GLOVE_COLORS.flatMap((color) =>
+    GLOVE_SIZES.map((size) => ({
+      id: `NG-100-${color.id}-${size}`,
+      model: 'NG-100',
+      brand: 'Glovity',
+      color: color.id,
+      colorLabel: color.label,
+      size,
+      packSize: 100,
+      cat: 'gloves',
+      title: `${color.label}, размер ${size}`,
+      desc: `Профессиональные нитриловые перчатки Glovity ${color.labelShort} — без пудры, 100 шт, размер ${size}. Premium для салонов и nail-мастеров.`,
+      details: GLOVE_DETAILS,
+      badge: color.id === 'black' && size === 'M' ? 'Хит' : '',
+      image: color.image,
+      material: 'Нитрил, без пудры',
+      origin: 'Бренд Glovity',
+      price: PRICES.glove,
+    }))
+  );
 
   const fileStrips = FILE_MODELS.flatMap((model) =>
     FILE_GRITS.map((grit) => ({
@@ -482,7 +498,7 @@
       return `Здравствуйте! Интересуют пилки-файлы ${product.model}, ${product.grit} грит (артикул ${product.id}${priceLine}).`;
     }
     if (product.cat === 'gloves') {
-      return `Здравствуйте! Интересуют перчатки Glovity ${product.model}, размер ${product.size} (артикул ${product.id}${priceLine}).`;
+      return `Здравствуйте! Интересуют перчатки Glovity ${product.colorLabel}, размер ${product.size} (артикул ${product.id}${priceLine}).`;
     }
     return `Здравствуйте! Интересует ножницы ${product.model} (артикул ${product.id}${priceLine}).`;
   }
@@ -528,7 +544,7 @@
       return `Пилки-файлы ${product.model}, ${product.grit} грит`;
     }
     if (product.cat === 'gloves') {
-      return `Перчатки Glovity ${product.model}, размер ${product.size}`;
+      return `Перчатки Glovity ${product.colorLabel}, размер ${product.size}`;
     }
     return `Ножницы ${product.model}`;
   }
@@ -623,6 +639,7 @@
         { label: 'Артикул', value: product.id },
         ...priceRow,
         { label: 'Модель', value: product.model },
+        { label: 'Цвет', value: product.colorLabel },
         { label: 'Размер', value: product.size },
         { label: 'Упаковка', value: `${product.packSize} шт.` },
         { label: 'Материал', value: product.material },
@@ -659,7 +676,9 @@
       );
     }
     if (product.cat === 'gloves') {
-      return products.filter((p) => p.cat === 'gloves' && p.model === product.model);
+      return products.filter(
+        (p) => p.cat === 'gloves' && p.model === product.model && p.color === product.color
+      );
     }
     return products.filter((p) => p.cat === 'scissors');
   }
@@ -722,14 +741,13 @@
         subtitle: `${fileDimensions(m)} · ${m.shape} · грит 100 / 180 / 240 · ZERK`,
         image: m.image,
       })),
-      gloves: [
-        {
-          code: 'NG-100',
-          title: 'Glovity NG-100',
-          subtitle: 'Нитрил · без пудры · 100 шт · S / M / L',
-          image: 'images/gloves-nitrile.svg',
-        },
-      ],
+      gloves: GLOVE_COLORS.map((color) => ({
+        code: `NG-100-${color.id}`,
+        title: `Glovity · ${color.label}`,
+        subtitle: 'Нитрил · без пудры · 100 шт · XS / S / M',
+        image: color.image,
+        productIds: GLOVE_SIZES.map((size) => `NG-100-${color.id}-${size}`),
+      })),
     },
     productCount: products.length,
     products,
