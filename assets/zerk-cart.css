@@ -479,9 +479,10 @@
 /* Add to cart buttons */
 .zerk-add-btn {
   position: absolute;
-  z-index: 4;
+  z-index: 6;
   right: 12px;
-  bottom: 12px;
+  top: 12px;
+  bottom: auto;
   padding: 8px 14px;
   border: none;
   border-radius: 980px;
@@ -526,10 +527,17 @@
   position: relative;
 }
 
-.catalog-card__link {
-  display: block;
-  text-decoration: none;
+.catalog-card__link,
+.catalog-card__hitarea {
   color: inherit;
+}
+
+.catalog-card {
+  cursor: pointer;
+}
+
+.catalog-card .zerk-add-btn {
+  pointer-events: auto;
 }
 
 .product-add-cart-wrap {
@@ -584,6 +592,13 @@
   align-items: center;
   justify-content: center;
   font-size: 14px;
+}
+
+@media (max-width: 900px) {
+  .catalog-page .zerk-cart-fab,
+  .product-page .zerk-cart-fab {
+    display: none;
+  }
 }
 
 /* Mobile bottom sheet */

@@ -60,12 +60,10 @@
     if (grid && config.grid && config.cat) {
       const items = catalog.products.filter((p) => p.cat === config.cat);
       grid.innerHTML = items.map((p, i) => renderCard(p, catalog, i)).join('');
-      window.Zerk?.observeCards?.('.catalog-card');
-      window.ZERK_CART?.bindAddButtons?.();
+      bindCatalogCards(grid);
     } else if (grid && isCollection) {
       grid.innerHTML = catalog.products.map((p, i) => renderCard(p, catalog, i)).join('');
-      window.Zerk?.observeCards?.('.catalog-card');
-      window.ZERK_CART?.bindAddButtons?.();
+      bindCatalogCards(grid);
     }
 
     if (key === 'about' || key === 'contacts') {
@@ -113,6 +111,11 @@
     document.body.classList.add('is-loaded');
   });
 
+  function bindCatalogCards(grid) {
+    window.Zerk?.observeCards?.('.catalog-card');
+    window.ZERK_CART?.bindAddButtons?.();
+  }
+
   function renderCard(p, catalog, delayIndex) {
     const routes = window.ZERK_ROUTES;
     const seo = window.ZERK_SEO;
@@ -131,9 +134,12 @@
       ? `<span class="catalog-card__badge${p.badge === 'Хит' ? ' catalog-card__badge--hit' : ''}">${p.badge}</span>`
       : '';
 
+    const cardLabel = `${p.model}${p.blade ? ` · ${p.blade} мм` : ''}`;
+
     return `
       <article class="catalog-card glass" style="transition-delay:${(delayIndex % 6) * 0.05}s">
-        <a href="${href}" class="catalog-card__link">
+        <a href="${href}" class="catalog-card__hitarea" aria-label="${cardLabel}, подробнее о товаре"></a>
+        <div class="catalog-card__surface">
           <div class="catalog-card__media">
             ${badge}
             ${corner ? `<span class="catalog-card__blade">${corner}</span>` : ''}
@@ -144,12 +150,12 @@
             <div class="catalog-card__model">${p.model}</div>
             <p class="catalog-card__desc">${p.desc}</p>
             <div class="catalog-card__footer">
-              ${price ? `<span class="catalog-card__price">${price}</span>` : ''}
               <span class="catalog-card__cta">Подробнее →</span>
+              ${price ? `<span class="catalog-card__price">${price}</span>` : ''}
             </div>
           </div>
-        </a>
-        <button type="button" class="zerk-add-btn" data-add-cart="${p.id}">В корзину</button>
+        </div>
+        <button type="button" class="zerk-add-btn" data-add-cart="${p.id}" aria-label="Добавить ${cardLabel} в корзину">В корзину</button>
       </article>`;
   }
 })();
