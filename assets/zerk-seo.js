@@ -7,6 +7,15 @@
   const BRAND = 'ZERK TOOL';
   const BRAND_SHORT = 'ZERK';
   const SITE = 'https://zerk-tool.ru';
+  const LOGO_URL = `${SITE}/images/logo.png`;
+
+  const BRAND_ADDRESS = {
+    '@type': 'PostalAddress',
+    addressCountry: 'RU',
+    addressLocality: 'Penza, Suvorova 92',
+  };
+
+  const BRAND_SAME_AS = ['https://t.me/Mr_Anderson_pnz', 'https://wa.me/79257700803'];
 
   const KEYWORDS = {
     global: [
@@ -278,6 +287,46 @@
     };
   }
 
+  function organizationSchema() {
+    return {
+      '@context': 'https://schema.org',
+      '@type': 'Organization',
+      name: BRAND,
+      alternateName: [BRAND_SHORT, 'ZERK TOOL'],
+      url: SITE,
+      logo: LOGO_URL,
+      image: LOGO_URL,
+      telephone: '+7-925-770-08-03',
+      description: 'Профессиональный маникюрный инструмент ZERK TOOL: кусачки, ножницы, пилки-файлы.',
+      address: BRAND_ADDRESS,
+      sameAs: BRAND_SAME_AS,
+    };
+  }
+
+  function localBusinessSchema() {
+    return {
+      '@context': 'https://schema.org',
+      '@type': 'LocalBusiness',
+      name: BRAND,
+      image: LOGO_URL,
+      logo: LOGO_URL,
+      url: SITE,
+      telephone: '+7-925-770-08-03',
+      description: 'Профессиональный маникюрный инструмент ZERK TOOL для салонов и мастеров.',
+      address: BRAND_ADDRESS,
+      sameAs: BRAND_SAME_AS,
+    };
+  }
+
+  function injectBrandSchema() {
+    if (!document.getElementById('zerk-schema-org-static')) {
+      injectJsonLd('zerk-schema-org', organizationSchema());
+    }
+    if (!document.getElementById('zerk-schema-localbusiness-static')) {
+      injectJsonLd('zerk-schema-localbusiness', localBusinessSchema());
+    }
+  }
+
   function premiumFaqItems() {
     return window.ZERK_FAQ_DATA?.PREMIUM || [];
   }
@@ -531,6 +580,7 @@
     if (!document.getElementById('zerk-schema-faq-static') && faq.length) {
       injectJsonLd('zerk-schema-faq', faqSchema(faq));
     }
+    injectBrandSchema();
     return faq;
   }
 
@@ -556,6 +606,7 @@
 
     injectJsonLd('zerk-schema-product', productSchema(product, catalog, canonical));
     injectJsonLd('zerk-schema-faq', faqSchema(productFaq(product, catalog)));
+    injectBrandSchema();
     renderBreadcrumbs(document.getElementById('productBreadcrumbs'), crumbs);
     const faqEl = document.getElementById('productFaq');
     renderFaq(faqEl, productFaq(product, catalog), 'Частые вопросы');
@@ -569,15 +620,7 @@
       keywords: joinKeywords(KEYWORDS.global, KEYWORDS.nippers, KEYWORDS.scissors, KEYWORDS.files, KEYWORDS.gloves),
       canonical: `${SITE}/`,
     });
-    injectJsonLd('zerk-schema-org', {
-      '@context': 'https://schema.org',
-      '@type': 'Organization',
-      name: BRAND,
-      alternateName: 'ZERK TOOL',
-      url: SITE,
-      telephone: '+7-925-770-08-03',
-      description: 'Профессиональный маникюрный инструмент ZERK',
-    });
+    injectBrandSchema();
     injectJsonLd('zerk-schema-website', {
       '@context': 'https://schema.org',
       '@type': 'WebSite',
@@ -614,6 +657,7 @@
       keywords: joinKeywords(KEYWORDS.global, KEYWORDS.nippers, KEYWORDS.scissors, KEYWORDS.files, KEYWORDS.gloves),
       canonical: `${SITE}/catalog`,
     });
+    injectBrandSchema();
     const catalogItems = premiumFaqItems();
     if (!document.getElementById('zerk-schema-faq-static') && catalogItems.length) {
       injectJsonLd('zerk-schema-faq', faqSchema(catalogItems));
@@ -650,9 +694,13 @@
     imageAlt,
     productFaq,
     faqSchema,
+    organizationSchema,
+    localBusinessSchema,
+    injectBrandSchema,
     breadcrumbSchema,
     renderBreadcrumbs,
     renderFaq,
     injectJsonLd,
+    LOGO_URL,
   };
 })();

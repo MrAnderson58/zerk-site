@@ -12,6 +12,11 @@ const catHtml = d.buildPremiumFaqHtml(d.CATALOG, {
 });
 const ld = JSON.stringify(d.faqJsonLd(d.PREMIUM));
 
+const seoCtx = { window: {} };
+vm.runInContext(fs.readFileSync('assets/zerk-seo.js', 'utf8'), vm.createContext(seoCtx));
+const orgLd = JSON.stringify(seoCtx.window.ZERK_SEO.organizationSchema());
+const lbLd = JSON.stringify(seoCtx.window.ZERK_SEO.localBusinessSchema());
+
 const html = `<!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -26,6 +31,8 @@ const html = `<!DOCTYPE html>
   <link rel="stylesheet" href="/assets/zerk.css">
   <link rel="stylesheet" href="/assets/zerk-faq.css">
   <script type="application/ld+json" id="zerk-schema-faq-static">${ld}</script>
+  <script type="application/ld+json" id="zerk-schema-org-static">${orgLd}</script>
+  <script type="application/ld+json" id="zerk-schema-localbusiness-static">${lbLd}</script>
 </head>
 <body>
   <div class="bg" aria-hidden="true"><div class="bg-mesh"></div><div class="bg-sweep"></div><div class="bg-grain"></div><div class="bg-vignette"></div></div>
