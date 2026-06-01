@@ -278,11 +278,12 @@
     };
   }
 
-  function renderFaq(container, items) {
+  function renderFaq(container, items, title) {
     if (!container || !items?.length) return;
+    const faqTitle = title || `Частые вопросы о ${BRAND}`;
     container.innerHTML = `
       <div class="zerk-faq__inner">
-        <h2 class="zerk-faq__title">Частые вопросы о ${BRAND}</h2>
+        <h2 class="zerk-faq__title">${faqTitle}</h2>
         <div class="zerk-faq__list">
           ${items
             .map(
@@ -562,7 +563,7 @@
     injectJsonLd('zerk-schema-faq', faqSchema(productFaq(product, catalog)));
     renderBreadcrumbs(document.getElementById('productBreadcrumbs'), crumbs);
     const faqEl = document.getElementById('productFaq');
-    renderFaq(faqEl, productFaq(product, catalog));
+    renderFaq(faqEl, productFaq(product, catalog), 'Частые вопросы');
   }
 
   function initHomePage() {

@@ -170,7 +170,7 @@
     if (relatedEl && related.length) {
       relatedEl.hidden = false;
       relatedEl.innerHTML = `
-        <h2 class="section-title">С этим выбирают ZERK TOOL</h2>
+        <h2 class="section-title">Похожие товары</h2>
         <div class="product-related__grid">
           ${related
             .map(
