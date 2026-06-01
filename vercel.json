@@ -16,6 +16,10 @@
     { "source": "/nitrile-gloves/ng-100-l", "destination": "/nitrile-gloves/ng-100-black-m", "permanent": true }
   ],
   "rewrites": [
+    {
+      "source": "/googlec9d2a993ca7c401d.html",
+      "destination": "/googlec9d2a993ca7c401d"
+    },
     { "source": "/nippers/:model/:variant", "destination": "/product" },
     { "source": "/nippers/:slug", "destination": "/product" },
     { "source": "/scissors/:slug", "destination": "/product" },
@@ -24,6 +28,10 @@
     { "source": "/nitrile-gloves/:slug", "destination": "/product" }
   ],
   "headers": [
+    {
+      "source": "/googlec9d2a993ca7c401d.html",
+      "headers": [{ "key": "Content-Type", "value": "text/html; charset=utf-8" }]
+    },
     {
       "source": "/(.*)",
       "headers": [
