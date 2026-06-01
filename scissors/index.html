@@ -31,10 +31,13 @@
     })(window, document, 'script', 'https://mc.yandex.ru/metrika/tag.js', 'ym');
 
     ym(45587271, 'init', {
-      clickmap: true,
-      trackLinks: true,
-      accurateTrackBounce: true,
       webvisor: true,
+      clickmap: true,
+      ecommerce: 'dataLayer',
+      referrer: document.referrer,
+      url: location.href,
+      accurateTrackBounce: true,
+      trackLinks: true,
     });
   </script>
   <noscript>
