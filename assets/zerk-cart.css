@@ -527,17 +527,16 @@
   position: relative;
 }
 
-.catalog-card__link,
-.catalog-card__hitarea {
+.catalog-card__link {
   color: inherit;
 }
 
 .catalog-card {
-  cursor: pointer;
+  cursor: default;
 }
 
-.catalog-card .zerk-add-btn {
-  pointer-events: auto;
+.catalog-card__link {
+  cursor: pointer;
 }
 
 .product-add-cart-wrap {

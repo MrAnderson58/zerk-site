@@ -18,7 +18,14 @@
       return;
     }
 
+    const pathFromQuery = params.get('path');
     let product = catalog.getByPath(window.location.pathname);
+    if (!product && pathFromQuery) {
+      product = catalog.getByPath(pathFromQuery);
+      if (product?.path) {
+        window.history.replaceState(null, '', product.path);
+      }
+    }
     if (!product) {
       const parsed = routes.parseProductPath(window.location.pathname);
       if (parsed && parsed.variantPart === null && parsed.cat === 'nippers') {

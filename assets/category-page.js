@@ -114,12 +114,43 @@
   function bindCatalogCards(grid) {
     window.Zerk?.observeCards?.('.catalog-card');
     window.ZERK_CART?.bindAddButtons?.();
+
+    const isLocalHost =
+      location.hostname === 'localhost' || location.hostname === '127.0.0.1';
+
+    if (isLocalHost) {
+      grid.querySelectorAll('.catalog-card__link').forEach((link) => {
+        if (link.dataset.navBound) return;
+        link.dataset.navBound = '1';
+        link.addEventListener('click', (e) => {
+          if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
+          const href = link.getAttribute('href');
+          if (!href || href === '/collection') return;
+
+          e.preventDefault();
+          fetch(href, { method: 'HEAD', redirect: 'follow' })
+            .then((res) => {
+              if (res.ok) window.location.assign(href);
+              else window.location.assign(`/product/?path=${encodeURIComponent(href)}`);
+            })
+            .catch(() => {
+              window.location.assign(`/product/?path=${encodeURIComponent(href)}`);
+            });
+        });
+      });
+    }
+  }
+
+  function productHref(p, catalog) {
+    const routes = window.ZERK_ROUTES;
+    if (routes?.productPath) return routes.productPath(p);
+    return p.path || catalog.productUrl(p.id);
   }
 
   function renderCard(p, catalog, delayIndex) {
     const routes = window.ZERK_ROUTES;
     const seo = window.ZERK_SEO;
-    const href = p.path || catalog.productUrl(p.id);
+    const href = productHref(p, catalog);
     const alt = seo?.imageAlt?.(p) || `ZERK TOOL ${p.id}`;
     const labels = catalog.labels;
     const price = p.price ? catalog.formatPrice(p.price) : '';
@@ -138,8 +169,7 @@
 
     return `
       <article class="catalog-card glass" style="transition-delay:${(delayIndex % 6) * 0.05}s">
-        <a href="${href}" class="catalog-card__hitarea" aria-label="${cardLabel}, подробнее о товаре"></a>
-        <div class="catalog-card__surface">
+        <a href="${href}" class="catalog-card__link" aria-label="${cardLabel}, подробнее о товаре">
           <div class="catalog-card__media">
             ${badge}
             ${corner ? `<span class="catalog-card__blade">${corner}</span>` : ''}
@@ -154,7 +184,7 @@
               ${price ? `<span class="catalog-card__price">${price}</span>` : ''}
             </div>
           </div>
-        </div>
+        </a>
         <button type="button" class="zerk-add-btn" data-add-cart="${p.id}" aria-label="Добавить ${cardLabel} в корзину">В корзину</button>
       </article>`;
   }

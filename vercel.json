@@ -7,18 +7,18 @@
     {
       "source": "/product.html",
       "has": [{ "type": "query", "key": "id" }],
-      "destination": "/collection",
-      "permanent": false
+      "destination": "/product/index.html",
+      "permanent": true
     },
     { "source": "/product.html", "destination": "/collection", "permanent": true }
   ],
   "rewrites": [
-    { "source": "/nippers/:model/:variant", "destination": "/product" },
-    { "source": "/nippers/:slug", "destination": "/product" },
-    { "source": "/scissors/:slug", "destination": "/product" },
-    { "source": "/pushers/:slug", "destination": "/product" },
-    { "source": "/replaceable-files/:slug", "destination": "/product" },
-    { "source": "/nitrile-gloves/:slug", "destination": "/product" }
+    { "source": "/nippers/:model/:variant", "destination": "/product/index.html" },
+    { "source": "/nippers/:slug", "destination": "/product/index.html" },
+    { "source": "/scissors/:slug", "destination": "/product/index.html" },
+    { "source": "/pushers/:slug", "destination": "/product/index.html" },
+    { "source": "/replaceable-files/:slug", "destination": "/product/index.html" },
+    { "source": "/nitrile-gloves/:slug", "destination": "/product/index.html" }
   ],
   "headers": [
     {

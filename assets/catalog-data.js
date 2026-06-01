@@ -450,7 +450,11 @@
   function getByPath(pathname) {
     const routes = window.ZERK_ROUTES;
     if (!routes) return null;
-    const id = routes.legacyIdFromPath(routes.parseProductPath(pathname), { products, getById });
+    const path = String(pathname || '').replace(/\/+$/, '') || '/';
+    if (path === '/product' || path === '/product/index.html') return null;
+    const direct = products.find((p) => p.path === path);
+    if (direct) return direct;
+    const id = routes.legacyIdFromPath(routes.parseProductPath(path), { products, getById });
     return id ? getById(id) : null;
   }
 
