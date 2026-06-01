@@ -278,9 +278,32 @@
     };
   }
 
-  function renderFaq(container, items, title) {
+  function premiumFaqItems() {
+    return window.ZERK_FAQ_DATA?.PREMIUM || [];
+  }
+
+  function renderFaq(container, items, title, opts) {
     if (!container || !items?.length) return;
-    const faqTitle = title || `Частые вопросы о ${BRAND}`;
+    const options = typeof title === 'object' && title !== null ? title : { ...(opts || {}), title };
+    const faqTitle = options.title || `Частые вопросы о ${BRAND}`;
+    const usePremium =
+      options.premium === true ||
+      container.closest('.zerk-faq--premium') ||
+      (items === premiumFaqItems() && window.ZERK_FAQ_DATA?.buildPremiumFaqHtml);
+
+    if (usePremium && window.ZERK_FAQ_DATA?.buildPremiumFaqHtml) {
+      container.innerHTML = window.ZERK_FAQ_DATA.buildPremiumFaqHtml(items, {
+        title: faqTitle,
+        lead: options.lead,
+        titleId: options.titleId || 'zerk-faq-title',
+      });
+      const section =
+        container.closest('.zerk-faq--premium') ||
+        container.parentElement?.closest?.('.zerk-faq');
+      if (section) window.ZERK_FAQ?.init?.(section);
+      return;
+    }
+
     container.innerHTML = `
       <div class="zerk-faq__inner">
         <h2 class="zerk-faq__title">${faqTitle}</h2>
@@ -299,24 +322,7 @@
   }
 
   const FAQ = {
-    home: [
-      {
-        q: 'Что такое ZERK?',
-        a: 'ZERK — бренд профессионального маникюрного инструмента: кусачки для кутикулы из японской стали SUS 420 J2, ножницы Solingen, пилки-файлы, пушеры и нитриловые перчатки для салонов.',
-      },
-      {
-        q: 'Где купить кусачки ZERK?',
-        a: 'Заказ оформляется через каталог на сайте zerk-tool.ru — Telegram, WhatsApp или ВКонтакте. Укажите артикул модели, например IL-02-5 или IL-07-4.',
-      },
-      {
-        q: 'Кусачки ZERK — японская сталь и ручная заточка?',
-        a: 'Да. Серия IL и IAL — сталь SUS 420 J2, ручная заточка, мягкий ход и готовность к стерилизации. Производство кусачек и пушеров — во Вьетнаме под контролем ZERK.',
-      },
-      {
-        q: 'Какие размеры лезвий у кусачек ZERK?',
-        a: 'Модели IL-02, IL-03, IL-07, IL-09, IL-12 — лезвия 4, 5 и 6 мм. IAL-01 — 8 мм для педикюра и плотной кутикулы.',
-      },
-    ],
+    home: [],
     nippers: [
       {
         q: 'Какие кусачки ZERK TOOL выбрать для старта?',
@@ -349,24 +355,7 @@
         a: 'Для маникюра и салонов, кухни и HoReCa, уборки, косметологии и работы со слабыми химическими растворами. Premium-качество, тактильный контроль.',
       },
     ],
-    catalog: [
-      {
-        q: 'Какой каталог ZERK доступен на сайте?',
-        a: 'На zerk-tool.ru: кусачки для кутикулы IL, книпсеры, ножницы Solingen, пушеры-шаберы, пилки-файлы и перчатки Glovity NG-100.',
-      },
-      {
-        q: 'Кусачки ZERK premium — чем отличаются модели?',
-        a: 'IL-02 — 105 мм, скругление к концу ручки; IL-03 — 107 мм, классический округлый захват; IL-07 — 111 мм, вытянутые ручки; IL-09 — 115 мм, удлинённая геометрия; IL-12 — 106 мм, прямые ручки; IAL-01 — 104 мм, усиленные круглые ручки, лезвие 8 мм.',
-      },
-      {
-        q: 'Пилки и файлы ZERK — какие форматы?',
-        a: 'Mini, Maxi, Long и Лодка на грит 100, 180 и 240. Сменные абразивы на металлическую основу ZERK, подходят для стерилизации основы.',
-      },
-      {
-        q: 'Перчатки нитрил ZERK — для чего?',
-        a: 'Перчатки Glovity без пудры — чёрные, белые и розовые, размеры XS, S и M, упаковка 100 шт. Гигиеничный протокол для мастеров.',
-      },
-    ],
+    catalog: [],
   };
 
   function productFaq(product, catalog) {
@@ -519,7 +508,11 @@
   }
 
   function getCategoryFaq(key) {
-    return FAQ[key] || FAQ.catalog;
+    const premium = premiumFaqItems();
+    if (key === 'collection' && premium.length) return premium;
+    const items = FAQ[key];
+    if (items?.length) return items;
+    return premium.length ? premium : FAQ.catalog;
   }
 
   function applyCategoryPage(config, key) {
@@ -535,7 +528,9 @@
       ogImage: `${SITE}/images/nippers-main.jpg`,
     });
     const faq = getCategoryFaq(catKey === 'files' ? 'files' : catKey) || FAQ.catalog;
-    injectJsonLd('zerk-schema-faq', faqSchema(faq));
+    if (!document.getElementById('zerk-schema-faq-static') && faq.length) {
+      injectJsonLd('zerk-schema-faq', faqSchema(faq));
+    }
     return faq;
   }
 
@@ -594,8 +589,21 @@
         'query-input': 'required name=search_term_string',
       },
     });
-    injectJsonLd('zerk-schema-faq', faqSchema(FAQ.home));
-    renderFaq(document.getElementById('homeFaq'), FAQ.home);
+    const homeItems = premiumFaqItems();
+    if (!document.getElementById('zerk-schema-faq-static') && homeItems.length) {
+      injectJsonLd('zerk-schema-faq', faqSchema(homeItems));
+    }
+    const homeEl = document.getElementById('homeFaq');
+    if (homeEl && !homeEl.querySelector('.zerk-faq__list') && homeItems.length) {
+      renderFaq(homeEl, homeItems, {
+        title: 'Частые вопросы — профессиональный маникюрный инструмент ZERK TOOL',
+        lead:
+          'Кусачки для кутикулы, маникюрные ножницы, пилки-файлы и сменные абразивы: ответы для мастеров, салонов красоты и поиска в Google, Яндексе и AI.',
+        titleId: 'home-faq-title',
+        premium: true,
+      });
+    }
+    window.ZERK_FAQ?.init?.(document.getElementById('faq'));
   }
 
   function initCatalogPage(productCount) {
@@ -604,10 +612,23 @@
       description:
         `Каталог ${BRAND}: кусачки IL-02…IAL-01, ножницы Solingen, пилки-файлы, пушеры, перчатки Glovity NG-100. Профессиональный инструмент — zerk-tool.ru.`,
       keywords: joinKeywords(KEYWORDS.global, KEYWORDS.nippers, KEYWORDS.scissors, KEYWORDS.files, KEYWORDS.gloves),
-      canonical: `${SITE}/collection`,
+      canonical: `${SITE}/catalog`,
     });
-    injectJsonLd('zerk-schema-faq', faqSchema(FAQ.catalog));
-    renderFaq(document.getElementById('catalogFaq'), FAQ.catalog);
+    const catalogItems = premiumFaqItems();
+    if (!document.getElementById('zerk-schema-faq-static') && catalogItems.length) {
+      injectJsonLd('zerk-schema-faq', faqSchema(catalogItems));
+    }
+    const catalogEl = document.getElementById('catalogFaq');
+    if (catalogEl && !catalogEl.querySelector('.zerk-faq__list') && catalogItems.length) {
+      renderFaq(catalogEl, catalogItems, {
+        title: 'Каталог ZERK TOOL — частые вопросы мастеров',
+        lead:
+          'Помощь в выборе кусачек IL, ножниц Solingen, пилок 100–240 grit и сменных файлов в официальном каталоге zerk-tool.ru.',
+        titleId: 'catalog-faq-title',
+        premium: true,
+      });
+    }
+    window.ZERK_FAQ?.init?.(document.querySelector('.zerk-faq--premium'));
     const stat = document.querySelector('.catalog-stats [data-count]');
     if (stat && productCount) stat.dataset.count = String(productCount);
   }

@@ -86,7 +86,20 @@
 
     const faqEl = document.getElementById('categoryFaq');
     if (faqEl && seo?.renderFaq && faqItems.length) {
-      seo.renderFaq(faqEl, faqItems);
+      if (!faqEl.querySelector('.zerk-faq__list')) {
+        if (isCollection) {
+          seo.renderFaq(faqEl, faqItems, {
+            title: 'Каталог ZERK TOOL — частые вопросы мастеров',
+            lead:
+              'Помощь в выборе кусачек IL, ножниц Solingen, пилок 100–240 grit и сменных файлов в официальном каталоге zerk-tool.ru.',
+            titleId: 'catalog-faq-title',
+            premium: true,
+          });
+        } else {
+          seo.renderFaq(faqEl, faqItems);
+        }
+      }
+      window.ZERK_FAQ?.init?.(faqEl.closest('.zerk-faq--premium'));
     }
 
     const related = document.getElementById('categoryCross');

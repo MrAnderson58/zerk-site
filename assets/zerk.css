@@ -1,4 +1,6 @@
 /* ZERK — Premium design system (Apple / Tesla dark luxury) */
+@import './zerk-faq.css';
+
 :root {
   --ease-cinematic: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-apple: cubic-bezier(0.25, 0.1, 0.25, 1);
@@ -586,64 +588,7 @@ body.is-loaded .hero-line:nth-child(4) { transition-delay: 0.56s; opacity: 1; tr
   -webkit-text-fill-color: transparent;
 }
 
-/* SEO FAQ */
-.zerk-faq {
-  padding: 64px 24px 80px;
-  max-width: var(--max-w);
-  margin: 0 auto;
-}
-
-.zerk-faq__inner {
-  padding: 32px 28px;
-  border-radius: 20px;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-.zerk-faq__title {
-  margin: 0 0 20px;
-  font-size: clamp(1.35rem, 3vw, 1.75rem);
-  font-weight: 600;
-  letter-spacing: -0.02em;
-}
-
-.zerk-faq__list {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.zerk-faq__item {
-  border-radius: 12px;
-  background: rgba(0, 0, 0, 0.25);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  overflow: hidden;
-}
-
-.zerk-faq__item summary {
-  padding: 14px 16px;
-  cursor: pointer;
-  font-weight: 500;
-  list-style: none;
-}
-
-.zerk-faq__item summary::-webkit-details-marker {
-  display: none;
-}
-
-.zerk-faq__item p {
-  margin: 0;
-  padding: 0 16px 14px;
-  font-size: 14px;
-  line-height: 1.55;
-  color: var(--text-secondary);
-}
-
-.product-faq {
-  max-width: 960px;
-  margin: 0 auto 48px;
-  padding: 0 24px;
-}
+/* FAQ — see assets/zerk-faq.css */
 
 .hero-desc {
   color: var(--text-secondary);
