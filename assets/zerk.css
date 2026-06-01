@@ -459,7 +459,7 @@ header.is-scrolled {
   align-items: center;
   min-height: calc(100vh - var(--header-h) - 80px);
   min-height: calc(100svh - var(--header-h) - 80px);
-  padding-right: min(42vw, 520px);
+  padding-right: min(36vw, 460px);
 }
 
 .hero-content {
@@ -476,11 +476,11 @@ header.is-scrolled {
   background:
     linear-gradient(
       102deg,
-      rgba(0, 0, 0, 0.94) 0%,
-      rgba(0, 0, 0, 0.78) 32%,
-      rgba(0, 0, 0, 0.35) 52%,
-      rgba(0, 0, 0, 0.08) 68%,
-      transparent 82%
+      rgba(0, 0, 0, 0.9) 0%,
+      rgba(0, 0, 0, 0.72) 28%,
+      rgba(0, 0, 0, 0.28) 48%,
+      rgba(0, 0, 0, 0.04) 62%,
+      transparent 78%
     ),
     linear-gradient(180deg, transparent 55%, rgba(0, 0, 0, 0.55) 100%);
 }
@@ -488,22 +488,21 @@ header.is-scrolled {
 .hero-showcase {
   position: absolute;
   z-index: 1;
-  right: -6%;
-  top: 50%;
-  width: min(62vw, 860px);
-  height: min(82vh, 900px);
-  transform: translateY(-48%);
+  right: -8%;
+  top: calc(var(--header-h) + env(safe-area-inset-top) + 64px);
+  width: min(74vw, 980px);
+  height: clamp(440px, 62vh, 860px);
+  transform: none;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
   pointer-events: none;
   opacity: 0;
-  transition: opacity 1.4s var(--ease-cinematic) 0.25s, transform 1.4s var(--ease-cinematic) 0.25s;
+  transition: opacity 1.4s var(--ease-cinematic) 0.25s;
 }
 
 body.is-loaded .hero-showcase {
   opacity: 1;
-  transform: translateY(-50%);
 }
 
 /* legacy class alias */
@@ -749,11 +748,13 @@ body.is-loaded .hero-buttons { opacity: 1; transform: translateY(0); }
 
 .hero-showcase img,
 .hero-visual img {
-  width: 100%;
+  width: 112%;
   max-width: none;
   height: auto;
-  max-height: 100%;
+  max-height: none;
   object-fit: contain;
+  object-position: center top;
+  margin-top: -2%;
   position: relative;
   z-index: 3;
   filter:
@@ -1158,41 +1159,51 @@ body::-webkit-scrollbar-thumb {
   }
 
   .hero-inner {
-    align-items: flex-end;
-    justify-content: flex-end;
+    align-items: flex-start;
+    justify-content: flex-start;
     padding-right: 0;
-    padding-bottom: max(88px, env(safe-area-inset-bottom));
+    padding-top: calc(var(--header-h) + env(safe-area-inset-top) + 28px);
+    padding-bottom: max(96px, env(safe-area-inset-bottom));
     min-height: calc(100svh - var(--header-h));
   }
 
   .hero-content {
     max-width: 100%;
     text-align: left;
+    position: relative;
+    z-index: 2;
   }
 
   .hero-showcase {
-    right: 50%;
-    top: calc(var(--header-h) + 12px);
+    left: 50%;
+    right: auto;
+    top: calc(var(--header-h) + env(safe-area-inset-top) + 8px);
     bottom: auto;
-    width: min(140vw, 620px);
-    height: min(58vh, 520px);
-    transform: translateX(50%);
+    width: min(185vw, 760px);
+    height: clamp(340px, 52vh, 560px);
+    transform: translateX(-38%);
+    align-items: center;
   }
 
   body.is-loaded .hero-showcase {
-    transform: translateX(50%);
+    transform: translateX(-38%);
+  }
+
+  .hero-showcase img {
+    width: 118%;
+    margin-top: 0;
   }
 
   .hero-scrim {
     background:
       linear-gradient(
         180deg,
-        rgba(0, 0, 0, 0.25) 0%,
-        rgba(0, 0, 0, 0.55) 38%,
-        rgba(0, 0, 0, 0.92) 62%,
+        rgba(0, 0, 0, 0.15) 0%,
+        rgba(0, 0, 0, 0.45) 42%,
+        rgba(0, 0, 0, 0.88) 72%,
         #000 100%
       ),
-      linear-gradient(90deg, rgba(0, 0, 0, 0.5) 0%, transparent 40%);
+      linear-gradient(90deg, rgba(0, 0, 0, 0.72) 0%, rgba(0, 0, 0, 0.2) 55%, transparent 72%);
   }
 
   .hero-desc {
@@ -1294,8 +1305,17 @@ body::-webkit-scrollbar-thumb {
   .hero-scroll-hint { display: none; }
 
   .hero-showcase {
-    height: min(52vh, 440px);
-    width: 155vw;
+    height: clamp(360px, 56vh, 520px);
+    width: 200vw;
+    transform: translateX(-42%);
+  }
+
+  body.is-loaded .hero-showcase {
+    transform: translateX(-42%);
+  }
+
+  .hero-showcase img {
+    width: 125%;
   }
 
   .hero-title {
@@ -1316,12 +1336,17 @@ body::-webkit-scrollbar-thumb {
 
 @media (min-width: 1400px) {
   .hero-showcase {
-    right: -2%;
-    width: min(58vw, 980px);
+    right: -4%;
+    width: min(68vw, 1040px);
+    height: clamp(480px, 64vh, 920px);
   }
 
   .hero-inner {
-    padding-right: min(46vw, 580px);
+    padding-right: min(40vw, 500px);
+  }
+
+  .hero-showcase img {
+    width: 115%;
   }
 }
 
