@@ -25,7 +25,7 @@
 
   const SYSTEM_PROMPT = `Ты — премиальный консультант ZERK по профессиональному маникюрному инструменту.
 Стиль: лаконично, уверенно, как консультант Apple/Tesla. Язык: русский.
-Кусачки IL-02, IL-03, IL-07, IL-09, IL-12, IAL-01 (лезвия 4–8 мм), книпсеры CL-01, CL-02, CS-02, пушеры P-504…P-514, перчатки нитрил NG-100 — производство IL/пушеров Вьетнам.
+Кусачки IL-02, IL-03, IL-07, IL-09, IL-12, IAL-01 (лезвия 4–8 мм; у моделей разная геометрия ручек), книпсеры CL-01…CS-02, пушеры P-504…P-514 (Вьетнам), перчатки Glovity NG-100.
 Цены: кусачки IL/IAL — 1300 ₽; книпсеры — 540 ₽; пушеры — 320 ₽; ножницы 817/837 — 1680 ₽; пилки-файлы Mini 450 ₽, Maxi 500 ₽, Long/Лодка 630 ₽ (грит 100/180/240 — одна цена на форму).
 Кусачки — сталь SUS 420 J2; книпсеры и пушеры — S45C. Ножницы 817/837 — Solingen, Германия.
 Рекомендуй модель и размер. Связь: Telegram @Mr_Anderson_pnz, ВКонтакте (личные сообщения), WhatsApp +7 (925) 770-08-03.
@@ -70,23 +70,23 @@
     }
 
     if (/il-02|il02|02/.test(q) && !/il-03|il-07|il-09|il-12/.test(q)) {
-      return '<strong>IL-02</strong> — компактные кусачки ZERK 105 мм для точного ежедневного маникюра. Лезвия <strong>4, 5 или 6 мм</strong>. <a href="' + CONFIG.catalogUrl + '">Каталог ZERK</a>';
+      return '<strong>IL-02</strong> — 105 мм, ручки скруглены к концу. Лезвия <strong>4, 5 или 6 мм</strong>. <a href="' + CONFIG.catalogUrl + '">Каталог ZERK</a>';
     }
 
     if (/il-03|il03|03/.test(q) && !/il-07|il-09|il-12/.test(q)) {
-      return '<strong>IL-03</strong> — классический профиль для ежедневной работы с кутикулой. Лезвия: <strong>4, 5 или 6 мм</strong>. Для старта чаще берут <strong>5 мм</strong> (артикул IL-03-5). <a href="' + CONFIG.catalogUrl + '">Смотреть в каталоге</a>';
+      return '<strong>IL-03</strong> — 107 мм, ручки стандартной округлой формы, захват на первые пальцы. Лезвия <strong>4, 5 или 6 мм</strong>; для старта — <strong>IL-03-5</strong>. <a href="' + CONFIG.catalogUrl + '">Каталог</a>';
     }
 
     if (/il-07|il07|07/.test(q)) {
-      return '<strong>IL-07</strong> — усиленный ход для <strong>плотной и сухой</strong> кутикулы. Лезвия 4–6 мм; при плотной кутикуле мастера часто выбирают <strong>4–5 мм</strong>.';
+      return '<strong>IL-07</strong> — 111 мм, вытянутые менее округлые ручки, упор на средние пальцы. Для <strong>плотной и сухой</strong> кутикулы; лезвия 4–6 мм, часто <strong>4–5 мм</strong>.';
     }
 
     if (/il-09|il09|09/.test(q)) {
-      return '<strong>IL-09</strong> — сбалансированная модель для <strong>салонного протокола</strong>. Универсальный выбор, если нужна одна пара «на каждый день».';
+      return '<strong>IL-09</strong> — 115 мм, удлинённые ручки: первые пальцы направляют, задние дают срез. Салонный баланс, лезвия 4–6 мм.';
     }
 
     if (/il-12|il12|12/.test(q)) {
-      return '<strong>IL-12</strong> — удлинённые ручки и точный контроль захвата. Подходит мастерам, которым важна эргономика и длинный рычаг.';
+      return '<strong>IL-12</strong> — 106 мм, ручки практически прямые, полированная сталь, стильный дизайн. Точный контроль захвата, лезвия 4–6 мм.';
     }
 
     if (/разниц|отличи|сравн|чем отлича/.test(q)) {
@@ -130,10 +130,10 @@
     }
 
     if (/перчатк|нитрил|ng-100|glove/.test(q)) {
-      return 'Перчатки нитрил <strong>ZERK TOOL NG-100</strong> — без пудры, 100 шт, размеры S / M / L, <strong>590 ₽</strong>. <a href="/nitrile-gloves">Раздел ZERK TOOL</a>';
+      return 'Перчатки <strong>Glovity NG-100</strong> — нитрил без пудры, 100 шт, размеры S / M / L, <strong>590 ₽</strong>. <a href="/nitrile-gloves">Раздел в каталоге</a>';
     }
 
-    return 'Могу подсказать по кусачкам <strong>IL-02…IAL-01</strong>, книпсерам <strong>CL-01…CS-02</strong>, пушерам <strong>P-504…P-514</strong> (Вьетнам), ножницам Solingen, пилкам-файлам и перчаткам нитрил ZERK. Связь: <a href="' + CONFIG.telegram + '" target="_blank" rel="noopener">Telegram</a> · <a href="' + CONFIG.vk + '" target="_blank" rel="noopener">ВК</a> · <a href="' + CONFIG.whatsapp + '" target="_blank" rel="noopener">WhatsApp</a>.';
+    return 'Могу подсказать по кусачкам <strong>IL-02…IAL-01</strong> (разная форма ручек), книпсерам, пушерам, ножницам Solingen, пилкам-файлам и перчаткам <strong>Glovity</strong>. Связь: <a href="' + CONFIG.telegram + '" target="_blank" rel="noopener">Telegram</a> · <a href="' + CONFIG.vk + '" target="_blank" rel="noopener">ВК</a> · <a href="' + CONFIG.whatsapp + '" target="_blank" rel="noopener">WhatsApp</a>.';
   }
 
   /* ——— API layer (OpenAI-ready) ——— */

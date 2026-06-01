@@ -15,7 +15,7 @@
         { href: '/replaceable-files', label: 'Сменные файлы', desc: '100 / 180 / 240 грит' },
         { href: '/nail-files', label: 'Пилки для ногтей', desc: 'Обзор абразивов ZERK' },
         { href: '/pushers', label: 'Пушеры-шаберы', desc: 'P-504…P-514' },
-        { href: '/nitrile-gloves', label: 'Перчатки нитрил', desc: 'NG-100 · 100 шт' },
+        { href: '/nitrile-gloves', label: 'Перчатки Glovity', desc: 'Нитрил · NG-100' },
       ],
     },
     { href: '/about', label: 'О бренде' },
@@ -27,9 +27,8 @@
     return `
     <header id="siteHeader" class="site-header site-header--sticky">
       <div class="header-inner">
-        <a href="/" class="logo" aria-label="ZERK TOOL — на главную">
+        <a href="/" class="logo" aria-label="ZERK — на главную">
           <span class="logo__mark">ZERK</span>
-          <span class="logo__sub">TOOL</span>
         </a>
         <nav class="header-nav" aria-label="Основная навигация">
           ${NAV.map((item) => {

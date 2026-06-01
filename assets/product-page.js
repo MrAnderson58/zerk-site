@@ -53,7 +53,8 @@
     const catLabel = catalog.labels[product.cat] || product.cat;
     const catPath = routes.categoryPathForProduct(product);
 
-    document.getElementById('productEyebrow').textContent = `ZERK TOOL · ${catLabel}`;
+    const brandLine = product.brand ? `${product.brand} · ` : 'ZERK · ';
+    document.getElementById('productEyebrow').textContent = `${brandLine}${catLabel}`;
     document.getElementById('productTitle').textContent = seo
       ? seo.productH1(product)
       : product.model;

@@ -12,5 +12,5 @@
   <rect width="400" height="300" fill="url(#bg)"/>
   <path fill="url(#glove)" stroke="rgba(255,255,255,.12)" stroke-width="1.5" d="M120 220c0-50 18-95 55-120 12-8 28-12 45-12 28 0 52 14 68 38 18 28 22 62 14 94l-8 32h-52l-18-32z"/>
   <path fill="url(#glove)" stroke="rgba(255,255,255,.12)" stroke-width="1.5" transform="scale(-1,1) translate(-400,0)" d="M120 220c0-50 18-95 55-120 12-8 28-12 45-12 28 0 52 14 68 38 18 28 22 62 14 94l-8 32h-52l-18-32z"/>
-  <text x="200" y="268" text-anchor="middle" fill="rgba(255,255,255,.35)" font-family="system-ui,sans-serif" font-size="13" letter-spacing=".2em">ZERK · NG-100</text>
+  <text x="200" y="268" text-anchor="middle" fill="rgba(255,255,255,.35)" font-family="system-ui,sans-serif" font-size="13" letter-spacing=".2em">Glovity · NG-100</text>
 </svg>

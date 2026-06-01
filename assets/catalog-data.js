@@ -29,7 +29,9 @@
   const NIPPER_MODELS = [
     {
       code: 'IL-02',
-      note: 'Компактный профиль 105 мм — точный контроль и мягкий ход для ежедневного маникюра.',
+      note: 'Компактный профиль — точный контроль и мягкий ход для ежедневного маникюра.',
+      handleGrip:
+        'Длина 105 мм. Ручки скруглены к концу — комфортный захват без излишнего объёма в ладони.',
       image: 'images/il-02.jpg',
       weight: 40,
       size: 105,
@@ -38,6 +40,8 @@
     {
       code: 'IL-03',
       note: 'Классический профиль для ежедневной работы с кутикулой.',
+      handleGrip:
+        'Длина 107 мм. Ручки стандартной округлой формы — захват и усилие в основном на указательный и большой палец.',
       image: 'images/il-03.jpg',
       weight: 40,
       size: 107,
@@ -46,14 +50,18 @@
     {
       code: 'IL-07',
       note: 'Усиленный ход для плотной и сухой кутикулы.',
+      handleGrip:
+        'Длина 111 мм. Ручки менее округлые, вытянутые — упор смещён на средние пальцы, больше рычага без лишней ширины.',
       image: 'images/il-07.jpg',
       weight: 40,
-      size: 113,
+      size: 111,
       origin: ORIGIN_VIETNAM,
     },
     {
       code: 'IL-09',
       note: 'Сбалансированная модель для салонного протокола.',
+      handleGrip:
+        'Длина 115 мм. Ручки ещё более удлинённые: первые пальцы направляют инструмент, задние дают усилие среза — удобно при длительной работе.',
       image: 'images/il-09.jpg',
       weight: 42,
       size: 115,
@@ -61,19 +69,22 @@
     },
     {
       code: 'IL-12',
-      note: 'Удлинённые ручки и точный контроль захвата.',
+      note: 'Стильный дизайн с полированной сталью и точным контролем захвата.',
+      handleGrip:
+        'Длина 106 мм. Ручки практически прямые — лаконичная геометрия, выразительный внешний вид, уверенный хват.',
       image: 'images/il-12.jpg',
       weight: 25,
-      size: 100,
+      size: 106,
       origin: ORIGIN_VIETNAM,
     },
     {
       code: 'IAL-01',
       blades: [8],
       note: 'Увеличенное лезвие 8 мм — для плотной кутикулы, мозолей и педикюра.',
+      handleGrip: 'Длина 104 мм. Ручки круглые усиленные — максимальная опора ладони при работе с толстой кутикулой.',
       image: 'images/ial-01.jpg',
       weight: 50,
-      size: 113,
+      size: 104,
       badge: 'Педикюр',
       origin: ORIGIN_VIETNAM,
     },
@@ -224,10 +235,11 @@
         : '';
     return [
       `${model.note}${pedicure}`,
+      model.handleGrip || null,
       `Корпус ${model.size} мм, вес ${model.weight} г. Сталь SUS 420 J2: высокая твёрдость режущей кромки, стабильность при стерилизации.`,
       'Ручная заточка и контроль качества перед отгрузкой. Подходит для химической и термической обработки в салоне.',
       VIETNAM_NOTE,
-    ];
+    ].filter(Boolean);
   }
 
   const nippers = NIPPER_MODELS.flatMap((model) => {
@@ -377,20 +389,21 @@
   const gloves = GLOVE_SIZES.map((size) => ({
     id: `NG-100-${size}`,
     model: 'NG-100',
+    brand: 'Glovity',
     size,
     packSize: 100,
     cat: 'gloves',
     title: `Размер ${size}`,
-    desc: 'Нитриловые перчатки ZERK без пудры — плотное прилегание и тактильный контроль для салонного протокола.',
+    desc: 'Нитриловые перчатки Glovity без пудры — плотное прилегание и тактильный контроль для салонного протокола.',
     details: [
-      'Перчатки нитрил ZERK NG-100 — без пудры, нестерильные, для одноразового использования в маникюре и педикюре.',
+      'Перчатки нитрил Glovity NG-100 — без пудры, нестерильные, для одноразового использования в маникюре и педикюре.',
       `Упаковка ${100} шт., размер ${size}. Подходят для комбинированного и аппаратного маникюра, защиты рук мастера при работе с препаратами.`,
       'Материал нитрил — устойчивость к растяжению и проколам, удобная посадка без «перчаточного» запаха латекса.',
     ],
     badge: size === 'M' ? 'Хит' : '',
     image: 'images/gloves-nitrile.svg',
     material: 'Нитрил',
-    origin: 'Поставка под контролем ZERK',
+    origin: 'Бренд Glovity',
     price: PRICES.glove,
   }));
 
@@ -465,7 +478,7 @@
       return `Здравствуйте! Интересуют пилки-файлы ${product.model}, ${product.grit} грит (артикул ${product.id}${priceLine}).`;
     }
     if (product.cat === 'gloves') {
-      return `Здравствуйте! Интересуют перчатки нитрил ZERK ${product.model}, размер ${product.size} (артикул ${product.id}${priceLine}).`;
+      return `Здравствуйте! Интересуют перчатки Glovity ${product.model}, размер ${product.size} (артикул ${product.id}${priceLine}).`;
     }
     return `Здравствуйте! Интересует ножницы ${product.model} (артикул ${product.id}${priceLine}).`;
   }
@@ -511,7 +524,7 @@
       return `Пилки-файлы ${product.model}, ${product.grit} грит`;
     }
     if (product.cat === 'gloves') {
-      return `Перчатки нитрил ZERK ${product.model}, размер ${product.size}`;
+      return `Перчатки Glovity ${product.model}, размер ${product.size}`;
     }
     return `Ножницы ${product.model}`;
   }
@@ -609,7 +622,8 @@
         { label: 'Размер', value: product.size },
         { label: 'Упаковка', value: `${product.packSize} шт.` },
         { label: 'Материал', value: product.material },
-        { label: 'Категория', value: 'Перчатки нитрил ZERK' },
+        { label: 'Бренд', value: product.brand || 'Glovity' },
+        { label: 'Категория', value: 'Перчатки нитрил' },
       ];
     }
     return [
@@ -652,7 +666,7 @@
       scissors: 'Ножницы',
       pushers: 'Пушер-шабер',
       files: 'Пилки файлы',
-      gloves: 'Перчатки нитрил',
+      gloves: 'Перчатки Glovity',
     },
     families: {
       nippers: [
@@ -707,8 +721,8 @@
       gloves: [
         {
           code: 'NG-100',
-          title: 'Перчатки нитрил NG-100',
-          subtitle: 'Без пудры · 100 шт · размеры S / M / L · ZERK',
+          title: 'Glovity NG-100',
+          subtitle: 'Нитрил · без пудры · 100 шт · S / M / L',
           image: 'images/gloves-nitrile.svg',
         },
       ],

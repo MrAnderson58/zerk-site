@@ -319,18 +319,18 @@
     ],
     gloves: [
       {
-        q: 'Какие размеры перчаток ZERK TOOL NG-100?',
-        a: 'Перчатки нитрил ZERK TOOL NG-100 выпускаются в размерах S, M и L, упаковка 100 шт без пудры.',
+        q: 'Какие размеры перчаток Glovity NG-100?',
+        a: 'Перчатки нитрил Glovity NG-100 выпускаются в размерах S, M и L, упаковка 100 шт без пудры. Представлены в каталоге ZERK TOOL.',
       },
     ],
     catalog: [
       {
         q: 'Какой каталог ZERK доступен на сайте?',
-        a: 'На zerk-tool.ru: кусачки для кутикулы IL, книпсеры, ножницы Solingen, пушеры-шаберы, пилки-файлы на металлическую основу и перчатки нитрил NG-100.',
+        a: 'На zerk-tool.ru: кусачки для кутикулы IL, книпсеры, ножницы Solingen, пушеры-шаберы, пилки-файлы и перчатки Glovity NG-100.',
       },
       {
         q: 'Кусачки ZERK premium — чем отличаются модели?',
-        a: 'IL-02 — компактные 105 мм; IL-03 — классика; IL-07 — для плотной кутикулы; IL-09 — салонный баланс; IL-12 — удлинённые ручки; IAL-01 — лезвие 8 мм.',
+        a: 'IL-02 — 105 мм, скругление к концу ручки; IL-03 — 107 мм, классический округлый захват; IL-07 — 111 мм, вытянутые ручки; IL-09 — 115 мм, удлинённая геометрия; IL-12 — 106 мм, прямые ручки; IAL-01 — 104 мм, усиленные круглые ручки, лезвие 8 мм.',
       },
       {
         q: 'Пилки и файлы ZERK — какие форматы?',
@@ -338,7 +338,7 @@
       },
       {
         q: 'Перчатки нитрил ZERK — для чего?',
-        a: 'Нитриловые перчатки NG-100 без пудры — гигиеничный протокол мастера, размеры S, M и L, упаковка 100 шт.',
+        a: 'Перчатки Glovity NG-100 без пудры — гигиеничный протокол мастера, размеры S, M и L, упаковка 100 шт.',
       },
     ],
   };
@@ -357,10 +357,11 @@
       },
     ];
     if (product.cat === 'nippers' && !product.productType) {
+      const handleLine = product.details?.[1] ? ` ${product.details[1]}` : '';
       return [
         {
           q: `Кусачки ZERK ${product.model} — для какой кутикулы?`,
-          a: `${product.desc} Сталь SUS 420 J2, ручная заточка, производство ${product.origin}.`,
+          a: `${product.desc}${handleLine} Сталь SUS 420 J2, ручная заточка, производство ${product.origin}.`,
         },
         ...common,
       ];
@@ -386,8 +387,8 @@
     if (product.cat === 'gloves') {
       return [
         {
-          q: `Перчатки нитрил ZERK ${product.model} — какой размер?`,
-          a: `Размер ${product.size}, упаковка ${product.packSize} шт. Без пудры, для салонного протокола ZERK.`,
+          q: `Перчатки Glovity ${product.model} — какой размер?`,
+          a: `Размер ${product.size}, упаковка ${product.packSize} шт. Бренд Glovity, без пудры — для салонного протокола.`,
         },
         ...common,
       ];
@@ -415,7 +416,7 @@
       return `Кусачки ${BRAND} ${product.model} ${product.blade} мм`;
     }
     if (product.cat === 'gloves') {
-      return `Перчатки нитрил ${BRAND} ${product.model} ${product.size}`;
+      return `Перчатки Glovity ${product.model} ${product.size}`;
     }
     if (product.cat === 'files') {
       return `Пилки-файлы ${BRAND} ${product.model} ${product.grit} грит`;
@@ -427,22 +428,23 @@
   }
 
   function productH1(product) {
+    if (product.cat === 'gloves') {
+      return `Glovity · ${product.model} · размер ${product.size}`;
+    }
+    const b = BRAND_SHORT;
     if (product.cat === 'nippers' && product.productType === 'clipper') {
-      return `${BRAND} · ${product.model} · книпсер`;
+      return `${b} · ${product.model} · книпсер`;
     }
     if (product.cat === 'nippers') {
-      return `${BRAND} · ${product.model} · ${product.blade} мм`;
-    }
-    if (product.cat === 'gloves') {
-      return `${BRAND} · ${product.model} · размер ${product.size}`;
+      return `${b} · ${product.model} · ${product.blade} мм`;
     }
     if (product.cat === 'files') {
-      return `${BRAND} · ${product.model} · ${product.grit} грит`;
+      return `${b} · ${product.model} · ${product.grit} грит`;
     }
     if (product.cat === 'pushers') {
-      return `${BRAND} · ${product.model} · пушер-шабер`;
+      return `${b} · ${product.model} · пушер-шабер`;
     }
-    return `${BRAND} · ${product.model} · ножницы`;
+    return `${b} · ${product.model} · ножницы`;
   }
 
   function imageAlt(product) {
@@ -530,7 +532,7 @@
     applyPageMeta({
       title: `${BRAND} — Кусачки для кутикулы и маникюрный инструмент премиум`,
       description:
-        `${BRAND} — профессиональные кусачки для кутикулы, маникюрные ножницы, пилки-файлы и перчатки нитрил. Японская сталь SUS 420 J2, ручная заточка, каталог zerk-tool.ru.`,
+        `${BRAND} — профессиональные кусачки для кутикулы, маникюрные ножницы, пилки-файлы и перчатки Glovity. Японская сталь SUS 420 J2, ручная заточка, каталог zerk-tool.ru.`,
       keywords: joinKeywords(KEYWORDS.global, KEYWORDS.nippers, KEYWORDS.scissors, KEYWORDS.files, KEYWORDS.gloves),
       canonical: `${SITE}/`,
     });
@@ -560,9 +562,9 @@
 
   function initCatalogPage(productCount) {
     applyPageMeta({
-      title: `Каталог ${BRAND} — кусачки, ножницы, пилки-файлы, перчатки нитрил`,
+      title: `Каталог ${BRAND} — кусачки, ножницы, пилки-файлы, Glovity`,
       description:
-        `Каталог ${BRAND}: кусачки для кутикулы IL-02…IAL-01, ножницы Solingen, пилки-файлы на основу, пушеры, перчатки нитрил NG-100. Профессиональный инструмент — zerk-tool.ru.`,
+        `Каталог ${BRAND}: кусачки IL-02…IAL-01, ножницы Solingen, пилки-файлы, пушеры, перчатки Glovity NG-100. Профессиональный инструмент — zerk-tool.ru.`,
       keywords: joinKeywords(KEYWORDS.global, KEYWORDS.nippers, KEYWORDS.scissors, KEYWORDS.files, KEYWORDS.gloves),
       canonical: `${SITE}/collection`,
     });

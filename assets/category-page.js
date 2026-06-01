@@ -74,9 +74,9 @@
         extra.innerHTML =
           key === 'about'
             ? `<div class="category-static glass">
-                <h2>Философия ZERK TOOL</h2>
-                <p>Японская сталь SUS 420 J2, ручная заточка, контроль качества и эстетика luxury beauty — основа каждой серии кусачек и инструмента бренда.</p>
-                <p>Мы создаём инструмент для nail-артистов, которым важны предсказуемый срез, мягкий ход и стерилизация без компромиссов.</p>
+                <h2>О бренде ZERK</h2>
+                <p>Мы объехали полмира в поисках лучших и ответственных производителей маникюрного инструмента — партнёров, которые собирают отзывы мастеров со всего мира и открыто дорабатывают серии по результатам салонной работы.</p>
+                <p>ZERK — японская сталь SUS 420 J2, ручная заточка, контроль качества и эстетика luxury beauty. В коллекции также ножницы Solingen, пилки-файлы, пушеры и перчатки <strong>Glovity</strong>.</p>
               </div>`
             : `<div class="category-static glass">
                 <h2>Заказ ZERK TOOL</h2>
@@ -140,7 +140,7 @@
             <img src="/${p.image.replace(/^\//, '')}" alt="${alt}" width="400" height="300" loading="lazy" decoding="async" class="catalog-card__img--catalog">
           </div>
           <div class="catalog-card__body">
-            <div class="catalog-card__code">ZERK TOOL · ${labels[p.cat]}</div>
+            <div class="catalog-card__code">${p.brand || 'ZERK'} · ${labels[p.cat]}</div>
             <div class="catalog-card__model">${p.model}</div>
             <p class="catalog-card__desc">${p.desc}</p>
             <div class="catalog-card__footer">
