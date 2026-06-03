@@ -9,8 +9,11 @@
   const ORIGIN_VIETNAM = 'Вьетнам';
   const VIETNAM_NOTE = 'Производство во Вьетнаме — контролируемое качество.';
 
+  const REINFORCED_NIPPER_CODES = new Set(['IAL-01', 'IL-32']);
+
   const PRICES = {
-    nipper: 1300,
+    nipper: 1450,
+    nipperReinforced: 1700,
     clipper: 540,
     pusher: 320,
     scissors: 1680,
@@ -88,7 +91,23 @@
       badge: 'Педикюр',
       origin: ORIGIN_VIETNAM,
     },
+    {
+      code: 'IL-32',
+      blades: [9],
+      note: 'Усиленные кусачки с лезвием 9 мм — для педикюра, плотной и толстой кутикулы.',
+      handleGrip:
+        'Усиленный корпус, изогнутые ручки и лапчатый шарнир — уверенный захват и рычаг при салонной и педикюрной нагрузке, в духе линейки IAL.',
+      image: 'images/il-32.jpg',
+      weight: 52,
+      size: 110,
+      badge: 'Педикюр',
+      origin: ORIGIN_VIETNAM,
+    },
   ];
+
+  function nipperPriceFor(model) {
+    return REINFORCED_NIPPER_CODES.has(model.code) ? PRICES.nipperReinforced : PRICES.nipper;
+  }
 
   const CLIPPER_MODELS = [
     {
@@ -263,7 +282,7 @@
       size: model.size,
       material: 'SUS 420 J2',
       origin: model.origin || ORIGIN_VIETNAM,
-      price: PRICES.nipper,
+      price: nipperPriceFor(model),
     }));
   });
 
@@ -697,8 +716,8 @@
           code: m.code,
           title: m.code,
           subtitle:
-            m.blades && m.blades[0] === 8
-              ? `Кусачки · лезвие 8 мм · ${m.weight} г · ${m.size} мм · SUS 420 J2 · ${ORIGIN_VIETNAM}`
+            m.blades && m.blades.length === 1
+              ? `Кусачки · лезвие ${m.blades[0]} мм · ${m.weight} г · ${m.size} мм · SUS 420 J2 · ${ORIGIN_VIETNAM}`
               : `Кусачки · ${m.weight} г · ${m.size} мм · SUS 420 J2 · ${ORIGIN_VIETNAM}`,
           image: m.image,
         })),

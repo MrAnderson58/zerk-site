@@ -25,8 +25,8 @@
 
   const SYSTEM_PROMPT = `Ты — премиальный консультант ZERK по профессиональному маникюрному инструменту.
 Стиль: лаконично, уверенно, как консультант Apple/Tesla. Язык: русский.
-Кусачки IL-02, IL-03, IL-07, IL-09, IL-12, IAL-01 (лезвия 4–8 мм; у моделей разная геометрия ручек), книпсеры CL-01…CS-02, пушеры P-504…P-514 (Вьетнам), перчатки Glovity (чёрные, белые, розовые · XS / S / M).
-Цены: кусачки IL/IAL — 1300 ₽; книпсеры — 540 ₽; пушеры — 320 ₽; ножницы 817/837 — 1680 ₽; пилки-файлы Mini 450 ₽, Maxi 500 ₽, Long/Лодка 630 ₽ (грит 100/180/240 — одна цена на форму).
+Кусачки IL-02, IL-03, IL-07, IL-09, IL-12, IAL-01, IL-32 (лезвия 4–9 мм; у моделей разная геометрия ручек), книпсеры CL-01…CS-02, пушеры P-504…P-514 (Вьетнам), перчатки Glovity (чёрные, белые, розовые · XS / S / M).
+Цены: кусачки IL — 1450 ₽; IAL-01 и IL-32 — 1700 ₽; книпсеры — 540 ₽; пушеры — 320 ₽; ножницы 817/837 — 1680 ₽; пилки-файлы Mini 450 ₽, Maxi 500 ₽, Long/Лодка 630 ₽ (грит 100/180/240 — одна цена на форму).
 Кусачки — сталь SUS 420 J2; книпсеры и пушеры — S45C. Ножницы 817/837 — Solingen, Германия.
 Рекомендуй модель и размер. Связь: Telegram @Mr_Anderson_pnz, ВКонтакте (личные сообщения), WhatsApp +7 (925) 770-08-03.
 Используй только указанные цены. Наличие уточняй через менеджера.`;
@@ -110,7 +110,7 @@
     }
 
     if (/цен|стоим|руб|сколько|прайс|price/.test(q)) {
-      return 'Актуальные цены ZERK:\n\n• Кусачки IL / IAL — <strong>1 300 ₽</strong>\n• Книпсеры CL-01, CL-02, CS-02 — <strong>540 ₽</strong>\n• Пушеры-шаберы — <strong>320 ₽</strong>\n• Ножницы Solingen 817 / 837 — <strong>1 680 ₽</strong>\n• Пилки-файлы Mini — <strong>450 ₽</strong>, Maxi — <strong>500 ₽</strong>, Long и Лодка — <strong>630 ₽</strong> (на любой грит)\n\n<a href="' + CONFIG.catalogUrl + '">Каталог</a> · <a href="' + CONFIG.telegram + '" target="_blank" rel="noopener">Telegram</a> · <a href="' + CONFIG.vk + '" target="_blank" rel="noopener">ВК</a> · <a href="' + CONFIG.whatsapp + '" target="_blank" rel="noopener">WhatsApp</a>';
+      return 'Актуальные цены ZERK:\n\n• Кусачки IL (IL-02…IL-12) — <strong>1 450 ₽</strong>\n• Усиленные IAL-01 и IL-32 — <strong>1 700 ₽</strong>\n• Книпсеры CL-01, CL-02, CS-02 — <strong>540 ₽</strong>\n• Пушеры-шаберы — <strong>320 ₽</strong>\n• Ножницы Solingen 817 / 837 — <strong>1 680 ₽</strong>\n• Пилки-файлы Mini — <strong>450 ₽</strong>, Maxi — <strong>500 ₽</strong>, Long и Лодка — <strong>630 ₽</strong> (на любой грит)\n\n<a href="' + CONFIG.catalogUrl + '">Каталог</a> · <a href="' + CONFIG.telegram + '" target="_blank" rel="noopener">Telegram</a> · <a href="' + CONFIG.vk + '" target="_blank" rel="noopener">ВК</a> · <a href="' + CONFIG.whatsapp + '" target="_blank" rel="noopener">WhatsApp</a>';
     }
 
     if (/книпс|clipper|cl-01|cl-02|cs-02/.test(q)) {
@@ -122,7 +122,7 @@
     }
 
     if (/кусач|кутикул|маникюр|инструмент|выбрать|подобрать|рекоменд/.test(q)) {
-      return 'Для подбора уточните тип кутикулы:\n\n• Обычная / комбинированная → <strong>IL-03</strong> или <strong>IL-09</strong>, лезвие <strong>5 мм</strong>\n• Плотная, сухая → <strong>IL-07</strong>, лезвие <strong>4–5 мм</strong>\n• Педикюр / толстая кутикула → <strong>IAL-01</strong>, лезвие <strong>8 мм</strong>\n• Книпсеры → <strong>CL-01 / CL-02 / CS-02</strong>\n• Ножницы Solingen → <strong>817</strong> или <strong>837</strong>\n• Пушер-шабер → <strong>P-504…P-514</strong> (Вьетнам)\n• Пилки-файлы → <strong>Mini / Maxi / Long / Лодка</strong>\n\nКусачки IL и пушеры — <strong>производство Вьетнам</strong>. <a href="' + CONFIG.catalogUrl + '">Каталог</a>';
+      return 'Для подбора уточните тип кутикулы:\n\n• Обычная / комбинированная → <strong>IL-03</strong> или <strong>IL-09</strong>, лезвие <strong>5 мм</strong>\n• Плотная, сухая → <strong>IL-07</strong>, лезвие <strong>4–5 мм</strong>\n• Педикюр / толстая кутикула → <strong>IAL-01</strong> (8 мм) или усиленные <strong>IL-32</strong> (9 мм)\n• Книпсеры → <strong>CL-01 / CL-02 / CS-02</strong>\n• Ножницы Solingen → <strong>817</strong> или <strong>837</strong>\n• Пушер-шабер → <strong>P-504…P-514</strong> (Вьетнам)\n• Пилки-файлы → <strong>Mini / Maxi / Long / Лодка</strong>\n\nКусачки IL и пушеры — <strong>производство Вьетнам</strong>. <a href="' + CONFIG.catalogUrl + '">Каталог</a>';
     }
 
     if (/привет|здравств|добрый|hello|hi\b/.test(q)) {
@@ -133,7 +133,7 @@
       return 'Перчатки <strong>Glovity</strong> — нитрил без пудры, 100 шт, цвета чёрный / белый / розовый, размеры XS / S / M, <strong>590 ₽</strong>. <a href="/nitrile-gloves">Раздел в каталоге</a>';
     }
 
-    return 'Могу подсказать по кусачкам <strong>IL-02…IAL-01</strong> (разная форма ручек), книпсерам, пушерам, ножницам Solingen, пилкам-файлам и перчаткам <strong>Glovity</strong>. Связь: <a href="' + CONFIG.telegram + '" target="_blank" rel="noopener">Telegram</a> · <a href="' + CONFIG.vk + '" target="_blank" rel="noopener">ВК</a> · <a href="' + CONFIG.whatsapp + '" target="_blank" rel="noopener">WhatsApp</a>.';
+    return 'Могу подсказать по кусачкам <strong>IL-02…IL-32</strong> и <strong>IAL-01</strong> (разная форма ручек), книпсерам, пушерам, ножницам Solingen, пилкам-файлам и перчаткам <strong>Glovity</strong>. Связь: <a href="' + CONFIG.telegram + '" target="_blank" rel="noopener">Telegram</a> · <a href="' + CONFIG.vk + '" target="_blank" rel="noopener">ВК</a> · <a href="' + CONFIG.whatsapp + '" target="_blank" rel="noopener">WhatsApp</a>.';
   }
 
   /* ——— API layer (OpenAI-ready) ——— */

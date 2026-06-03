@@ -375,7 +375,7 @@
     nippers: [
       {
         q: 'Какие кусачки ZERK TOOL выбрать для старта?',
-        a: 'Для старта мастера часто выбирают ZERK TOOL IL-03 или IL-02 с лезвием 5 мм — универсальный баланс контроля и мягкого хода. Для плотной кутикулы — IL-07, для педикюра — IAL-01 (8 мм).',
+        a: 'Для старта мастера часто выбирают ZERK TOOL IL-03 или IL-02 с лезвием 5 мм — универсальный баланс контроля и мягкого хода. Для плотной кутикулы — IL-07, для педикюра — IAL-01 (8 мм) или усиленные IL-32 (9 мм).',
       },
       {
         q: 'Из какой стали кусачки ZERK TOOL?',
@@ -653,7 +653,7 @@
     applyPageMeta({
       title: `Каталог ${BRAND} — кусачки, ножницы, пилки-файлы, Glovity`,
       description:
-        `Каталог ${BRAND}: кусачки IL-02…IAL-01, ножницы Solingen, пилки-файлы, пушеры, перчатки Glovity NG-100. Профессиональный инструмент — zerk-tool.ru.`,
+        `Каталог ${BRAND}: кусачки IL-02…IL-32, IAL-01, ножницы Solingen, пилки-файлы, пушеры, перчатки Glovity NG-100. Профессиональный инструмент — zerk-tool.ru.`,
       keywords: joinKeywords(KEYWORDS.global, KEYWORDS.nippers, KEYWORDS.scissors, KEYWORDS.files, KEYWORDS.gloves),
       canonical: `${SITE}/catalog`,
     });

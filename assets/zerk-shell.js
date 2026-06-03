@@ -10,7 +10,7 @@
       label: 'Категории',
       mega: true,
       children: [
-        { href: '/nippers', label: 'Кусачки', desc: 'IL · SUS 420 J2 · 4–8 мм' },
+        { href: '/nippers', label: 'Кусачки', desc: 'IL · SUS 420 J2 · 4–9 мм' },
         { href: '/scissors', label: 'Ножницы', desc: 'Solingen · Германия' },
         { href: '/replaceable-files', label: 'Сменные файлы', desc: '100 / 180 / 240 грит' },
         { href: '/nail-files', label: 'Пилки для ногтей', desc: 'Обзор абразивов ZERK' },
