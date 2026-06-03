@@ -483,6 +483,17 @@
 }
 
 /* Mobile fullscreen */
+@media (max-width: 900px) {
+  .zerk-assistant-root {
+    bottom: calc(64px + env(safe-area-inset-bottom));
+    right: max(12px, env(safe-area-inset-right));
+  }
+
+  .zerk-assistant-input {
+    font-size: 16px;
+  }
+}
+
 @media (max-width: 480px) {
   .zerk-assistant-panel {
     position: fixed;

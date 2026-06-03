@@ -594,6 +594,11 @@
 }
 
 @media (max-width: 900px) {
+  .zerk-cart-root {
+    bottom: calc(64px + env(safe-area-inset-bottom));
+    left: max(12px, env(safe-area-inset-left));
+  }
+
   .catalog-page .zerk-cart-fab,
   .product-page .zerk-cart-fab {
     display: none;

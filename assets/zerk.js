@@ -17,14 +17,29 @@
   const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const finePointer = window.matchMedia('(pointer: fine)').matches;
 
-  /* ——— Page load sequence ——— */
-  document.body.classList.add('is-loading');
-  requestAnimationFrame(() => {
-    requestAnimationFrame(() => {
-      document.body.classList.remove('is-loading');
-      document.body.classList.add('is-loaded');
-    });
+  /* ——— Page load sequence (fallback for mobile / bfcache) ——— */
+  const isCoarseMobile = window.matchMedia('(max-width: 1068px), (hover: none) and (pointer: coarse)').matches;
+
+  function revealPage() {
+    const body = document.body;
+    if (!body || body.classList.contains('is-loaded')) return;
+    body.classList.remove('is-loading');
+    body.classList.add('is-loaded');
+  }
+
+  function armLoading() {
+    if (document.body) document.body.classList.add('is-loading');
+  }
+
+  if (document.body) armLoading();
+  else document.addEventListener('DOMContentLoaded', armLoading, { once: true });
+
+  requestAnimationFrame(() => requestAnimationFrame(revealPage));
+  document.addEventListener('DOMContentLoaded', revealPage, { once: true });
+  window.addEventListener('pageshow', (e) => {
+    if (e.persisted) revealPage();
   });
+  setTimeout(revealPage, isCoarseMobile ? 400 : 900);
 
   let tiltX = 0;
   let tiltY = 0;
@@ -34,6 +49,8 @@
     const menuToggle = document.getElementById('menuToggle');
     const mobileMenu = document.getElementById('mobileMenu');
     if (!menuToggle || !mobileMenu) return;
+    if (menuToggle.dataset.bound === '1') return;
+    menuToggle.dataset.bound = '1';
 
     function closeMenu() {
       menuToggle.classList.remove('is-open');
@@ -43,8 +60,7 @@
       document.body.style.overflow = '';
     }
 
-    menuToggle.replaceWith(menuToggle.cloneNode(true));
-    const toggle = document.getElementById('menuToggle');
+    const toggle = menuToggle;
     toggle.addEventListener('click', () => {
       const open = !toggle.classList.contains('is-open');
       toggle.classList.toggle('is-open', open);
@@ -123,7 +139,7 @@
   /* ——— Scroll reveal ——— */
   function observeReveals() {
     const els = document.querySelectorAll('[data-reveal]');
-    if (prefersReduced) {
+    if (prefersReduced || isCoarseMobile) {
       els.forEach((el) => el.classList.add('is-revealed'));
       return;
     }
@@ -143,7 +159,7 @@
 
   function observePreviewCards() {
     const cards = document.querySelectorAll('.catalog-preview-card');
-    if (prefersReduced) {
+    if (prefersReduced || isCoarseMobile) {
       cards.forEach((c) => c.classList.add('is-visible'));
       return;
     }
@@ -183,7 +199,7 @@
     initHeader,
     observeCards(selector) {
       const cards = document.querySelectorAll(selector);
-      if (prefersReduced) {
+      if (prefersReduced || isCoarseMobile) {
         cards.forEach((c) => c.classList.add('is-visible'));
         return cards;
       }
