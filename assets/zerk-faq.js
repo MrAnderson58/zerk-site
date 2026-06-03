@@ -8,6 +8,8 @@
     return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   }
 
+  const isMobile = window.matchMedia('(max-width: 768px)').matches;
+
   function initSection(section) {
     if (!section || section.dataset.faqInit === '1') return;
     section.dataset.faqInit = '1';
@@ -15,34 +17,33 @@
     const items = section.querySelectorAll('[data-faq-item]');
     if (!items.length) return;
 
-    if (prefersReducedMotion()) {
+    if (prefersReducedMotion() || isMobile) {
       section.classList.add('is-revealed');
       items.forEach((el) => el.classList.add('is-revealed'));
-      return;
-    }
-
-    const revealItems = () => {
-      items.forEach((el, i) => {
-        setTimeout(() => el.classList.add('is-revealed'), i * 50);
-      });
-    };
-
-    if ('IntersectionObserver' in window) {
-      const io = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (!entry.isIntersecting) return;
-            section.classList.add('is-revealed');
-            revealItems();
-            io.disconnect();
-          });
-        },
-        { rootMargin: '0px 0px -8% 0px', threshold: 0.12 }
-      );
-      io.observe(section);
     } else {
-      section.classList.add('is-revealed');
-      revealItems();
+      const revealItems = () => {
+        items.forEach((el, i) => {
+          setTimeout(() => el.classList.add('is-revealed'), i * 50);
+        });
+      };
+
+      if ('IntersectionObserver' in window) {
+        const io = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (!entry.isIntersecting) return;
+              section.classList.add('is-revealed');
+              revealItems();
+              io.disconnect();
+            });
+          },
+          { rootMargin: '0px 0px -8% 0px', threshold: 0.12 }
+        );
+        io.observe(section);
+      } else {
+        section.classList.add('is-revealed');
+        revealItems();
+      }
     }
 
     items.forEach((details) => {

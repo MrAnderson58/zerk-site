@@ -545,9 +545,21 @@
     obs.observe(document.body, { childList: true, subtree: true });
   }
 
+  function scheduleInit() {
+    const isMobile = window.matchMedia('(max-width: 768px)').matches;
+    const run = () => init();
+    if (isMobile && 'requestIdleCallback' in window) {
+      requestIdleCallback(run, { timeout: 2500 });
+    } else if (isMobile) {
+      window.setTimeout(run, 1200);
+    } else {
+      run();
+    }
+  }
+
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
+    document.addEventListener('DOMContentLoaded', scheduleInit, { once: true });
   } else {
-    init();
+    scheduleInit();
   }
 })();

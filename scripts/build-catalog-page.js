@@ -29,10 +29,8 @@ const html = `<!DOCTYPE html>
   <meta name="theme-color" content="#000000">
   <link rel="icon" href="/favicon.ico" sizes="48x48">
   <link rel="stylesheet" href="/assets/zerk.css">
+  <link rel="stylesheet" href="/assets/zerk-mobile.css">
   <link rel="stylesheet" href="/assets/zerk-faq.css">
-  <script type="application/ld+json" id="zerk-schema-faq-static">${ld}</script>
-  <script type="application/ld+json" id="zerk-schema-org-static">${orgLd}</script>
-  <script type="application/ld+json" id="zerk-schema-localbusiness-static">${lbLd}</script>
 </head>
 <body>
   <div class="bg" aria-hidden="true"><div class="bg-mesh"></div><div class="bg-sweep"></div><div class="bg-grain"></div><div class="bg-vignette"></div></div>
@@ -60,6 +58,10 @@ const html = `<!DOCTYPE html>
       window.ZERK_SEO?.initCatalogPage?.();
     });
   </script>
+  <script type="application/ld+json" id="zerk-schema-faq-static">${ld}</script>
+  <script type="application/ld+json" id="zerk-schema-org-static">${orgLd}</script>
+  <script type="application/ld+json" id="zerk-schema-localbusiness-static">${lbLd}</script>
+  <script src="/assets/zerk-boot.js" defer></script>
 </body>
 </html>
 `;

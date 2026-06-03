@@ -19,6 +19,7 @@
 
   /* ——— Page load sequence (fallback for mobile / bfcache) ——— */
   const isCoarseMobile = window.matchMedia('(max-width: 1068px), (hover: none) and (pointer: coarse)').matches;
+  const isMobileSafari = window.matchMedia('(max-width: 768px)').matches;
 
   function revealPage() {
     const body = document.body;
@@ -39,7 +40,8 @@
   window.addEventListener('pageshow', (e) => {
     if (e.persisted) revealPage();
   });
-  setTimeout(revealPage, isCoarseMobile ? 400 : 900);
+  setTimeout(revealPage, isMobileSafari ? 0 : isCoarseMobile ? 200 : 900);
+  revealPage();
 
   let tiltX = 0;
   let tiltY = 0;
@@ -82,26 +84,34 @@
   const heroVisual = document.getElementById('heroVisual');
   const heroImg = document.getElementById('heroImg');
 
+  let scrollTicking = false;
   function onScroll() {
-    const y = window.scrollY;
-    const header = document.getElementById('siteHeader');
-    if (header) {
-      const alwaysSolid =
-        document.body.classList.contains('catalog-page') ||
-        document.body.classList.contains('product-page');
-      header.classList.toggle('is-scrolled', alwaysSolid || y > 20);
-    }
-
-    if (!prefersReduced && heroImg && y < window.innerHeight * 1.1) {
-      const p = y / window.innerHeight;
-      const scrollY = y * 0.06;
-      const scale = 1 - p * 0.02;
-      if (finePointer) {
-        heroImg.style.transform = `translateY(${scrollY}px) rotateY(${tiltX}deg) rotateX(${-tiltY}deg) scale(${scale})`;
-      } else {
-        heroImg.style.transform = `translateY(${scrollY}px) scale(${scale})`;
+    if (scrollTicking) return;
+    scrollTicking = true;
+    requestAnimationFrame(() => {
+      scrollTicking = false;
+      const y = window.scrollY;
+      const header = document.getElementById('siteHeader');
+      if (header) {
+        const alwaysSolid =
+          document.body.classList.contains('catalog-page') ||
+          document.body.classList.contains('product-page');
+        header.classList.toggle('is-scrolled', alwaysSolid || y > 20);
       }
-    }
+
+      if (isMobileSafari || prefersReduced || !heroImg) return;
+
+      if (y < window.innerHeight * 1.1) {
+        const p = y / window.innerHeight;
+        const scrollY = y * 0.06;
+        const scale = 1 - p * 0.02;
+        if (finePointer) {
+          heroImg.style.transform = `translateY(${scrollY}px) rotateY(${tiltX}deg) rotateX(${-tiltY}deg) scale(${scale})`;
+        } else {
+          heroImg.style.transform = `translateY(${scrollY}px) scale(${scale})`;
+        }
+      }
+    });
   }
 
   window.addEventListener('scroll', onScroll, { passive: true });
@@ -139,7 +149,7 @@
   /* ——— Scroll reveal ——— */
   function observeReveals() {
     const els = document.querySelectorAll('[data-reveal]');
-    if (prefersReduced || isCoarseMobile) {
+    if (prefersReduced || isCoarseMobile || isMobileSafari) {
       els.forEach((el) => el.classList.add('is-revealed'));
       return;
     }
@@ -159,7 +169,7 @@
 
   function observePreviewCards() {
     const cards = document.querySelectorAll('.catalog-preview-card');
-    if (prefersReduced || isCoarseMobile) {
+    if (prefersReduced || isCoarseMobile || isMobileSafari) {
       cards.forEach((c) => c.classList.add('is-visible'));
       return;
     }
@@ -199,7 +209,7 @@
     initHeader,
     observeCards(selector) {
       const cards = document.querySelectorAll(selector);
-      if (prefersReduced || isCoarseMobile) {
+      if (prefersReduced || isCoarseMobile || isMobileSafari) {
         cards.forEach((c) => c.classList.add('is-visible'));
         return cards;
       }
