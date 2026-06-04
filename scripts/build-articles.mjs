@@ -274,10 +274,6 @@ function renderArticlesIndex(articlesMeta) {
 
   const mainHtml = `
     ${breadcrumbs}
-    <header class="articles-hero">
-      <h1>Статьи ZERK TOOL для мастеров маникюра</h1>
-      <p class="articles-hero__lead">Практические материалы о выборе кусачек для кутикулы, маникюрных ножниц, пилок для ногтей, сменных файлов, стерилизации инструмента и уходе за профессиональным маникюрным инструментом.</p>
-    </header>
     <div class="articles-grid">${cards}</div>`;
 
   return pageShell({

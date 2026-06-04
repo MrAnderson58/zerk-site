@@ -34,28 +34,8 @@
   max-width: 100%;
 }
 
-.articles-hero {
-  margin-top: 0;
-  margin-bottom: 40px;
-}
-
 .article-header {
   clear: both;
-}
-
-.articles-hero h1 {
-  font-size: clamp(28px, 4vw, 40px);
-  font-weight: 600;
-  letter-spacing: -0.02em;
-  margin: 0 0 16px;
-}
-
-.articles-hero__lead {
-  max-width: 720px;
-  font-size: 17px;
-  line-height: 1.65;
-  color: var(--text-secondary);
-  margin: 0;
 }
 
 .articles-grid {
@@ -338,7 +318,6 @@
     white-space: nowrap;
   }
 
-  .articles-hero h1,
   .article-header h1 {
     margin-top: 0;
   }
