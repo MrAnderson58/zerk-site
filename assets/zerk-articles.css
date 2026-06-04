@@ -1,13 +1,46 @@
 /* ZERK TOOL — SEO-статьи */
+.articles-page #zerk-header,
+.article-page #zerk-header {
+  min-height: calc(var(--header-h) + env(safe-area-inset-top, 0px));
+}
+
+.articles-page #zerk-header .site-header,
+.article-page #zerk-header .site-header {
+  position: sticky;
+  top: 0;
+}
+
 .articles-page main,
 .article-page main {
   max-width: var(--max-w);
   margin: 0 auto;
-  padding: calc(var(--header-h) + 24px) 24px 80px;
+  /* шапка уже в потоке в #zerk-header — без двойного отступа */
+  padding: 28px 24px 80px;
+}
+
+.articles-page .breadcrumbs,
+.article-page .breadcrumbs {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 10px;
+  margin-bottom: 32px;
+  line-height: 1.5;
+}
+
+.article-page .breadcrumbs [aria-current="page"] {
+  flex: 1 1 100%;
+  margin-top: 4px;
+  max-width: 100%;
 }
 
 .articles-hero {
+  margin-top: 0;
   margin-bottom: 40px;
+}
+
+.article-header {
+  clear: both;
 }
 
 .articles-hero h1 {
@@ -97,7 +130,8 @@
 }
 
 /* Single article */
-.article-header {
+.article-page .article-header {
+  margin-top: 0;
   margin-bottom: 32px;
 }
 
@@ -182,7 +216,10 @@
 
 .article-links-box h2 {
   font-size: 18px;
-  margin: 0 0 14px !important;
+  line-height: 1.4;
+  margin: 0 0 16px !important;
+  padding: 0;
+  position: static;
 }
 
 .article-links-box ul {
@@ -286,8 +323,24 @@
 @media (max-width: 768px) {
   .articles-page main,
   .article-page main {
-    padding-left: 16px;
-    padding-right: 16px;
+    padding: 20px 16px calc(72px + env(safe-area-inset-bottom, 0px));
+  }
+
+  .articles-page .breadcrumbs,
+  .article-page .breadcrumbs {
+    margin-bottom: 24px;
+    font-size: 12px;
+  }
+
+  .article-page .breadcrumbs [aria-current="page"] {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .articles-hero h1,
+  .article-header h1 {
+    margin-top: 0;
   }
 
   .article-body {
