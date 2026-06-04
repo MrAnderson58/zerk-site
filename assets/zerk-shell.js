@@ -6,6 +6,7 @@
 
   const NAV = [
     { href: '/collection', label: 'Коллекция' },
+    { href: '/articles', label: 'Статьи' },
     {
       label: 'Категории',
       mega: true,
@@ -72,6 +73,7 @@
       <a href="/replaceable-files">Сменные файлы</a>
       <a href="/nitrile-gloves">Перчатки</a>
       <a href="/pushers">Пушеры</a>
+      <a href="/articles">Статьи</a>
       <a href="/about">О бренде</a>
       <a href="/contacts">Контакты</a>
       <a href="tel:+79257700803">Позвонить</a>

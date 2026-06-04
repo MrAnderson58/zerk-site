@@ -29,9 +29,17 @@ function loadCatalog() {
   return sandbox.window.ZERK_CATALOG;
 }
 
+function loadArticlePaths() {
+  const sandbox = { window: {}, console };
+  const ctx = vm.createContext(sandbox);
+  vm.runInContext(fs.readFileSync(path.join(root, 'assets/articles-data.js'), 'utf8'), ctx);
+  return sandbox.window.ZERK_ARTICLES?.articleUrls?.() || ['/articles'];
+}
+
 const catalog = loadCatalog();
 const productPaths = (catalog?.products || []).map((p) => p.path || catalog.productUrl(p.id));
-const urls = [...new Set([...staticPaths, ...productPaths])].sort();
+const articlePaths = loadArticlePaths();
+const urls = [...new Set([...staticPaths, ...articlePaths, ...productPaths])].sort();
 
 const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">

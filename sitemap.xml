@@ -11,6 +11,61 @@
     <priority>0.9</priority>
   </url>
   <url>
+    <loc>https://zerk-tool.ru/articles</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://zerk-tool.ru/articles/100-180-240-grit</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://zerk-tool.ru/articles/kak-vybrat-kusachki-dlya-kutikuly</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://zerk-tool.ru/articles/kusachki-dlya-plotnoy-kutikuly</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://zerk-tool.ru/articles/lezvie-4-5-6-mm</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://zerk-tool.ru/articles/nozhnicy-ili-kusachki</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://zerk-tool.ru/articles/pilki-dlya-naturalnyh-nogtey</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://zerk-tool.ru/articles/smennye-fayly-na-metallicheskuyu-osnovu</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://zerk-tool.ru/articles/srok-sluzhby-manikyurnogo-instrumenta</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://zerk-tool.ru/articles/sterilizaciya-manikyurnogo-instrumenta</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://zerk-tool.ru/articles/yaponskaya-stal-dlya-manikyura</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://zerk-tool.ru/collection</loc>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
