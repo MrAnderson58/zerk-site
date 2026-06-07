@@ -111,11 +111,11 @@
   ];
 
   function articlePath(slug) {
-    return `/articles/${slug}/`;
+    return `/articles/${slug}`;
   }
 
   function articleUrls() {
-    return ['/articles/', ...ARTICLES.map((a) => articlePath(a.slug))];
+    return ['/articles', ...ARTICLES.map((a) => articlePath(a.slug))];
   }
 
   window.ZERK_ARTICLES = {

@@ -12,7 +12,7 @@ const root = path.join(__dirname, '..');
 const SITE = 'https://www.zerk-tool.ru';
 
 function articleCanonical(slug) {
-  return slug ? `${SITE}/articles/${slug}/` : `${SITE}/articles/`;
+  return slug ? `${SITE}/articles/${slug}` : `${SITE}/articles`;
 }
 
 function orgSchemaStatic() {
@@ -112,7 +112,7 @@ function breadcrumbSchema(article, canonical) {
     '@type': 'BreadcrumbList',
     itemListElement: [
       { '@type': 'ListItem', position: 1, name: 'Главная', item: `${SITE}/` },
-      { '@type': 'ListItem', position: 2, name: 'Статьи', item: `${SITE}/articles/` },
+      { '@type': 'ListItem', position: 2, name: 'Статьи', item: `${SITE}/articles` },
       { '@type': 'ListItem', position: 3, name: article.h1, item: canonical },
     ],
   };
@@ -275,7 +275,7 @@ function renderArticlesIndex(articlesMeta) {
     itemListElement: articlesMeta.map((a, i) => ({
       '@type': 'ListItem',
       position: i + 1,
-      url: `${SITE}/articles/${a.slug}/`,
+      url: `${SITE}/articles/${a.slug}`,
       name: a.h1,
     })),
   };
@@ -288,7 +288,7 @@ function renderArticlesIndex(articlesMeta) {
         image: a.image,
         datePublished: a.datePublished,
       },
-      `${SITE}/articles/${a.slug}/`
+      `${SITE}/articles/${a.slug}`
     )
   );
 

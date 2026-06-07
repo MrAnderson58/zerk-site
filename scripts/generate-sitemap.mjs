@@ -10,7 +10,7 @@ const SITE = 'https://www.zerk-tool.ru';
 
 const staticPaths = [
   '/',
-  '/catalog.html',
+  '/catalog',
   '/collection',
   '/nippers',
   '/scissors',
