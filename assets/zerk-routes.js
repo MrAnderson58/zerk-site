@@ -4,7 +4,7 @@
 (function () {
   'use strict';
 
-  const SITE = 'https://zerk-tool.ru';
+  const SITE = 'https://www.zerk-tool.ru';
   const BRAND = 'ZERK TOOL';
 
   /** @type {Record<string, { path: string, cat: string|null, label: string, grid?: boolean }>} */

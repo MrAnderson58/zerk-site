@@ -4,7 +4,7 @@
 (function () {
   'use strict';
 
-  const SITE = 'https://zerk-tool.ru';
+  const SITE = 'https://www.zerk-tool.ru';
 
   /** @type {Array<{slug:string,title:string,description:string,image:string,excerpt:string,datePublished:string}>} */
   const ARTICLES = [
@@ -111,11 +111,11 @@
   ];
 
   function articlePath(slug) {
-    return `/articles/${slug}`;
+    return `/articles/${slug}/`;
   }
 
   function articleUrls() {
-    return ['/articles', ...ARTICLES.map((a) => articlePath(a.slug))];
+    return ['/articles/', ...ARTICLES.map((a) => articlePath(a.slug))];
   }
 
   window.ZERK_ARTICLES = {

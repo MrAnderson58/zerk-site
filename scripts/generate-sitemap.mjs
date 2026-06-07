@@ -6,10 +6,11 @@ import { fileURLToPath } from 'url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const root = path.join(__dirname, '..');
-const SITE = 'https://zerk-tool.ru';
+const SITE = 'https://www.zerk-tool.ru';
 
 const staticPaths = [
   '/',
+  '/catalog.html',
   '/collection',
   '/nippers',
   '/scissors',

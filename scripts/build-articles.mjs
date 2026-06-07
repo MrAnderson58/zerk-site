@@ -9,7 +9,27 @@ import { ARTICLE_CONTENTS } from './article-contents/index.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const root = path.join(__dirname, '..');
-const SITE = 'https://zerk-tool.ru';
+const SITE = 'https://www.zerk-tool.ru';
+
+function articleCanonical(slug) {
+  return slug ? `${SITE}/articles/${slug}/` : `${SITE}/articles/`;
+}
+
+function orgSchemaStatic() {
+  return JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: 'ZERK TOOL',
+    alternateName: ['ZERK', 'ZERK TOOL'],
+    url: SITE,
+    logo: `${SITE}/images/logo.png`,
+    image: `${SITE}/images/logo.png`,
+    telephone: '+7-925-770-08-03',
+    description: 'Профессиональный маникюрный инструмент ZERK TOOL: кусачки, ножницы, пилки-файлы.',
+    address: { '@type': 'PostalAddress', addressCountry: 'RU', addressLocality: 'Penza, Suvorova 92' },
+    sameAs: ['https://t.me/Mr_Anderson_pnz', 'https://wa.me/79257700803'],
+  });
+}
 
 function escapeHtml(s) {
   return String(s)
@@ -92,7 +112,7 @@ function breadcrumbSchema(article, canonical) {
     '@type': 'BreadcrumbList',
     itemListElement: [
       { '@type': 'ListItem', position: 1, name: 'Главная', item: `${SITE}/` },
-      { '@type': 'ListItem', position: 2, name: 'Статьи', item: `${SITE}/articles` },
+      { '@type': 'ListItem', position: 2, name: 'Статьи', item: `${SITE}/articles/` },
       { '@type': 'ListItem', position: 3, name: article.h1, item: canonical },
     ],
   };
@@ -172,14 +192,14 @@ ${mainHtml}
   <script src="/assets/zerk-shell.js" defer></script>
   <script src="/assets/zerk-cart.js" defer></script>
 ${jsonLd}
-  <script type="application/ld+json" id="zerk-schema-org-static">{"@context":"https://schema.org","@type":"Organization","name":"ZERK TOOL","alternateName":["ZERK","ZERK TOOL"],"url":"https://zerk-tool.ru","logo":"https://zerk-tool.ru/images/logo.png","image":"https://zerk-tool.ru/images/logo.png","telephone":"+7-925-770-08-03","description":"Профессиональный маникюрный инструмент ZERK TOOL: кусачки, ножницы, пилки-файлы.","address":{"@type":"PostalAddress","addressCountry":"RU","addressLocality":"Penza, Suvorova 92"},"sameAs":["https://t.me/Mr_Anderson_pnz","https://wa.me/79257700803"]}</script>
+  <script type="application/ld+json" id="zerk-schema-org-static">${orgSchemaStatic()}</script>
   <script src="/assets/zerk-boot.js" defer></script>
 </body>
 </html>`;
 }
 
 function renderArticlePage(article) {
-  const canonical = `${SITE}/articles/${article.slug}`;
+  const canonical = articleCanonical(article.slug);
   const ogImage = `${SITE}${article.image}`;
   const breadcrumbs = `<nav class="breadcrumbs" aria-label="Хлебные крошки">
     <a href="/">Главная</a><span aria-hidden="true">/</span>
@@ -228,7 +248,7 @@ function renderArticlePage(article) {
 }
 
 function renderArticlesIndex(articlesMeta) {
-  const canonical = `${SITE}/articles`;
+  const canonical = articleCanonical();
   const breadcrumbs = `<nav class="breadcrumbs" aria-label="Хлебные крошки">
     <a href="/">Главная</a><span aria-hidden="true">/</span>
     <span aria-current="page">Статьи</span>
@@ -255,7 +275,7 @@ function renderArticlesIndex(articlesMeta) {
     itemListElement: articlesMeta.map((a, i) => ({
       '@type': 'ListItem',
       position: i + 1,
-      url: `${SITE}/articles/${a.slug}`,
+      url: `${SITE}/articles/${a.slug}/`,
       name: a.h1,
     })),
   };
@@ -268,7 +288,7 @@ function renderArticlesIndex(articlesMeta) {
         image: a.image,
         datePublished: a.datePublished,
       },
-      `${SITE}/articles/${a.slug}`
+      `${SITE}/articles/${a.slug}/`
     )
   );
 

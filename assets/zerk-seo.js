@@ -6,7 +6,7 @@
 
   const BRAND = 'ZERK TOOL';
   const BRAND_SHORT = 'ZERK';
-  const SITE = 'https://zerk-tool.ru';
+  const SITE = 'https://www.zerk-tool.ru';
   const LOGO_URL = `${SITE}/images/logo.png`;
 
   const BRAND_ADDRESS = {
@@ -655,7 +655,7 @@
       description:
         `Каталог ${BRAND}: кусачки IL-02…IL-32, IAL-01, ножницы Solingen, пилки-файлы, пушеры, перчатки Glovity NG-100. Профессиональный инструмент — zerk-tool.ru.`,
       keywords: joinKeywords(KEYWORDS.global, KEYWORDS.nippers, KEYWORDS.scissors, KEYWORDS.files, KEYWORDS.gloves),
-      canonical: `${SITE}/catalog`,
+      canonical: `${SITE}/catalog.html`,
     });
     injectBrandSchema();
     const catalogItems = premiumFaqItems();

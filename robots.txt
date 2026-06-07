@@ -13,4 +13,4 @@ Allow: /
 User-agent: YandexAdditional
 Allow: /
 
-Sitemap: https://zerk-tool.ru/sitemap.xml
+Sitemap: https://www.zerk-tool.ru/sitemap.xml
